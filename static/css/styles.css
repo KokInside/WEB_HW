@@ -1,0 +1,269 @@
+@font-face {
+    font-family: "Sour";
+    src: url(../fonts/SourGummy-VariableFont_wdth\,wght.ttf);
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    margin: 0;
+}
+
+.header {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 2px solid orange;
+    border-top: 5px solid orange;
+
+    gap: 5%;
+}
+
+.logo_pic {
+    height: 100%;
+    color: transparent;
+}
+
+.logo {
+    height: 100%;
+    padding: 5px;
+    padding-left: 2%;
+    box-sizing: border-box;
+}
+
+.search {
+    position: relative;
+    width: 35%;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+    border: 2px solid rgb(21, 0, 255);
+}
+
+.search_bar {
+    width: 100%;
+    padding: 10px;
+    padding-left: 28px;
+    border-radius: 10px;
+    border: 2px solid lightgray;
+    box-sizing: border-box;
+}
+
+.search_pic {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    top: 50%;
+    padding-left: 8px;
+    transform: translateY(-50%);
+    
+}
+
+.navi {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-right: 2.5%;
+}
+
+.register {
+    text-decoration: none;
+    color: white;
+    background-color: rgb(66, 102, 234);
+    border: 1px solid rgb(66, 102, 234);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.log_in {
+    text-decoration: none;
+    color: rgb(66, 102, 234);
+    background-color: white;
+    border: 1px solid currentColor;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+
+.ask_button {
+    background-color: rgb(12, 129, 201);
+    color: white;
+    width: 4rem;
+    height: 50%;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 6rem;
+}
+
+main {
+    padding-left: 2rem;
+}
+
+.user {
+    width: 100%;
+    height: auto;
+    padding-bottom: 25%;
+}
+
+.questions {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.question {
+    display: flex;
+
+    border: 2px dashed black;
+    box-sizing: border-box;
+    padding: 10px;
+    gap: 5%;
+
+
+}
+
+.up, .down {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 50% 50%;
+    border-width: 1px;
+    background-color: transparent;
+}
+
+.up:hover {
+    background-color: rgba(15, 168, 4, 50%);
+}
+
+.down:hover {
+    background-color: rgba(255, 0, 0, 50%);
+}
+
+.arrow_up, .arrow_down {
+    width: 100%;
+    height: 100%;
+}
+
+.rate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.question_aside {
+    box-sizing: border-box;
+    padding-top: 20px;
+    width: 40px;
+    
+}
+
+.question_content {
+    box-sizing: border-box;
+}
+
+.rating {
+    font-size: 1.5rem;
+    padding: 0.5rem 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5rem;
+}
+
+.content_aside {
+    box-sizing: border-box;
+    padding-right: 20px;
+    width: 30%;
+    position: sticky;
+    top: 0px;
+}
+
+.content_aside > div {
+    position: sticky;
+    top: 1rem;
+}
+
+.tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1rem;
+    font-family: "Sour";
+}
+
+.members {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1rem;
+    font-family: "Sour";
+}
+
+.best_members {
+    padding-top: 1rem;
+}
+
+.question_tags *{
+    background-color: aquamarine;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.question_tags {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+
+.pagination a {
+    box-sizing: border-box;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    text-decoration: none;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 10%;
+    gap: 0.5rem;
+    padding-left: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+body > footer {
+    position: relative;
+    bottom: 0;
+    background-color: black;
+    height: 100px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Sour"; 
+    font-size: 2rem;
+}
