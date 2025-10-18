@@ -106,6 +106,9 @@ header {
 main {
   padding-left: 2rem;
 }
+main > div {
+  width: 70%;
+}
 
 .user {
   width: 100%;
@@ -270,6 +273,31 @@ form {
   flex-direction: column;
   gap: 2rem;
 }
+form .password {
+  width: 40%;
+  position: relative;
+}
+form .password img {
+  margin-left: 0px;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+form .password img:hover {
+  cursor: pointer;
+}
+form .password input {
+  width: 100% !important;
+  box-sizing: border-box;
+  padding-right: 20px !important;
+  height: 2rem !important;
+}
+form div:first-child {
+  color: #c80000;
+  font-size: 1rem;
+  font-weight: 200;
+}
 form > div {
   display: flex;
   flex-direction: column;
@@ -277,6 +305,22 @@ form > div {
   gap: 0.5rem;
   align-items: start;
   font-weight: bold;
+}
+form > div input[type=email] {
+  width: 40%;
+  height: 2rem;
+  border-radius: 10px;
+  border: 2px solid #c80000;
+  padding: 2px;
+  padding-left: 1rem;
+}
+form > div input[type=password] {
+  width: 80%;
+  height: 1.5rem;
+  border-radius: 10px;
+  border: 2px solid #c80000;
+  padding: 2px;
+  padding-left: 1rem;
 }
 form > div div {
   color: #c80000;
@@ -324,6 +368,7 @@ form > div input[type=submit] {
   color: white;
   font-weight: bold;
   border: none;
+  cursor: pointer;
 }
 
 .ask_question_content {

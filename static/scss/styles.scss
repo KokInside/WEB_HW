@@ -111,6 +111,9 @@ header {
 
 main {
     padding-left: 2rem;
+    > div {
+        width: 70%;
+    }
 }
 
 .user {
@@ -282,6 +285,35 @@ form {
     flex-direction: column;
     gap: 2rem;
 
+    .password {
+        width: 40%;
+
+        position: relative;
+        img {
+            margin-left: 0px;
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        input {
+            width: 100% !important;
+            box-sizing: border-box;
+            padding-right: 20px !important;
+            height: 2rem !important;
+        }
+    }
+
+    div:first-child {
+        color: rgb(200, 0, 0);
+        font-size: 1rem;
+        font-weight: 200;
+    }
+
     > div {
         display: flex;
         flex-direction: column;
@@ -290,6 +322,24 @@ form {
         align-items: start;
         font-weight: bold;
 
+        input[type="email"] {
+            width: 40%;
+            height: 2rem;
+            border-radius: 10px;
+            border: 2px solid rgb(200, 0, 0);
+            padding: 2px;
+            padding-left: 1rem;
+        }
+
+        input[type="password"] {
+            width: 80%;
+            height: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid rgb(200, 0, 0);
+            padding: 2px;
+            padding-left: 1rem;
+        }
+
         div {
             color: rgb(200, 0, 0);
             font-size: 0.9rem;
@@ -297,6 +347,7 @@ form {
             a {
                 color: rgb(200, 0, 0);
             }
+
         }
 
         img {
@@ -341,6 +392,7 @@ form {
             color: white;
             font-weight: bold;
             border: none;
+            cursor: pointer;
         }
     }
 }
