@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+    <link rel="stylesheet" href="./static/css/styles.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="#" class="main_page" aria-label="Главное меню">
+                <img src="./static/svg/atom.svg" alt="Логотип" class="logo_pic">
+            </a>
+        </div>
+        <div class="search">
+            <img src="./static/svg/search.svg" alt="" class="search_pic">
+            <input type="text" placeholder="Search" class="search_bar">
+        </div>
+
+        <nav class="navi">
+            <a href="#" class="register">
+                Зарегистрироваться
+            </a>
+            <a href="#" class="log_in">
+                Войти
+            </a>
+        </nav>
+    </header>
+
+    <main class="content">
+        <div class="log_in_content">
+            <h2>LOG IN</h2>
+
+            <form action="" id="log_in_form">
+                <div>Неправильный логин или пароль.</div>
+                <div class="login_field">
+                    <label for="log_in_login">Login</label>
+                    <input type="email" required id="log_in_login" minlength="5" maxlength="30">
+                    <div>Логин должен содержать email.</div>
+                </div>
+
+                <div class="password_field">
+                    <label for="log_in_password">Password</label>
+                    <div class="password">
+                        <input type="password" required id="log_in_password" minlength="8">
+                        <img src="./static/svg/eye-off.svg" alt="">
+                    </div>
+                    <div>Пароль должен содержать не менее 8 символов.</div>
+                </div>
+
+                <div class="login_button">
+                    <input type="submit" value="Log in!" disabled>
+                </div>
+            </form>
+
+            <a href="./signup.html">create new account</a>
+
+        </div>
+
+        <aside class="content_aside">
+			<div>
+				<div class="popular_tags">
+					<h2>POPULAR TAGS</h2>
+					<div class="tags">
+						<a href="#" style="text-decoration: none; color: red">Python</a>
+						<a href="#" style="text-decoration: none; color: blue">C++</a>
+						<a href="#" style="text-decoration: none; color: green">Rust</a>
+						<a href="#" style="text-decoration: none; color: peru">Linux</a>
+						<a href="#" style="text-decoration: none; color: purple">Programming</a>
+						<a href="#" style="text-decoration: none; color: darkblue">Computer science</a>
+						<a href="#" style="text-decoration: none; color: deeppink">Algorythms</a>
+					</div>
+				</div>
+				<div class="best_members">
+					<h2>BEST MEMBERS</h2>
+					<div class="members">
+						<a href="#" style="text-decoration: none; color: blueviolet;">KokInside</a>
+						<a href="#" style="text-decoration: none; color: cornflowerblue;">Molokos</a>
+						<a href="#" style="text-decoration: none; color: darkslategray;">Gleb</a>
+						<a href="#" style="text-decoration: none; color: limegreen;">Roma_joludi</a>
+						<a href="#" style="text-decoration: none; color: dodgerblue;">Induser</a>
+						<a href="#" style="text-decoration: none; color: mediumblue;">Killer_228</a>
+						<a href="#" style="text-decoration: none; color: seagreen;">Ashot</a>
+					</div>
+				</div>
+			</div>
+		</aside>
+
+    </main>
+
+</body>
+
+</html>
