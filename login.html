@@ -32,30 +32,33 @@
     <main class="content">
         <div class="log_in_content">
             <h2>LOG IN</h2>
-
+            
+            <span class="wrong">Неверный email или пароль.</span>
+            
             <form action="" id="log_in_form">
-                <div>Неправильный логин или пароль.</div>
+
                 <div class="email_field">
-                    <label for="log_in_login">Email</label>
-                    <input type="email" required id="log_in_login" minlength="5" maxlength="30">
-                    <div>Логин должен содержать email.</div>
+                    <label for="login_email">Email</label>
+                    <input type="email" required id="login_email" minlength="5" maxlength="40">
                 </div>
 
+                <div class="form_wrong">Email не может быть пустым</div>
+                
                 <div class="password_field">
-                    <label for="log_in_password">Password</label>
-                    <div class="password">
-                        <input type="password" required id="log_in_password" minlength="8">
-                        <img src="./static/svg/eye-off.svg" alt="">
-                    </div>
-                    <div>Пароль должен содержать не менее 8 символов.</div>
+                    <label for="login_password">Password</label>
+                    <input type="password" required id="login_password" minlength="8">
+                    <img src="./static/svg/eye-off.svg" alt="">
                 </div>
+
+                <div class="form_wrong">Пароль не может быть пустым</div>
 
                 <div class="login_button">
                     <input type="submit" value="Log in!" disabled>
                 </div>
+
             </form>
 
-            <a href="./signup.html">create new account</a>
+            <a href="./signup.html">Create new account</a>
 
         </div>
 
