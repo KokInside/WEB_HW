@@ -112,7 +112,12 @@ header {
 main {
     padding-left: 2rem;
     margin-bottom: 1rem;
-    > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5rem;
+
+    >div {
         width: 60%;
     }
 }
@@ -138,7 +143,6 @@ main {
     box-sizing: border-box;
     padding: 10px;
     gap: 5%;
-
 
 }
 
@@ -174,8 +178,11 @@ main {
 
 .question_aside {
     box-sizing: border-box;
-    padding-top: 20px;
+
     width: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
 }
 
@@ -186,13 +193,6 @@ main {
 .rating {
     font-size: 1.5rem;
     padding: 0.5rem 0;
-}
-
-.content {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 5rem;
 }
 
 .content_aside {
@@ -284,8 +284,10 @@ body>footer {
     position: relative;
 }
 
-.log_in_content, .signup_content {
+.log_in_content,
+.signup_content {
     position: relative;
+
     a {
         position: relative;
         left: 37.5%;
@@ -294,7 +296,41 @@ body>footer {
 
 /*---------------------------------------------------*/
 
-form {
+.single_question_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .main_question {
+        display: flex;
+
+        border-bottom: 2px solid black;
+        box-sizing: border-box;
+        padding: 10px;
+        gap: 5%;
+
+    }
+
+    .answers {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .marked {
+        width: 30px;
+        height: 30px;
+        padding-top: 10px;
+    }
+}
+
+/*---------------------------------------------------*/
+
+.signup_form, .login_form {
     display: flex;
     flex-direction: column;
     margin: 1.5rem 0;
@@ -310,7 +346,7 @@ form {
         margin-top: -1rem;
     }
 
-    > div {
+    >div {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -324,17 +360,21 @@ form {
         position: absolute;
         right: 0px;
         margin-right: 8px;
+
         &:hover {
             cursor: pointer;
         }
     }
 
-    input[type="email"], input[type="password"], input[type="text"] {
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
         padding: 0.5rem;
         border-radius: 0.5rem;
         border: solid 2px red;
         width: 50%;
         box-sizing: border-box;
+
         &:focus {
             outline: none;
             border: solid 2px rgb(41, 116, 236);
@@ -472,6 +512,38 @@ form {
     //         cursor: pointer;
     //     }
     // }
+}
+
+.leave_answer_form {
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+
+    textarea {
+        resize: vertical;
+        width: 100%;
+        box-sizing: border-box;
+        height: 10rem;
+        padding: 0.5rem 0.25rem;
+        border: 2px solid black;
+        border-radius: 0.5rem;
+        &:focus {
+            outline: none;
+            border: 2px solid rgb(21, 0, 255);
+        }
+    }
+    input {
+        padding: 1rem;
+        border-radius: 5px;
+        background-color: rgba(41, 116, 236, 0.6);
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+
+    }
 }
 
 .ask_question_content {
