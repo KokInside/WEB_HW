@@ -105,9 +105,10 @@ header {
 /*-----------------------------------------------------------------------------*/
 main {
   padding-left: 2rem;
+  margin-bottom: 1rem;
 }
 main > div {
-  width: 70%;
+  width: 60%;
 }
 
 .user {
@@ -267,108 +268,81 @@ body > footer {
   font-size: 2rem;
 }
 
+.wrong {
+  color: red;
+  position: relative;
+}
+
+.log_in_content, .signup_content {
+  position: relative;
+}
+.log_in_content a, .signup_content a {
+  position: relative;
+  left: 37.5%;
+}
+
 /*---------------------------------------------------*/
 form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-}
-form .password {
-  width: 40%;
+  margin: 1.5rem 0;
+  width: 75%;
+  gap: 1rem;
+  justify-content: center;
   position: relative;
 }
-form .password img {
-  margin-left: 0px;
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-form .password img:hover {
-  cursor: pointer;
-}
-form .password input {
-  width: 100% !important;
-  box-sizing: border-box;
-  padding-right: 20px !important;
-  height: 2rem !important;
-}
-form div:first-child {
-  color: #c80000;
-  font-size: 1rem;
-  font-weight: 200;
+form .form_wrong {
+  color: red;
+  position: relative;
+  left: 50%;
+  margin-top: -1rem;
 }
 form > div {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
-  gap: 0.5rem;
-  align-items: start;
-  font-weight: bold;
+  align-items: center;
+  position: relative;
 }
-form > div input[type=email] {
-  width: 40%;
-  height: 2rem;
-  border-radius: 10px;
-  border: 2px solid #c80000;
-  padding: 2px;
-  padding-left: 1rem;
-}
-form > div input[type=password] {
-  width: 80%;
-  height: 1.5rem;
-  border-radius: 10px;
-  border: 2px solid #c80000;
-  padding: 2px;
-  padding-left: 1rem;
-}
-form > div div {
-  color: #c80000;
-  font-size: 0.9rem;
-  font-weight: 200;
-}
-form > div div a {
-  color: #c80000;
-}
-form > div img {
-  height: 16px;
+form img {
   width: 16px;
-  margin-left: 5px;
+  height: 16px;
+  position: absolute;
+  right: 0px;
+  margin-right: 8px;
 }
-form > div textarea {
-  width: 90% !important;
-  min-height: 10rem;
-  resize: vertical;
-  border-radius: 10px;
-  border: 2px solid #c80000;
+form img:hover {
+  cursor: pointer;
+}
+form input[type=email], form input[type=password], form input[type=text] {
   padding: 0.5rem;
-  padding-left: 1rem;
+  border-radius: 0.5rem;
+  border: solid 2px red;
+  width: 50%;
+  box-sizing: border-box;
 }
-form > div textarea:focus {
+form input[type=email]:focus, form input[type=password]:focus, form input[type=text]:focus {
   outline: none;
-  border: 2px solid #1500ff;
+  border: solid 2px #2974ec;
 }
-form > div input[type=text] {
-  width: 90%;
-  height: 2rem;
-  border-radius: 10px;
-  border: 2px solid #c80000;
-  padding: 2px;
-  padding-left: 1rem;
+form input[type=file] {
+  width: 50%;
 }
-form > div input[type=text]:focus {
-  outline: none;
-  border: 2px solid #1500ff;
+form #login_password {
+  padding-right: 20px;
 }
-form > div input[type=submit] {
+form input[type=submit] {
   padding: 1rem;
-  margin-bottom: 2rem;
   border-radius: 5px;
   background-color: rgba(41, 116, 236, 0.6);
   color: white;
   font-weight: bold;
   border: none;
   cursor: pointer;
+  margin-left: 50%;
+}
+form .password_field {
+  position: relative;
 }
 
 .ask_question_content {

@@ -111,8 +111,9 @@ header {
 
 main {
     padding-left: 2rem;
+    margin-bottom: 1rem;
     > div {
-        width: 70%;
+        width: 60%;
     }
 }
 
@@ -278,123 +279,199 @@ body>footer {
     font-size: 2rem;
 }
 
+.wrong {
+    color: red;
+    position: relative;
+}
+
+.log_in_content, .signup_content {
+    position: relative;
+    a {
+        position: relative;
+        left: 37.5%;
+    }
+}
+
 /*---------------------------------------------------*/
 
 form {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    margin: 1.5rem 0;
+    width: 75%;
+    gap: 1rem;
+    justify-content: center;
+    position: relative;
 
-    .password {
-        width: 40%;
-
+    .form_wrong {
+        color: red;
         position: relative;
-        img {
-            margin-left: 0px;
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            &:hover {
-                cursor: pointer;
-            }
-        }
-
-        input {
-            width: 100% !important;
-            box-sizing: border-box;
-            padding-right: 20px !important;
-            height: 2rem !important;
-        }
-    }
-
-    div:first-child {
-        color: rgb(200, 0, 0);
-        font-size: 1rem;
-        font-weight: 200;
+        left: 50%;
+        margin-top: -1rem;
     }
 
     > div {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: space-between;
-        gap: 0.5rem;
-        align-items: start;
-        font-weight: bold;
+        align-items: center;
+        position: relative;
+    }
 
-        input[type="email"] {
-            width: 40%;
-            height: 2rem;
-            border-radius: 10px;
-            border: 2px solid rgb(200, 0, 0);
-            padding: 2px;
-            padding-left: 1rem;
-        }
-
-        input[type="password"] {
-            width: 80%;
-            height: 1.5rem;
-            border-radius: 10px;
-            border: 2px solid rgb(200, 0, 0);
-            padding: 2px;
-            padding-left: 1rem;
-        }
-
-        div {
-            color: rgb(200, 0, 0);
-            font-size: 0.9rem;
-            font-weight: 200;
-            a {
-                color: rgb(200, 0, 0);
-            }
-
-        }
-
-        img {
-            height: 16px;
-            width: 16px;
-            margin-left: 5px;
-        }
-
-        textarea {
-            width: 90% !important;
-            min-height: 10rem;
-            resize: vertical;
-            border-radius: 10px;
-            border: 2px solid rgb(200, 0, 0);
-            padding: 0.5rem;
-            padding-left: 1rem;
-
-            &:focus {
-                outline: none;
-                border: 2px solid rgb(21, 0, 255);
-            }
-        }
-
-        input[type="text"] {
-            width: 90%;
-            height: 2rem;
-            border-radius: 10px;
-            border: 2px solid rgb(200, 0, 0);
-            padding: 2px;
-            padding-left: 1rem;
-            &:focus {
-                outline: none;
-                border: 2px solid rgb(21, 0, 255);
-            }
-        }
-
-        input[type="submit"] {
-            padding: 1rem;
-            margin-bottom: 2rem;
-            border-radius: 5px;
-            background-color: rgba(41, 116, 236, 0.6);
-            color: white;
-            font-weight: bold;
-            border: none;
+    img {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        right: 0px;
+        margin-right: 8px;
+        &:hover {
             cursor: pointer;
         }
     }
+
+    input[type="email"], input[type="password"], input[type="text"] {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        border: solid 2px red;
+        width: 50%;
+        box-sizing: border-box;
+        &:focus {
+            outline: none;
+            border: solid 2px rgb(41, 116, 236);
+        }
+    }
+
+    input[type="file"] {
+        width: 50%;
+    }
+
+    #login_password {
+        padding-right: 20px;
+    }
+
+    input[type="submit"] {
+        padding: 1rem;
+        border-radius: 5px;
+        background-color: rgba(41, 116, 236, 0.6);
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        margin-left: 50%;
+    }
+
+    .password_field {
+        position: relative;
+    }
+
+    // display: flex;
+    // flex-direction: column;
+    // gap: 1.5rem;
+
+    // .password {
+    //     width: 40%;
+
+    //     position: relative;
+    //     img {
+    //         margin-left: 0px;
+    //         position: absolute;
+    //         right: 5px;
+    //         top: 50%;
+    //         transform: translateY(-50%);
+    //         &:hover {
+    //             cursor: pointer;
+    //         }
+    //     }
+
+    //     input {
+    //         width: 100% !important;
+    //         box-sizing: border-box;
+    //         padding-right: 20px !important;
+    //         height: 2rem !important;
+    //     }
+    // }
+
+    // > div {
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: space-between;
+    //     gap: 0.5rem;
+    //     align-items: start;
+    //     font-weight: bold;
+
+    //     input[type="email"] {
+    //         width: 40%;
+    //         height: 2rem;
+    //         border-radius: 10px;
+    //         border: 2px solid rgb(200, 0, 0);
+    //         padding: 2px;
+    //         padding-left: 1rem;
+    //     }
+
+    //     input[type="password"] {
+    //         width: 80%;
+    //         height: 1.5rem;
+    //         border-radius: 10px;
+    //         border: 2px solid rgb(200, 0, 0);
+    //         padding: 2px;
+    //         padding-left: 1rem;
+    //     }
+
+    //     div {
+    //         color: rgb(200, 0, 0);
+    //         font-size: 0.9rem;
+    //         font-weight: 200;
+    //         a {
+    //             color: rgb(200, 0, 0);
+    //         }
+
+    //     }
+
+    //     img {
+    //         height: 16px;
+    //         width: 16px;
+    //         margin-left: 5px;
+    //     }
+
+    //     textarea {
+    //         width: 90% !important;
+    //         min-height: 10rem;
+    //         resize: vertical;
+    //         border-radius: 10px;
+    //         border: 2px solid rgb(200, 0, 0);
+    //         padding: 0.5rem;
+    //         padding-left: 1rem;
+
+    //         &:focus {
+    //             outline: none;
+    //             border: 2px solid rgb(21, 0, 255);
+    //         }
+    //     }
+
+    //     input[type="text"] {
+    //         width: 90%;
+    //         height: 2rem;
+    //         border-radius: 10px;
+    //         border: 2px solid rgb(200, 0, 0);
+    //         padding: 2px;
+    //         padding-left: 1rem;
+    //         &:focus {
+    //             outline: none;
+    //             border: 2px solid rgb(21, 0, 255);
+    //         }
+    //     }
+
+    //     input[type="submit"] {
+    //         padding: 1rem;
+    //         margin-bottom: 2rem;
+    //         border-radius: 5px;
+    //         background-color: rgba(41, 116, 236, 0.6);
+    //         color: white;
+    //         font-weight: bold;
+    //         border: none;
+    //         cursor: pointer;
+    //     }
+    // }
 }
 
 .ask_question_content {
