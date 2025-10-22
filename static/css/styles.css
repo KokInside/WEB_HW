@@ -102,6 +102,29 @@ header {
   justify-content: center;
 }
 
+.logged_user_avatar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.logged_user_avatar a {
+  height: 70%;
+}
+.logged_user_avatar a img {
+  height: 100%;
+}
+
+.logged_user_info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.logged_user_info div {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
 /*-----------------------------------------------------------------------------*/
 main {
   padding-left: 2rem;
@@ -179,6 +202,14 @@ main > div {
   box-sizing: border-box;
 }
 
+.question_footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
 .rating {
   font-size: 1.5rem;
   padding: 0.5rem 0;
@@ -224,12 +255,14 @@ main > div {
   padding: 5px;
   text-decoration: none;
   color: blue;
+  border-radius: 0.5rem;
 }
 
 .question_tags {
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  align-items: center;
 }
 
 .pagination a {
@@ -310,7 +343,9 @@ body > footer {
 }
 
 /*---------------------------------------------------*/
-.signup_form, .login_form {
+.signup_form,
+.login_form,
+.ask_form {
   display: flex;
   flex-direction: column;
   margin: 1.5rem 0;
@@ -319,34 +354,63 @@ body > footer {
   justify-content: center;
   position: relative;
 }
-.signup_form .form_wrong, .login_form .form_wrong {
+.signup_form textarea,
+.login_form textarea,
+.ask_form textarea {
+  resize: vertical;
+  width: 50%;
+  box-sizing: border-box;
+  height: 12rem;
+  padding: 0.5rem 0.25rem;
+  border: 2px solid red;
+  border-radius: 0.5rem;
+}
+.signup_form textarea:focus,
+.login_form textarea:focus,
+.ask_form textarea:focus {
+  outline: none;
+  border: 2px solid #1500ff;
+}
+.signup_form .form_wrong,
+.login_form .form_wrong,
+.ask_form .form_wrong {
   color: red;
   position: relative;
   left: 50%;
   margin-top: -1rem;
 }
-.signup_form > div, .login_form > div {
+.signup_form > div,
+.login_form > div,
+.ask_form > div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   position: relative;
 }
-.signup_form img, .login_form img {
+.signup_form img,
+.login_form img,
+.ask_form img {
   width: 16px;
   height: 16px;
   position: absolute;
   right: 0px;
   margin-right: 8px;
 }
-.signup_form img:hover, .login_form img:hover {
+.signup_form img:hover,
+.login_form img:hover,
+.ask_form img:hover {
   cursor: pointer;
 }
 .signup_form input[type=email],
 .signup_form input[type=password],
-.signup_form input[type=text], .login_form input[type=email],
+.signup_form input[type=text],
+.login_form input[type=email],
 .login_form input[type=password],
-.login_form input[type=text] {
+.login_form input[type=text],
+.ask_form input[type=email],
+.ask_form input[type=password],
+.ask_form input[type=text] {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: solid 2px red;
@@ -355,19 +419,29 @@ body > footer {
 }
 .signup_form input[type=email]:focus,
 .signup_form input[type=password]:focus,
-.signup_form input[type=text]:focus, .login_form input[type=email]:focus,
+.signup_form input[type=text]:focus,
+.login_form input[type=email]:focus,
 .login_form input[type=password]:focus,
-.login_form input[type=text]:focus {
+.login_form input[type=text]:focus,
+.ask_form input[type=email]:focus,
+.ask_form input[type=password]:focus,
+.ask_form input[type=text]:focus {
   outline: none;
   border: solid 2px #2974ec;
 }
-.signup_form input[type=file], .login_form input[type=file] {
+.signup_form input[type=file],
+.login_form input[type=file],
+.ask_form input[type=file] {
   width: 50%;
 }
-.signup_form #login_password, .login_form #login_password {
+.signup_form #login_password,
+.login_form #login_password,
+.ask_form #login_password {
   padding-right: 20px;
 }
-.signup_form input[type=submit], .login_form input[type=submit] {
+.signup_form input[type=submit],
+.login_form input[type=submit],
+.ask_form input[type=submit] {
   padding: 1rem;
   border-radius: 5px;
   background-color: rgba(41, 116, 236, 0.6);
@@ -377,7 +451,9 @@ body > footer {
   cursor: pointer;
   margin-left: 50%;
 }
-.signup_form .password_field, .login_form .password_field {
+.signup_form .password_field,
+.login_form .password_field,
+.ask_form .password_field {
   position: relative;
 }
 
@@ -409,8 +485,58 @@ body > footer {
   cursor: pointer;
 }
 
+.leave_answer {
+  border-top: 2px solid black;
+}
+
 .ask_question_content {
   width: 60%;
+}
+
+.settings_form {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.settings_form input[type=text], .settings_form input[type=email] {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: solid 2px black;
+  width: 50%;
+  box-sizing: border-box;
+}
+.settings_form input[type=text]:focus, .settings_form input[type=email]:focus {
+  outline: none;
+  border: solid 2px #2974ec;
+}
+.settings_form input[type=submit] {
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: rgba(41, 116, 236, 0.6);
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  margin-left: 50%;
+}
+.settings_form > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.settings_form > div > div {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 0.5rem;
+  width: 50%;
+}
+.settings_form img {
+  width: 7rem;
+  height: 7rem;
 }
 
 /*# sourceMappingURL=styles.css.map */
