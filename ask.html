@@ -30,40 +30,35 @@
 		</nav>
 	</header>
 
-	<main class="content">
+	<main>
 
 		<div class="ask_question_content">
 			<h2>NEW QUESTION</h2>
 
-			<form action="" name="ask_question_form">	
+			<span class="wrong">Что-то определённо неправильно</span>
+
+			<form action="" class="ask_form">	
 
 				<div class="ask_question_title">
 					<label for="title">Title</label>
 					<input type="text" required name="title" id="title" minlength="15" maxlength="100">
-					<img src="./static/svg/alert.svg" alt="Предупреждение">
-					<div>
-						Заголовок должен содержать не менее 15 символов.
-					</div>
 				</div>
+
+				<div class="form_wrong">Заголовок не может быть пустым</div>
 				
 				<div class="ask_question_text">
 					<label for="text">Text</label>
 					<textarea required name="text" id="text" minlength="220" maxlength="1500"></textarea>
-					<img src="./static/svg/alert.svg" alt="Предупреждение">
-					<div>
-						Тело вопроса должно содержать не менее 220 символов.
-					</div>
 				</div>
+
+				<div class="form_wrong">Тепло вопроса не может быть пустым</div>
 				
 				<div class="ask_question_tags">
 					<label for="tags">Tags</label>
-					<input type="text" required name="tags" id="tags">
-					<img src="./static/svg/alert.svg" alt="Предупреждение">
-					<div>
-						Введите хотя бы один тег. Посмотреть список популярных 
-						<a href="#">тегов.</a>
-					</div>
+					<input type="text" required name="tags" id="tags">	
 				</div>
+
+				<div class="form_wrong">Введите хотя бы один тег</div>
 
 				<div class="ask_question_button">
 					<input type="submit" value="ASK!" disabled>
