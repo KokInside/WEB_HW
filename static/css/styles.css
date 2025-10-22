@@ -364,6 +364,7 @@ body > footer {
   padding: 0.5rem 0.25rem;
   border: 2px solid red;
   border-radius: 0.5rem;
+  min-height: 4rem;
 }
 .signup_form textarea:focus,
 .login_form textarea:focus,
@@ -470,6 +471,7 @@ body > footer {
   padding: 0.5rem 0.25rem;
   border: 2px solid black;
   border-radius: 0.5rem;
+  min-height: 4rem;
 }
 .leave_answer_form textarea:focus {
   outline: none;
@@ -510,10 +512,13 @@ body > footer {
   outline: none;
   border: solid 2px #2974ec;
 }
+.settings_form input[type=text]:disabled, .settings_form input[type=email]:disabled {
+  color: black;
+}
 .settings_form input[type=submit] {
   padding: 1rem;
   border-radius: 5px;
-  background-color: rgba(41, 116, 236, 0.6);
+  background-color: #2974ec;
   color: white;
   font-weight: bold;
   border: none;
@@ -537,6 +542,7 @@ body > footer {
 .settings_form img {
   width: 7rem;
   height: 7rem;
+  border: 1px solid black;
 }
 
 /*# sourceMappingURL=styles.css.map */

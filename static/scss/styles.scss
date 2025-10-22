@@ -383,6 +383,7 @@ body>footer {
         padding: 0.5rem 0.25rem;
         border: 2px solid red;
         border-radius: 0.5rem;
+        min-height: 4rem;
 
         &:focus {
             outline: none;
@@ -425,12 +426,13 @@ body>footer {
         border: solid 2px red;
         width: 50%;
         box-sizing: border-box;
-
+        
         &:focus {
             outline: none;
             border: solid 2px rgb(41, 116, 236);
         }
     }
+
 
     input[type="file"] {
         width: 50%;
@@ -472,6 +474,7 @@ body>footer {
         padding: 0.5rem 0.25rem;
         border: 2px solid black;
         border-radius: 0.5rem;
+        min-height: 4rem;
 
         &:focus {
             outline: none;
@@ -523,12 +526,15 @@ body>footer {
             outline: none;
             border: solid 2px rgb(41, 116, 236);
         }
+        &:disabled {
+            color: black;
+        }
     }
 
     input[type="submit"] {
          padding: 1rem;
         border-radius: 5px;
-        background-color: rgba(41, 116, 236, 0.6);
+        background-color: rgb(41, 116, 236);
         color: white;
         font-weight: bold;
         border: none;
@@ -555,5 +561,6 @@ body>footer {
     img {
         width: 7rem;
         height: 7rem;
+        border: 1px solid black;
     }
 }
