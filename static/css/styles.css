@@ -4,61 +4,39 @@
   font-style: normal;
   font-display: swap;
 }
+html {
+  font-size: 16px;
+}
+
 body {
   margin: 0;
 }
 
-header {
+body > header {
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 5%;
   border-bottom: 2px solid orange;
   border-top: 5px solid orange;
-  gap: 5%;
 }
-
-.logo_pic {
-  height: 100%;
-  color: transparent;
-}
-
-.search {
-  position: relative;
-  width: 35%;
-  box-sizing: border-box;
-}
-
-.logo {
+body > header .logo {
   height: 100%;
   padding: 5px;
   padding-left: 2%;
   box-sizing: border-box;
 }
-
-.navi {
+body > header .logo img {
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  padding-right: 2.5%;
+  color: transparent;
 }
-
-.search_bar {
-  width: 100%;
-  padding: 10px;
-  padding-left: 28px;
-  border-radius: 10px;
-  border: 2px solid lightgray;
+body > header .search {
+  position: relative;
+  width: 35%;
   box-sizing: border-box;
 }
-.search_bar:focus {
-  outline: none;
-  border: 2px solid #1500ff;
-}
-
-.search_pic {
+body > header .search img {
   position: absolute;
   width: 16px;
   height: 16px;
@@ -67,66 +45,60 @@ header {
   padding-left: 8px;
   transform: translateY(-50%);
 }
-
-.register {
-  text-decoration: none;
-  color: white;
-  background-color: #4266ea;
-  border: 1px solid #4266ea;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
+body > header .search input {
+  width: 100%;
+  padding: 10px;
+  padding-left: 28px;
+  border-radius: 10px;
+  border: 2px solid lightgray;
+  box-sizing: border-box;
 }
-
-.log_in {
-  text-decoration: none;
-  color: #4266ea;
-  background-color: white;
-  border: 1px solid currentColor;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
+body > header .search input:focus {
+  outline: none;
+  border: 2px solid #1500ff;
 }
-
-.ask_button {
+body > header .ask_button {
   background-color: #0c81c9;
-  color: white;
   width: 4rem;
   height: 50%;
-  font-size: 1rem;
   border: none;
   border-radius: 10px;
-  cursor: pointer;
   margin-right: 6rem;
-  text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
-
-.logged_user_avatar {
+body > header .ask_button a {
+  color: white;
+  font-size: 1rem;
+  text-decoration: none;
+}
+body > header nav {
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-right: 2.5%;
 }
-.logged_user_avatar a {
-  height: 70%;
+body > header nav a {
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
-.logged_user_avatar a img {
-  height: 100%;
+body > header nav .register {
+  color: white;
+  background-color: #4266ea;
+  border: 1px solid #4266ea;
+}
+body > header nav .login {
+  color: #4266ea;
+  background-color: white;
+  border: 1px solid currentColor;
 }
 
-.logged_user_info {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.logged_user_info div {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-}
-
-/*-----------------------------------------------------------------------------*/
-main {
+body > main {
   padding-left: 2rem;
   margin-bottom: 1rem;
   display: flex;
@@ -134,22 +106,13 @@ main {
   justify-content: space-between;
   gap: 5rem;
 }
-main > div {
+body > main .content {
   width: 60%;
-}
-
-.user {
-  width: 100%;
-  height: auto;
-  padding-bottom: 25%;
-}
-
-.questions {
-  width: 70%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: flex-start;
+  gap: 16px;
+  position: relative;
 }
 
 .question {
@@ -159,9 +122,25 @@ main > div {
   padding: 10px;
   gap: 5%;
 }
-
-.up,
-.down {
+.question aside {
+  box-sizing: border-box;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.question aside a img {
+  width: 100%;
+  height: auto;
+  padding-bottom: 25%;
+}
+.question aside .rate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.question aside .rate .upvote,
+.question aside .rate .downvote {
   width: 30px;
   height: 30px;
   cursor: pointer;
@@ -169,93 +148,34 @@ main > div {
   border-width: 1px;
   background-color: transparent;
 }
-
-.up:hover {
-  background-color: rgba(15, 168, 4, 0.5);
-}
-
-.down:hover {
-  background-color: rgba(255, 0, 0, 0.5);
-}
-
-.arrow_up,
-.arrow_down {
+.question aside .rate .upvote img,
+.question aside .rate .downvote img {
   width: 100%;
   height: 100%;
 }
-
-.rate {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.question aside .rate .upvote:hover {
+  background-color: rgba(15, 168, 4, 0.5);
 }
-
-.question_aside {
-  box-sizing: border-box;
-  width: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.question aside .rate .downvote:hover {
+  background-color: rgba(255, 0, 0, 0.5);
 }
-
-.question_content {
-  box-sizing: border-box;
-}
-
-.question_footer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1rem;
-}
-
-.rating {
+.question aside .rate .rating {
   font-size: 1.5rem;
   padding: 0.5rem 0;
 }
-
-.content_aside {
+.question .question_content {
   box-sizing: border-box;
-  padding-right: 20px;
-  width: 30%;
-  position: sticky;
-  top: 0px;
 }
-
-.content_aside > div {
-  position: sticky;
-  top: 1rem;
-}
-
-.tags {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 1rem;
-  font-family: "Sour";
-}
-
-.members {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 1rem;
-  font-family: "Sour";
-}
-
-.best_members {
-  padding-top: 1rem;
-}
-
-.question_tags * {
-  background-color: aquamarine;
-  padding: 5px;
+.question .question_content h3 > a {
   text-decoration: none;
-  color: blue;
-  border-radius: 0.5rem;
+  color: #006fee;
+}
+.question footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
 }
 
 .question_tags {
@@ -264,16 +184,43 @@ main > div {
   gap: 1rem;
   align-items: center;
 }
-
-.pagination a {
-  box-sizing: border-box;
-  border: 2px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1.5rem;
-  width: 1.5rem;
+.question_tags * {
+  background-color: aquamarine;
+  padding: 5px;
   text-decoration: none;
+  color: blue;
+  border-radius: 0.5rem;
+}
+
+main > aside {
+  box-sizing: border-box;
+  padding-right: 20px;
+  width: 25%;
+  position: sticky;
+  top: 0px;
+}
+main > aside .tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+  font-family: "Sour";
+}
+main > aside > div {
+  position: sticky;
+  top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+main > aside .members {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+  font-family: "Sour";
 }
 
 .pagination {
@@ -285,6 +232,16 @@ main > div {
   padding-left: 2rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+.pagination a {
+  box-sizing: border-box;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem;
+  width: 1.5rem;
+  text-decoration: none;
 }
 
 body > footer {
@@ -302,147 +259,40 @@ body > footer {
 
 .wrong {
   color: red;
-  position: relative;
 }
 
-.log_in_content,
-.signup_content {
-  position: relative;
-}
-.log_in_content a,
-.signup_content a {
-  position: relative;
-  left: 37.5%;
-}
-
-/*---------------------------------------------------*/
-.single_question_content {
+main form {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.single_question_content .main_question {
-  display: flex;
-  border-bottom: 2px solid black;
-  box-sizing: border-box;
-  padding: 10px;
-  gap: 5%;
-}
-.single_question_content .answers {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.single_question_content .marked {
-  width: 30px;
-  height: 30px;
-  padding-top: 10px;
-}
-
-/*---------------------------------------------------*/
-.signup_form,
-.login_form,
-.ask_form {
-  display: flex;
-  flex-direction: column;
-  margin: 1.5rem 0;
-  width: 75%;
+  margin: 1rem 0;
+  width: 60%;
   gap: 1rem;
   justify-content: center;
   position: relative;
 }
-.signup_form textarea,
-.login_form textarea,
-.ask_form textarea {
-  resize: vertical;
-  width: 50%;
-  box-sizing: border-box;
-  height: 12rem;
-  padding: 0.5rem 0.25rem;
-  border: 2px solid red;
-  border-radius: 0.5rem;
-  min-height: 4rem;
-}
-.signup_form textarea:focus,
-.login_form textarea:focus,
-.ask_form textarea:focus {
-  outline: none;
-  border: 2px solid #1500ff;
-}
-.signup_form .form_wrong,
-.login_form .form_wrong,
-.ask_form .form_wrong {
-  color: red;
-  position: relative;
-  left: 50%;
-  margin-top: -1rem;
-}
-.signup_form > div,
-.login_form > div,
-.ask_form > div {
+main form > div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   position: relative;
 }
-.signup_form img,
-.login_form img,
-.ask_form img {
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  right: 0px;
-  margin-right: 8px;
-}
-.signup_form img:hover,
-.login_form img:hover,
-.ask_form img:hover {
-  cursor: pointer;
-}
-.signup_form input[type=email],
-.signup_form input[type=password],
-.signup_form input[type=text],
-.login_form input[type=email],
-.login_form input[type=password],
-.login_form input[type=text],
-.ask_form input[type=email],
-.ask_form input[type=password],
-.ask_form input[type=text] {
+main form input[type=email],
+main form input[type=password],
+main form input[type=text] {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: solid 2px red;
-  width: 50%;
+  width: 75%;
   box-sizing: border-box;
 }
-.signup_form input[type=email]:focus,
-.signup_form input[type=password]:focus,
-.signup_form input[type=text]:focus,
-.login_form input[type=email]:focus,
-.login_form input[type=password]:focus,
-.login_form input[type=text]:focus,
-.ask_form input[type=email]:focus,
-.ask_form input[type=password]:focus,
-.ask_form input[type=text]:focus {
+main form input[type=email]:focus,
+main form input[type=password]:focus,
+main form input[type=text]:focus {
   outline: none;
   border: solid 2px #2974ec;
 }
-.signup_form input[type=file],
-.login_form input[type=file],
-.ask_form input[type=file] {
-  width: 50%;
-}
-.signup_form #login_password,
-.login_form #login_password,
-.ask_form #login_password {
-  padding-right: 20px;
-}
-.signup_form input[type=submit],
-.login_form input[type=submit],
-.ask_form input[type=submit] {
+main form input[type=submit] {
   padding: 1rem;
   border-radius: 5px;
   background-color: rgba(41, 116, 236, 0.6);
@@ -450,99 +300,127 @@ body > footer {
   font-weight: bold;
   border: none;
   cursor: pointer;
-  margin-left: 50%;
+  margin-left: 25%;
 }
-.signup_form .password_field,
-.login_form .password_field,
-.ask_form .password_field {
-  position: relative;
-}
-
-.leave_answer_form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.leave_answer_form textarea {
+main form textarea {
   resize: vertical;
-  width: 100%;
+  width: 75%;
   box-sizing: border-box;
   height: 10rem;
   padding: 0.5rem 0.25rem;
-  border: 2px solid black;
+  border: 2px solid red;
   border-radius: 0.5rem;
   min-height: 4rem;
 }
-.leave_answer_form textarea:focus {
+main form textarea:focus {
   outline: none;
   border: 2px solid #1500ff;
 }
-.leave_answer_form input {
-  padding: 1rem;
-  border-radius: 5px;
-  background-color: rgba(41, 116, 236, 0.6);
-  color: white;
-  font-weight: bold;
-  border: none;
+main form .form_wrong {
+  color: red;
+  position: relative;
+  left: 25%;
+  margin-top: -1rem;
+}
+main form .signup_avatar {
+  padding: 1rem 0;
+}
+main form .signup_avatar #signup_avatar {
+  width: 75%;
+}
+
+.password_field {
+  position: relative;
+}
+.password_field input {
+  padding-right: 24px;
+}
+.password_field img {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  right: 0;
+  margin-right: 8px;
+}
+.password_field img:hover {
   cursor: pointer;
+}
+
+.have_account,
+.create_account {
+  position: relative;
+  left: 15%;
+}
+
+.marked {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.answers {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.asked_question {
+  border: none;
+  border-bottom: 2px solid black;
 }
 
 .leave_answer {
   border-top: 2px solid black;
 }
 
-.ask_question_content {
-  width: 60%;
+.leave_answer_form {
+  width: 100%;
+}
+.leave_answer_form textarea {
+  width: 100%;
+}
+.leave_answer_form input {
+  margin-left: 0 !important;
+}
+.leave_answer_form .form_wrong {
+  position: static;
 }
 
-.settings_form {
-  width: 75%;
+nav.logged {
+  display: flex;
+  flex-direction: row;
+}
+nav.logged img {
+  width: 3rem;
+  height: 3rem;
+}
+nav.logged .logged_user_info {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
-.settings_form input[type=text], .settings_form input[type=email] {
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  border: solid 2px black;
-  width: 50%;
-  box-sizing: border-box;
-}
-.settings_form input[type=text]:focus, .settings_form input[type=email]:focus {
-  outline: none;
-  border: solid 2px #2974ec;
-}
-.settings_form input[type=text]:disabled, .settings_form input[type=email]:disabled {
-  color: black;
-}
-.settings_form input[type=submit] {
-  padding: 1rem;
-  border-radius: 5px;
-  background-color: #2974ec;
-  color: white;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  margin-left: 50%;
-}
-.settings_form > div {
+nav.logged .logged_user_info div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  position: relative;
+  gap: 1rem;
 }
-.settings_form > div > div {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  gap: 0.5rem;
-  width: 50%;
+nav.logged .logged_user_info div a {
+  padding: 0;
+}
+
+.settings_form input[type=text], .settings_form input[type=email] {
+  border: 2px solid black;
 }
 .settings_form img {
   width: 7rem;
   height: 7rem;
   border: 1px solid black;
+}
+.settings_form .settings_avatar {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  gap: 0.5rem;
 }
 
 /*# sourceMappingURL=styles.css.map */
