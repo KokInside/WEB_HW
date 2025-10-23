@@ -10,29 +10,33 @@
 </head>
 
 <body>
-	<header class="header">
+	<header>
 		<div class="logo">
-			<a href="./index.html" class="main_page" aria-label="Главное меню">
-				<img src="./static/svg/atom.svg" alt="Логотип" class="logo_pic">
+			<a href="./index.html" aria-label="Главное меню">
+				<img src="./static/svg/atom.svg" alt="Логотип">
 			</a>
 		</div>
+
 		<div class="search">
-			<img src="./static/svg/search.svg" alt="" class="search_pic">
-			<input type="text" placeholder="Search" class="search_bar">
+			<img src="./static/svg/search.svg" alt="">
+
+			<form action="">
+				<input type="text" placeholder="Search">
+			</form>
 		</div>
-		<a class="ask_button" title="Задать вопрос" href="ask.html">ASK!</a>
-		<nav class="navi">
+
+		<nav>
 			<a href="./signup.html" class="register">
 				Зарегистрироваться
 			</a>
-			<a href="./login.html" class="log_in">
+			<a href="./login.html" class="login">
 				Войти
 			</a>
 		</nav>
 	</header>
 
 	<main>
-		<div class="signup_content">
+		<div class="content">
 			<h2>SUGN UP</h2>
 
 			<span class="wrong">Что-то определённо неправильно</span>
@@ -73,7 +77,7 @@
 
 				<div class="form_wrong">Пароли не совпадают</div>
 
-				<div class="signup_photo">
+				<div class="signup_avatar">
 					<label for="signup_avatar">Upload avatar</label>
 					<input type="file" id="signup_avatar" accept=".png, .jpg, .jpeg">
 				</div>
@@ -84,7 +88,7 @@
 
 			</form>
 
-			<a href="./login.html">Already have account ?</a>
+			<a class="have_account" href="./login.html">Already have account ?</a>
 
 		</div>
 
@@ -119,10 +123,10 @@
 	</main>
 
 	<footer>
-        <div>
-            CREATED WITH THE SUPPORT OF AVIASALES
-        </div>
-    </footer>
+		<div>
+			CREATED WITH THE SUPPORT OF AVIASALES
+		</div>
+	</footer>
 
 </body>
 
