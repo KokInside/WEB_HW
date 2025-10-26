@@ -1,1 +1,4 @@
 /.venv/
+*.map
+styles2.scss
+styles2.css
