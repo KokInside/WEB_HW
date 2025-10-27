@@ -8,6 +8,7 @@
 
 	<div class="search">
 		<img src="./static/svg/search.svg" alt="" />
+
 		<form action="">
 			<input type="text" placeholder="Search" />
 		</form>
@@ -17,9 +18,34 @@
 		<a title="Задать вопрос" href="ask.html">ASK!</a>
 	</div>
 
+	{% comment %} 
+	Незарегистрированный пользователь
+	{% endcomment %}
 	<nav>
 		<a href="./signup.html" class="register">Зарегистрироваться</a>
 		<a href="./login.html" class="login">Войти</a>
 	</nav>
+
+	{% comment %}
+	Зарегистрированный пользователь
+	{% endcomment %}
+	{% comment %}
+	<nav class="logged">
+        <div class="logged_user_avatar">
+            <a href="">
+                <img src="/static/svg/user.svg" alt="">
+            </a>
+        </div>
+        <div class="logged_user_info">
+            <div>
+                KokInside
+            </div>
+            <div>
+                <a href="./settings.html">settings</a>
+                <a href="./index.html">log out</a>
+            </div>
+        </div>
+    </nav>
+	{% endcomment %}
 	
 </header>

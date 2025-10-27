@@ -1,0 +1,66 @@
+<div class="question">
+
+    <aside class="question_aside">
+
+        <a href="#" class="question_user" title="user profile">
+            <img src="./static/svg/user.svg" alt="user" class="user">
+        </a>
+
+        <div class="rate">
+
+            <button class="upvote" title="upvote">
+                <img src="./static/svg/arrow-up.svg" alt="" class="arrow_up">
+            </button>
+
+            <span class="rating"> {% block question_rating %}0{% endblock question_rating %}</span>
+
+            <button class="downvote" title="downvote">
+                <img src="./static/svg/arrow-down.svg" alt="" class="arrow_down">
+            </button>
+
+        </div>
+    </aside>
+
+    <div class="question_content">
+
+        <h3 class="question_header">
+            <a href="./question.html" style="text-decoration: none; color: rgb(0, 111, 238)">
+                {% block question_title %}Empty question title{% endblock question_title %}
+            </a>
+        </h3>
+
+		{% comment %}question text{% endcomment %}
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo ab repellendus totam
+            cupiditate odit, minima iste accusantium iure alias? Assumenda culpa saepe deserunt,
+            reprehenderit consectetur exercitationem vero repellendus itaque debitis.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam possimus
+            dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in, veniam
+            sed sequi.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam possimus
+            dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in, veniam
+            sed sequi.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam possimus
+            dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in, veniam
+            sed sequi.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam possimus
+            dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in, veniam
+            sed sequi.</p>
+
+        <footer class="question_footer">
+
+            <div class="answers_count">
+                <a href="/question.html#answers_list">Answers (3)</a>
+            </div>
+
+            <div class="question_tags">
+                Tags:
+                <a href="#">Python</a>
+                <a href="#">C++</a>
+                <a href="#">x64</a>
+            </div>
+			
+        </footer>
+
+    </div>
+
+</div>
