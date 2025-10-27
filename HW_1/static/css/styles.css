@@ -21,11 +21,17 @@ h4,
 h5,
 h6 {
   margin: 0;
+  padding-bottom: 16px;
 }
 
 p {
   white-space: pre-line;
   word-wrap: break-word;
+  margin-top: 0;
+}
+
+a {
+  text-decoration: none;
 }
 
 .row {
@@ -39,7 +45,7 @@ p {
 }
 
 body > header {
-  height: 10vh;
+  height: 80px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -155,7 +161,9 @@ nav .login {
 .question {
   display: flex;
   flex-direction: row;
-  border: 2px dashed black;
+  border: 1px solid #323232;
+  border-radius: 30px;
+  background-color: #fafafa;
   box-sizing: border-box;
   padding: 20px;
   gap: 5%;
@@ -219,6 +227,37 @@ nav .login {
   padding: 0.5rem 0;
 }
 
+.answers_count a {
+  color: #2057d8 !important;
+}
+
+.leave_answer_title {
+  padding-top: 16px;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  height: 10%;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.pagination a {
+  box-sizing: border-box;
+  border: 1px solid #646464;
+  color: #277dff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  width: 2.5rem;
+  text-decoration: none;
+}
+
 body > main {
   margin-top: 5vh;
   margin-left: 5vw;
@@ -238,6 +277,10 @@ body > main {
   justify-content: flex-start;
   gap: 16px;
   position: relative;
+}
+
+.content_title {
+  margin-right: auto;
 }
 
 .question_tags {
@@ -285,26 +328,6 @@ main > aside .members {
   font-family: "Sour";
 }
 
-.pagination {
-  display: flex;
-  flex-direction: row;
-  width: 50%;
-  height: 10%;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-.pagination a {
-  box-sizing: border-box;
-  border: 2px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1.5rem;
-  width: 1.5rem;
-  text-decoration: none;
-}
-
 body > footer {
   position: relative;
   bottom: 0;
@@ -343,7 +366,7 @@ main form input[type=password],
 main form input[type=text] {
   padding: 0.5rem;
   border-radius: 0.5rem;
-  border: solid 2px red;
+  border: solid 2px red !important;
   width: 75%;
   box-sizing: border-box;
 }
@@ -426,7 +449,6 @@ main form .signup_avatar #signup_avatar {
 
 .asked_question {
   border: none;
-  border-bottom: 2px solid black;
 }
 
 .leave_answer {

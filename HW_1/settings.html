@@ -2,124 +2,131 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
-    <link rel="stylesheet" href="static/css/styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Settings</title>
+	<link rel="stylesheet" href="static/css/styles.css">
 </head>
 
 <body>
 
-    <header>
+	<header>
 
-        <div class="logo">
-            <a href="./index.html" aria-label="Главное меню">
-                <img src="static/svg/atom.svg" alt="Логотип">
-            </a>
-        </div>
+		<div class="logo">
+			<a href="./index.html" aria-label="Главное меню">
+				<img src="static/svg/atom.svg" alt="Логотип">
+			</a>
+		</div>
 
-        <div class="search">
-            <img src="static/svg/search.svg" alt="">
+		<div class="search">
+			<img src="static/svg/search.svg" alt="">
 
-            <form action="">
-                <input type="text" placeholder="Search">
-            </form>
-        </div>
+			<form action="">
+				<input type="text" placeholder="Search">
+			</form>
+		</div>
 
-        <div class="ask_button">
-            <a title="Задать вопрос" href="ask.html">ASK!</a>
-        </div>
+		<div class="ask_button">
+			<a title="Задать вопрос" href="ask.html">ASK!</a>
+		</div>
 
-        <nav class="logged">
+		<nav class="logged row">
 
-            <div class="logged_user_avatar">
-                <a href="">
-                    <img src="/static/svg/user.svg" alt="">
-                </a>
-            </div>
+			<div class="user_avatar">
+				<a href="">
+					<img src="static/svg/user.svg" alt="" class="user_avatar_pic">
+				</a>
+			</div>
 
-            <div class="logged_user_info">
+			<div class="logged_user_info column">
 
-                <div>
-                    KokInside
-                </div>
+				<div class="nickname">
+					KokInside
+				</div>
 
-                <div>
-                    <a href="./settings.html">settings</a>
-                    <a href="./index.html">log out</a>
-                </div>
+				<div class="row">
+					<a href="./settings.html">settings</a>
+					<a href="./index.html">log out</a>
+				</div>
 
-            </div>
+			</div>
 
-        </nav>
+		</nav>
 
-    </header>
+	</header>
 
-    <main>
-        <div class="content">
-            <h2>Settings: KokInside</h2>
+	<main>
+		<div class="content">
+			<h2>Settings: KokInside</h2>
 
-            <form action="" class="settings_form">
-                <div class="">
-                    <label for="settings_login">Login</label>
-                    <input type="text" id="settings_login" value="KokInside" disabled maxlength="20" minlength="4">
-                </div>
+			<form action="" class="settings_form">
+				<div class="">
+					<label for="settings_login">Login</label>
+					<input type="text" id="settings_login" value="KokInside" disabled maxlength="20" minlength="4">
+				</div>
 
-                <div>
-                    <label for="settings_email">Email</label>
-                    <input type="email" id="settings_email" value="KokInside@gmail.com" disabled minlength="4">
-                </div>
+				<div>
+					<label for="settings_email">Email</label>
+					<input type="email" id="settings_email" value="KokInside@gmail.com" disabled minlength="4">
+				</div>
 
-                <div>
-                    <label for="settings_nickname">Nickname</label>
-                    <input type="text" id="settings_nickname" value="KokInside" minlength="4" maxlength="20">
-                </div>
+				<div>
+					<label for="settings_nickname">Nickname</label>
+					<input type="text" id="settings_nickname" value="KokInside" minlength="4" maxlength="20">
+				</div>
+				<div class="form_wrong">Ник не может быть пустым</div>
 
-                <div>
-                    <label for="">Upload avatar</label>
-                    <div class="settings_avatar">
-                        <img src="static/svg/user.svg" alt="">
-                        <input type="file" accept=".png, .jpg, .jpeg">
-                    </div>
-                </div>
+				<div>
+					<label for="">Upload avatar</label>
+					<div class="settings_avatar">
+						<img src="static/svg/user.svg" alt="">
+						<input type="file" accept=".png, .jpg, .jpeg">
+					</div>
+				</div>
 
-                <div>
-                    <input type="submit" value="Save" title="Сохранить">
-                </div>
+				<div>
+					<input type="submit" value="Save" title="Сохранить">
+				</div>
 
-            </form>
-        </div>
+			</form>
+		</div>
 
-        <aside class="content_aside">
-            <div>
-                <div class="popular_tags">
-                    <h2>POPULAR TAGS</h2>
-                    <div class="tags">
-                        <a href="#" style="text-decoration: none; color: red">Python</a>
-                        <a href="#" style="text-decoration: none; color: blue">C++</a>
-                        <a href="#" style="text-decoration: none; color: green">Rust</a>
-                        <a href="#" style="text-decoration: none; color: peru">Linux</a>
-                        <a href="#" style="text-decoration: none; color: purple">Programming</a>
-                        <a href="#" style="text-decoration: none; color: darkblue">Computer science</a>
-                        <a href="#" style="text-decoration: none; color: deeppink">Algorythms</a>
-                    </div>
-                </div>
-                <div class="best_members">
-                    <h2>BEST MEMBERS</h2>
-                    <div class="members">
-                        <a href="#" style="text-decoration: none; color: blueviolet;">KokInside</a>
-                        <a href="#" style="text-decoration: none; color: cornflowerblue;">Molokos</a>
-                        <a href="#" style="text-decoration: none; color: darkslategray;">Gleb</a>
-                        <a href="#" style="text-decoration: none; color: limegreen;">Roma_joludi</a>
-                        <a href="#" style="text-decoration: none; color: dodgerblue;">Induser</a>
-                        <a href="#" style="text-decoration: none; color: mediumblue;">Killer_228</a>
-                        <a href="#" style="text-decoration: none; color: seagreen;">Ashot</a>
-                    </div>
-                </div>
-            </div>
-        </aside>
+		<aside class="content_aside">
+			<div>
+				<div class="popular_tags">
+					<h2>POPULAR TAGS</h2>
+					<div class="tags">
+						<a href="#" style="text-decoration: none; color: red">Python</a>
+						<a href="#" style="text-decoration: none; color: blue">C++</a>
+						<a href="#" style="text-decoration: none; color: green">Rust</a>
+						<a href="#" style="text-decoration: none; color: peru">Linux</a>
+						<a href="#" style="text-decoration: none; color: purple">Programming</a>
+						<a href="#" style="text-decoration: none; color: darkblue">Computer science</a>
+						<a href="#" style="text-decoration: none; color: deeppink">Algorythms</a>
+					</div>
+				</div>
+				<div class="best_members">
+					<h2>BEST MEMBERS</h2>
+					<div class="members">
+						<a href="#" style="text-decoration: none; color: blueviolet;">KokInside</a>
+						<a href="#" style="text-decoration: none; color: cornflowerblue;">Molokos</a>
+						<a href="#" style="text-decoration: none; color: darkslategray;">Gleb</a>
+						<a href="#" style="text-decoration: none; color: limegreen;">Roma_joludi</a>
+						<a href="#" style="text-decoration: none; color: dodgerblue;">Induser</a>
+						<a href="#" style="text-decoration: none; color: mediumblue;">Killer_228</a>
+						<a href="#" style="text-decoration: none; color: seagreen;">Ashot</a>
+					</div>
+				</div>
+			</div>
+		</aside>
 
-    </main>
+	</main>
+
+	<footer>
+		<div>
+			CREATED WITH THE SUPPORT OF AVIASALES
+		</div>
+	</footer>
 
 
 </body>
