@@ -15,9 +15,15 @@ h4,
 h5,
 h6 {
     margin: 0;
+	padding-bottom: 16px;
 }
 
 p {
     white-space: pre-line;
     word-wrap: break-word;
+	margin-top: 0;
+}
+
+a {
+	text-decoration: none;
 }
