@@ -3,9 +3,11 @@
 @import 'normalize';
 
 @import 'individual';
+
 @import 'header';
 
 @import 'question';
+@import 'pagination';
 
 // main
 
@@ -26,8 +28,13 @@ body>main {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+
     gap: 16px;
     position: relative;
+}
+
+.content_title {
+	margin-right: auto;
 }
 
 .question_tags {
@@ -81,28 +88,6 @@ main>aside {
     }
 }
 
-.pagination {
-    display: flex;
-    flex-direction: row;
-    width: 50%;
-    height: 10%;
-    gap: 0.5rem;
-
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-
-    a {
-        box-sizing: border-box;
-        border: 2px solid black;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 1.5rem;
-        width: 1.5rem;
-        text-decoration: none;
-    }
-}
-
 body>footer {
     position: relative;
     bottom: 0;
@@ -145,7 +130,7 @@ main form {
     input[type="text"] {
         padding: 0.5rem;
         border-radius: 0.5rem;
-        border: solid 2px red;
+        border: solid 2px red !important;
         width: 75%;
         box-sizing: border-box;
 
@@ -239,7 +224,7 @@ main form {
 
 .asked_question {
     border: none;
-    border-bottom: 2px solid black;
+
 }
 
 .leave_answer {
