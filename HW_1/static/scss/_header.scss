@@ -1,0 +1,131 @@
+// header
+
+body>header {
+	height: 10vh;
+
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+	justify-content: space-between;
+
+	padding-left: 5vw;
+	padding-right: 5vw;
+
+	gap: 20px;
+
+	border-bottom: 2px solid orange;
+	border-top: 5px solid orange;
+
+}
+
+.logo {
+	height: 100%;
+	padding: 5px;
+	box-sizing: border-box;
+
+	img {
+		height: 100%;
+		color: transparent
+	}
+}
+
+.search {
+	position: relative;
+	width: 35%;
+	box-sizing: border-box;
+
+	img {
+		position: absolute;
+		width: 16px;
+		height: 16px;
+		pointer-events: none;
+		top: 50%;
+		padding-left: 8px;
+		transform: translateY(-50%);
+	}
+
+	input {
+		width: 100%;
+		padding: 10px;
+		padding-left: 28px;
+		border-radius: 10px;
+		border: 2px solid lightgray;
+		box-sizing: border-box;
+
+		&:focus {
+			outline: none;
+			border: 2px solid rgb(21, 0, 255);
+		}
+	}
+}
+
+.ask_button {
+	background-color: rgb(12, 129, 201);
+	width: 4rem;
+	height: 50%;
+	border: none;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+
+	a {
+		color: white;
+		font-size: 1rem;
+		text-decoration: none;
+	}
+}
+
+nav {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	padding-right: 2.5%;
+
+	a {
+		text-decoration: none;
+		padding: 0.5rem;
+		border-radius: 0.5rem;
+	}
+
+	.register {
+		color: white;
+		background-color: rgb(66, 102, 234);
+		border: 1px solid rgb(66, 102, 234);
+	}
+
+	.login {
+		color: rgb(66, 102, 234);
+		background-color: white;
+		border: 1px solid currentColor;
+	}
+}
+
+.user_avatar {
+	height: 100%;
+	padding: 5px;
+	box-sizing: border-box;
+}
+
+.user_avatar_pic {
+	height: 100%;
+	width: auto;
+}
+
+.logged_user_info {
+	gap: 1rem;
+
+	div {
+		justify-content: space-between;
+		gap: 1rem;
+
+		a {
+			padding: 0;
+		}
+	}
+}

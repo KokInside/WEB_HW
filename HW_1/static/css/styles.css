@@ -6,37 +6,67 @@
 }
 html {
   font-size: 16px;
+  font-family: Arial, sans-serif;
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+p {
+  white-space: pre-line;
+  word-wrap: break-word;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
 }
 
 body > header {
-  height: 80px;
+  height: 10vh;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 5%;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  gap: 20px;
   border-bottom: 2px solid orange;
   border-top: 5px solid orange;
 }
-body > header .logo {
+
+.logo {
   height: 100%;
   padding: 5px;
-  padding-left: 2%;
   box-sizing: border-box;
 }
-body > header .logo img {
+.logo img {
   height: 100%;
   color: transparent;
 }
-body > header .search {
+
+.search {
   position: relative;
   width: 35%;
   box-sizing: border-box;
 }
-body > header .search img {
+.search img {
   position: absolute;
   width: 16px;
   height: 16px;
@@ -45,7 +75,7 @@ body > header .search img {
   padding-left: 8px;
   transform: translateY(-50%);
 }
-body > header .search input {
+.search input {
   width: 100%;
   padding: 10px;
   padding-left: 28px;
@@ -53,73 +83,81 @@ body > header .search input {
   border: 2px solid lightgray;
   box-sizing: border-box;
 }
-body > header .search input:focus {
+.search input:focus {
   outline: none;
   border: 2px solid #1500ff;
 }
-body > header .ask_button {
+
+.ask_button {
   background-color: #0c81c9;
   width: 4rem;
   height: 50%;
   border: none;
   border-radius: 10px;
-  margin-right: 6rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
-body > header .ask_button a {
+.ask_button a {
   color: white;
   font-size: 1rem;
   text-decoration: none;
 }
-body > header nav {
-  height: 100%;
+
+nav {
   display: flex;
+  flex-direction: row;
+  height: 100%;
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
   padding-right: 2.5%;
 }
-body > header nav a {
+nav a {
   text-decoration: none;
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
-body > header nav .register {
+nav .register {
   color: white;
   background-color: #4266ea;
   border: 1px solid #4266ea;
 }
-body > header nav .login {
+nav .login {
   color: #4266ea;
   background-color: white;
   border: 1px solid currentColor;
 }
 
-body > main {
-  padding-left: 2rem;
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 5rem;
+.user_avatar {
+  height: 100%;
+  padding: 5px;
+  box-sizing: border-box;
 }
-body > main .content {
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 16px;
-  position: relative;
+
+.user_avatar_pic {
+  height: 100%;
+  width: auto;
+}
+
+.logged_user_info {
+  gap: 1rem;
+}
+.logged_user_info div {
+  justify-content: space-between;
+  gap: 1rem;
+}
+.logged_user_info div a {
+  padding: 0;
 }
 
 .question {
   display: flex;
+  flex-direction: row;
   border: 2px dashed black;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 20px;
   gap: 5%;
 }
 .question aside {
@@ -134,37 +172,10 @@ body > main .content {
   height: auto;
   padding-bottom: 25%;
 }
-.question aside .rate {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.question aside .rate .upvote,
-.question aside .rate .downvote {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  border-radius: 50% 50%;
-  border-width: 1px;
-  background-color: transparent;
-}
-.question aside .rate .upvote img,
-.question aside .rate .downvote img {
-  width: 100%;
-  height: 100%;
-}
-.question aside .rate .upvote:hover {
-  background-color: rgba(15, 168, 4, 0.5);
-}
-.question aside .rate .downvote:hover {
-  background-color: rgba(255, 0, 0, 0.5);
-}
-.question aside .rate .rating {
-  font-size: 1.5rem;
-  padding: 0.5rem 0;
-}
 .question .question_content {
   box-sizing: border-box;
+  flex: 1 1 0%;
+  min-width: 0;
 }
 .question .question_content h3 > a {
   text-decoration: none;
@@ -176,6 +187,57 @@ body > main .content {
   align-items: center;
   justify-content: flex-start;
   gap: 1rem;
+}
+
+.rate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.rate .upvote,
+.rate .downvote {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 50% 50%;
+  border-width: 1px;
+  background-color: transparent;
+}
+.rate .upvote img,
+.rate .downvote img {
+  width: 100%;
+  height: 100%;
+}
+.rate .upvote:hover {
+  background-color: rgba(15, 168, 4, 0.5);
+}
+.rate .downvote:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+.rate .rating {
+  font-size: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+body > main {
+  margin-top: 5vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 5rem;
+  min-height: 100vh;
+}
+
+.content {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  position: relative;
 }
 
 .question_tags {
@@ -384,30 +446,8 @@ main form .signup_avatar #signup_avatar {
   position: static;
 }
 
-nav.logged {
-  display: flex;
-  flex-direction: row;
-}
-nav.logged img {
-  width: 3rem;
-  height: 3rem;
-}
-nav.logged .logged_user_info {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-nav.logged .logged_user_info div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1rem;
-}
-nav.logged .logged_user_info div a {
-  padding: 0;
-}
-
-.settings_form input[type=text], .settings_form input[type=email] {
+.settings_form input[type=text],
+.settings_form input[type=email] {
   border: 2px solid black;
 }
 .settings_form img {
