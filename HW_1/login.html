@@ -2,101 +2,107 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log in</title>
-    <link rel="stylesheet" href="static/css/styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Log in</title>
+	<link rel="stylesheet" href="static/css/styles.css">
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <a href="./index.html" aria-label="Главное меню">
-                <img src="static/svg/atom.svg" alt="Логотип">
-            </a>
-        </div>
+	<header>
+		<div class="logo">
+			<a href="./index.html" aria-label="Главное меню">
+				<img src="static/svg/atom.svg" alt="Логотип">
+			</a>
+		</div>
 
-        <div class="search">
-            <img src="static/svg/search.svg" alt="">
+		<div class="search">
+			<img src="static/svg/search.svg" alt="">
 
-            <form action="">
-                <input type="text" placeholder="Search">
-            </form>
-        </div>
+			<form action="">
+				<input type="text" placeholder="Search">
+			</form>
+		</div>
 
         <nav>
-            <a href="./signup.html" class="register">
-                Зарегистрироваться
-            </a>
-            <a href="./login.html" class="login">
-                Войти
-            </a>
-        </nav>
-    </header>
+			<a href="./signup.html" class="register">
+				Зарегистрироваться
+			</a>
+			<a href="./login.html" class="login">
+				Войти
+			</a>
+		</nav>
+	</header>
 
-    <main>
-        <div class="content">
-            <h2>LOG IN</h2>
+	<main>
+		<div class="content">
+			<h2>LOG IN</h2>
 
-            <span class="wrong">Неверный email или пароль.</span>
+			<span class="wrong">Неверный email или пароль.</span>
 
-            <form action="" id="log_in_form" class="login_form">
+			<form action="" id="log_in_form" class="login_form">
 
-                <div class="email_field">
-                    <label for="login_email">Email</label>
-                    <input type="email" required id="login_email" minlength="5" maxlength="40">
-                </div>
+				<div class="email_field">
+					<label for="login_email">Email</label>
+					<input type="email" required id="login_email" minlength="5" maxlength="40">
+				</div>
 
-                <div class="form_wrong">Email не может быть пустым</div>
+				<div class="form_wrong">Email не может быть пустым</div>
 
-                <div class="password_field">
-                    <label for="login_password">Password</label>
-                    <input type="password" required id="login_password" minlength="8">
-                    <img src="static/svg/eye-off.svg" alt="">
-                </div>
+				<div class="password_field">
+					<label for="login_password">Password</label>
+					<input type="password" required id="login_password" minlength="8">
+					<img src="static/svg/eye-off.svg" alt="">
+				</div>
 
-                <div class="form_wrong">Пароль не может быть пустым</div>
+				<div class="form_wrong">Пароль не может быть пустым</div>
 
-                <div class="login_button">
-                    <input type="submit" value="Log in!" disabled>
-                </div>
+				<div class="login_button">
+					<input type="submit" value="Log in!" disabled>
+				</div>
 
-            </form>
+			</form>
 
-            <a class="create_account" href="./signup.html">Create new account</a>
+			<a class="create_account" href="./signup.html">Create new account</a>
 
-        </div>
+		</div>
 
-        <aside class="content_aside">
-            <div>
-                <div class="popular_tags">
-                    <h2>POPULAR TAGS</h2>
-                    <div class="tags">
-                        <a href="#" style="text-decoration: none; color: red">Python</a>
-                        <a href="#" style="text-decoration: none; color: blue">C++</a>
-                        <a href="#" style="text-decoration: none; color: green">Rust</a>
-                        <a href="#" style="text-decoration: none; color: peru">Linux</a>
-                        <a href="#" style="text-decoration: none; color: purple">Programming</a>
-                        <a href="#" style="text-decoration: none; color: darkblue">Computer science</a>
-                        <a href="#" style="text-decoration: none; color: deeppink">Algorythms</a>
-                    </div>
-                </div>
-                <div class="best_members">
-                    <h2>BEST MEMBERS</h2>
-                    <div class="members">
-                        <a href="#" style="text-decoration: none; color: blueviolet;">KokInside</a>
-                        <a href="#" style="text-decoration: none; color: cornflowerblue;">Molokos</a>
-                        <a href="#" style="text-decoration: none; color: darkslategray;">Gleb</a>
-                        <a href="#" style="text-decoration: none; color: limegreen;">Roma_joludi</a>
-                        <a href="#" style="text-decoration: none; color: dodgerblue;">Induser</a>
-                        <a href="#" style="text-decoration: none; color: mediumblue;">Killer_228</a>
-                        <a href="#" style="text-decoration: none; color: seagreen;">Ashot</a>
-                    </div>
-                </div>
-            </div>
-        </aside>
+		<aside class="content_aside">
+			<div>
+				<div class="popular_tags">
+					<h2>POPULAR TAGS</h2>
+					<div class="tags">
+						<a href="#" style="text-decoration: none; color: red">Python</a>
+						<a href="#" style="text-decoration: none; color: blue">C++</a>
+						<a href="#" style="text-decoration: none; color: green">Rust</a>
+						<a href="#" style="text-decoration: none; color: peru">Linux</a>
+						<a href="#" style="text-decoration: none; color: purple">Programming</a>
+						<a href="#" style="text-decoration: none; color: darkblue">Computer science</a>
+						<a href="#" style="text-decoration: none; color: deeppink">Algorythms</a>
+					</div>
+				</div>
+				<div class="best_members">
+					<h2>BEST MEMBERS</h2>
+					<div class="members">
+						<a href="#" style="text-decoration: none; color: blueviolet;">KokInside</a>
+						<a href="#" style="text-decoration: none; color: cornflowerblue;">Molokos</a>
+						<a href="#" style="text-decoration: none; color: darkslategray;">Gleb</a>
+						<a href="#" style="text-decoration: none; color: limegreen;">Roma_joludi</a>
+						<a href="#" style="text-decoration: none; color: dodgerblue;">Induser</a>
+						<a href="#" style="text-decoration: none; color: mediumblue;">Killer_228</a>
+						<a href="#" style="text-decoration: none; color: seagreen;">Ashot</a>
+					</div>
+				</div>
+			</div>
+		</aside>
 
-    </main>
+	</main>
+
+	<footer>
+		<div>
+			CREATED WITH THE SUPPORT OF AVIASALES
+		</div>
+	</footer>
 
 </body>
 

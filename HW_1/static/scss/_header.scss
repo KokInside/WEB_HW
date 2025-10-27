@@ -79,6 +79,8 @@ body>header {
 }
 
 nav {
+	display: flex;
+	flex-direction: row;
 	height: 100%;
 	align-items: center;
 	justify-content: flex-end;
