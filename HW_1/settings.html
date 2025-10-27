@@ -30,21 +30,21 @@
             <a title="Задать вопрос" href="ask.html">ASK!</a>
         </div>
 
-        <nav class="logged">
+        <nav class="logged row">
 
-            <div class="logged_user_avatar">
+            <div class="user_avatar">
                 <a href="">
-                    <img src="/static/svg/user.svg" alt="">
+                    <img src="static/svg/user.svg" alt="" class="user_avatar_pic">
                 </a>
             </div>
 
-            <div class="logged_user_info">
+            <div class="logged_user_info column">
 
-                <div>
+                <div class="nickname">
                     KokInside
                 </div>
 
-                <div>
+                <div class="row">
                     <a href="./settings.html">settings</a>
                     <a href="./index.html">log out</a>
                 </div>
@@ -74,6 +74,7 @@
                     <label for="settings_nickname">Nickname</label>
                     <input type="text" id="settings_nickname" value="KokInside" minlength="4" maxlength="20">
                 </div>
+				<div class="form_wrong">Ник не может быть пустым</div>
 
                 <div>
                     <label for="">Upload avatar</label>
