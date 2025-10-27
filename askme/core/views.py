@@ -1,11 +1,12 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 
 def home(request):
-	pass
+	return render(request, "include/base.html")
 
 def hot(request):
-	pass
+	return render(request, "index.html")
 
 def tag(request):
 	pass

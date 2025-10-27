@@ -1,9 +1,9 @@
 from django.urls import path
 
-from views import *
+from core.views import *
 
-urlpatterns = [
-	path("", home, name = "home page"),
+coreurlpatterns = [
+	path("", home, name = "home"),
 	path("hot/", hot, name = "hot"),
 	path("tag/", tag, name = "tag"),
 	path("question/", question, name = "question"),
