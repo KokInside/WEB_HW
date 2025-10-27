@@ -1,13 +1,15 @@
+{% load static %}
+
 <header>
 
 	<div class="logo">
 		<a href="./index.html" aria-label="Главное меню">
-			<img src="./static/svg/atom.svg" alt="Логотип" />
+			<img src="{% static "svg/atom.svg" %}" alt="Логотип" />
 		</a>
 	</div>
 
 	<div class="search">
-		<img src="./static/svg/search.svg" alt="" />
+		<img src="{% static "svg/search.svg" %}" alt="" />
 
 		<form action="">
 			<input type="text" placeholder="Search" />
