@@ -1,0 +1,26 @@
+.pagination {
+    display: flex;
+    flex-direction: row;
+	align-items: end;
+
+    height: 10%;
+    gap: 0.5rem;
+
+	justify-content: center;
+
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    a {
+        box-sizing: border-box;
+        border: 1px solid rgb(100, 100, 100);
+		color: rgb(39, 125, 255);
+		border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 2rem;
+        width: 2.5rem;
+        text-decoration: none;
+    }
+}
