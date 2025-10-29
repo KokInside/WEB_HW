@@ -3,10 +3,10 @@ from django.http import HttpResponse
 
 
 def home(request):
-	return render(request, "include/base.html")
+	return render(request, "index.html")
 
 def hot(request):
-	return render(request, "index.html")
+	return render(request, "hot.html")
 
 def tag(request):
 	pass
@@ -15,10 +15,10 @@ def question(request):
 	pass
 
 def login(request):
-	pass
+	return render(request, "login.html")
 
 def signup(request):
-	pass
+	return render(request, "signup.html")
 
 def ask(request):
 	pass

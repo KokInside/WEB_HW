@@ -3,7 +3,7 @@
 <header>
 
 	<div class="logo">
-		<a href="./index.html" aria-label="Главное меню">
+		<a href="{% url "home" %}" aria-label="Главное меню">
 			<img src="{% static "svg/atom.svg" %}" alt="Логотип" />
 		</a>
 	</div>
@@ -25,7 +25,7 @@
 	{% endcomment %}
 	<nav>
 		<a href="./signup.html" class="register">Зарегистрироваться</a>
-		<a href="./login.html" class="login">Войти</a>
+		<a href="{% url "login" %}" class="login">Войти</a>
 	</nav>
 
 	{% comment %}
