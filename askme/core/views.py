@@ -21,4 +21,4 @@ def signup(request):
 	return render(request, "signup.html")
 
 def ask(request):
-	pass
+	return render(request, "ask.html")
