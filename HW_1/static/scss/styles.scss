@@ -37,21 +37,6 @@ body>main {
 	margin-right: auto;
 }
 
-.question_tags {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-
-    & * {
-        background-color: aquamarine;
-        padding: 5px;
-        text-decoration: none;
-        color: blue;
-        border-radius: 0.5rem;
-    }
-}
-
 main>aside {
     box-sizing: border-box;
     padding-right: 20px;

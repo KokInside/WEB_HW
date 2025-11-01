@@ -7,6 +7,7 @@
 html {
   font-size: 16px;
   font-family: Arial, sans-serif;
+  min-width: 500px;
 }
 
 body {
@@ -195,6 +196,7 @@ nav .login {
   align-items: center;
   justify-content: flex-start;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .rate {
@@ -235,6 +237,21 @@ nav .login {
   padding-top: 16px;
 }
 
+.question_tags {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.question_tags * {
+  background-color: aquamarine;
+  padding: 5px;
+  text-decoration: none;
+  color: blue;
+  border-radius: 0.5rem;
+}
+
 .pagination {
   display: flex;
   flex-direction: row;
@@ -247,7 +264,7 @@ nav .login {
 }
 .pagination a {
   box-sizing: border-box;
-  border: 1px solid #646464;
+  border: 1px solid gray;
   color: #277dff;
   border-radius: 10px;
   display: flex;
@@ -256,6 +273,11 @@ nav .login {
   height: 2rem;
   width: 2.5rem;
   text-decoration: none;
+}
+.pagination a:hover {
+  background-color: #65a3ff;
+  color: white;
+  border-color: transparent;
 }
 
 body > main {
@@ -281,20 +303,6 @@ body > main {
 
 .content_title {
   margin-right: auto;
-}
-
-.question_tags {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  align-items: center;
-}
-.question_tags * {
-  background-color: aquamarine;
-  padding: 5px;
-  text-decoration: none;
-  color: blue;
-  border-radius: 0.5rem;
 }
 
 main > aside {

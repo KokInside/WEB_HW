@@ -45,6 +45,7 @@
 		align-items: center;
 		justify-content: flex-start;
 		gap: 1rem;
+		flex-wrap: wrap;
 
 	}
 }
@@ -89,4 +90,20 @@
 
 .leave_answer_title {
 	padding-top: 16px;
+}
+
+.question_tags {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+	flex-wrap: wrap;
+
+    & * {
+        background-color: aquamarine;
+        padding: 5px;
+        text-decoration: none;
+        color: blue;
+        border-radius: 0.5rem;
+    }
 }
