@@ -17,14 +17,14 @@
 	</div>
 
 	<div class="ask_button">
-		<a title="Задать вопрос" href="ask.html">ASK!</a>
+		<a title="Задать вопрос" href="{% url "ask" %}">ASK!</a>
 	</div>
 
 	{% comment %} 
 	Незарегистрированный пользователь
 	{% endcomment %}
 	<nav>
-		<a href="./signup.html" class="register">Зарегистрироваться</a>
+		<a href="{% url "signup" %}" class="register">Зарегистрироваться</a>
 		<a href="{% url "login" %}" class="login">Войти</a>
 	</nav>
 
