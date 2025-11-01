@@ -9,5 +9,10 @@ NEW QUESTIONS
 {% endblock content_title %}
 
 {% block content %}
+
+{% for question in page %}
 {% include "include/question.html" %}
+{% endfor %}
+
+{% include "include/pagination.html" %}
 {% endblock content %}
