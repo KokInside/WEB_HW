@@ -3,13 +3,13 @@ from django.urls import path, re_path, include
 from core.views import *
 
 tagurlpatterns = [
-	path("", tag, name = "tags_page"),
-	path("<str:tag_name>/", tag, name = "tag_name"),
+	#path("", tag, name = "tags_page"),
+	path("<str:tag_name>/", tag, name = "tag"),
 ]
 
 questionurlpatterns = [
-	path("", question, name = "question_page"),
-	path("<int:question_id>/", question, name = "question_id"),
+	#path("", question, name = "question_page"),
+	path("<int:question_id>/", question, name = "question"),
 ]
 
 coreurlpatterns = [
@@ -19,6 +19,6 @@ coreurlpatterns = [
 	path("signup/", signup, name = "signup"),
 	path("ask/", ask, name = "ask"),
 
-	re_path(r"^tag/", include(tagurlpatterns), name = "tag"),
-	re_path(r"question/", include(questionurlpatterns), name = "question"),
+	re_path(r"^tag/", include(tagurlpatterns)),
+	re_path(r"question/", include(questionurlpatterns)),
 ]
