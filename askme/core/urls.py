@@ -18,6 +18,7 @@ coreurlpatterns = [
 	path("login/", login, name = "login"),
 	path("signup/", signup, name = "signup"),
 	path("ask/", ask, name = "ask"),
+	path("settings/", settings, name = "settings"),
 
 	path("tag/", include(tagurlpatterns), name = "tag"),
 	path("question/", include(questionurlpatterns), name = "question"),

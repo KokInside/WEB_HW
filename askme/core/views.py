@@ -7,10 +7,18 @@ questions = [
 	# каждый вопрос имеет id, заголовок, текст(массив текстов параграфов), теги(массив тегов)
 	{
 		'id': i,
-		'title': "question № " + str(i + 1) + " title",
+		'title': "question № " + str(i) + " title",
 		'text': ["question № " + str(i) + " text. Paragraph 1", "question № " + str(i) + " text. Paragraph 2", "question № " + str(i) + " text. Paragraph 3"],
 		'tags': ["c++", "python", "Go"]
 	} for i in range(98)
+]
+
+answers = [
+	{
+		'rating': 5,
+		'text': ["answer text 1"],
+		'correct': True,
+	} for i in range(10)
 ]
 
 def paginate(questions_list, request: HttpRequest, per_page = 10):
@@ -51,10 +59,16 @@ def tag(request, tag_name):
 
 	return render(request, "tag.html", context)
 
-def question(request):
-	pass
+def question(request, question_id):
+	context = {'question': questions[0], 'answers': answers}
 
+	context["question"]["id"] = question_id
+	context["question"]["title"] = "question № " + str(question_id) + " title"
 
+	return render(request, "question.html", context)
+
+def settings(request):
+	return render(request, "settings.html")
 
 def login(request):
 	return render(request, "login.html")
