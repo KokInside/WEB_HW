@@ -13,7 +13,7 @@
 
     a {
         box-sizing: border-box;
-        border: 1px solid rgb(100, 100, 100);
+        border: 1px solid rgb(128, 128, 128);
 		color: rgb(39, 125, 255);
 		border-radius: 10px;
         display: flex;
@@ -23,4 +23,10 @@
         width: 2.5rem;
         text-decoration: none;
     }
+
+	a:hover{
+		background-color: rgb(101, 163, 255);
+		color: white;
+		border-color: transparent;
+	}
 }
