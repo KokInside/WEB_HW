@@ -4,7 +4,7 @@ from core.views import *
 
 tagurlpatterns = [
 	#path("", tag, name = "tags_page"),
-	path("<str:tag_name>/", tag, name = "tag"),
+	path("<str:tag_name>/", tag, name = "tag_name"),
 ]
 
 questionurlpatterns = [
@@ -19,6 +19,6 @@ coreurlpatterns = [
 	path("signup/", signup, name = "signup"),
 	path("ask/", ask, name = "ask"),
 
-	re_path(r"^tag/", include(tagurlpatterns)),
-	re_path(r"question/", include(questionurlpatterns)),
+	path("tag/", include(tagurlpatterns), name = "tag"),
+	path("question/", include(questionurlpatterns), name = "question"),
 ]

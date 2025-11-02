@@ -14,22 +14,23 @@ questions = [
 ]
 
 def paginate(questions_list, request: HttpRequest, per_page = 10):
-	pag = Paginator(questions_list, per_page)
+	paginator = Paginator(questions_list, per_page)
 
-	page_number = int(request.GET.get('page', 1))
+	page_number = (request.GET.get('page', 1))
 
-	if (page_number < 0):
-		page_number = 1
+	# с одной стороны исключения не обрабатываются, с другой - они никогда не выскакивают
+	page = paginator.get_page(page_number)
 
-	return pag.get_page(page_number), pag.get_elided_page_range(page_number)
+	page_numbers = paginator.get_elided_page_range(page.number)
+
+	# возвращать только page ?
+	return page, page_numbers
 
 
 def home(request):
 	page, page_numbers = paginate(questions, request, 3)
 
-	current_path = request.path
-
-	context = {'page': page, 'page_numbers': page_numbers, 'path': current_path}
+	context = {'page': page, 'page_numbers': page_numbers}
 
 	return render(request, "index.html", context)
 
@@ -46,9 +47,7 @@ def tag(request, tag_name):
 		if tag_name not in question['tags']:
 			question['tags'][0] = tag_name
 
-	current_path = request.path
-
-	context = {'page': page, 'page_numbers': page_numbers, 'tag': tag_name, 'path': current_path}
+	context = {'page': page, 'page_numbers': page_numbers, 'tag': tag_name}
 
 	return render(request, "tag.html", context)
 
