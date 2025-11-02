@@ -24,10 +24,19 @@
 		<main>
 			
 			<div class="content">
-				<h2>
-				{% block content_title %}
-				{% endblock content_title %}
-				</h2>
+
+				<div class="content_titles_container">
+
+					<h2 class="content_title">
+						{% block content_title %}
+						{% endblock content_title %}
+					</h2>
+
+					{% block content_sub_title %}
+					{% endblock content_sub_title %}
+
+				</div>
+				
 
 				{% block content %}
 				{% endblock content %}

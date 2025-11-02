@@ -8,6 +8,12 @@ Home page
 NEW QUESTIONS
 {% endblock content_title %}
 
+{% block content_sub_title %}
+	<h3 class="content_sub_title">
+		<a href="{% url "hot" %}">HOT QUESTIONS</a>
+	</h3>
+{% endblock content_sub_title %}
+
 {% block content %}
 
 {% for question in page %}
