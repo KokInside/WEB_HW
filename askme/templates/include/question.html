@@ -27,7 +27,7 @@
 
         <h3 class="question_header">
             <a href="./question.html" style="text-decoration: none; color: rgb(0, 111, 238)">
-                {% block question_title %}Empty question title{% endblock question_title %}
+                {{ question_title }}
             </a>
         </h3>
 
@@ -56,9 +56,14 @@
 
             <div class="question_tags">
                 Tags:
-                <a href="#">Python</a>
+
+				{% for tag in tags %}
+				<a href="">{{tag}}</a>
+				{% endfor %}
+
+                {% comment %} <a href="#">Python</a>
                 <a href="#">C++</a>
-                <a href="#">x64</a>
+                <a href="#">x64</a> {% endcomment %}
             </div>
 			
         </footer>

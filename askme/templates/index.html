@@ -11,7 +11,9 @@ NEW QUESTIONS
 {% block content %}
 
 {% for question in page %}
-{% include "include/question.html" %}
+
+    {% include "include/question.html" with question_title=question.title tags=question.tags %}
+
 {% endfor %}
 
 {% include "include/pagination.html" %}
