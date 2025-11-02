@@ -29,7 +29,7 @@ def paginate(questions_list, request: HttpRequest, per_page = 10):
 	# с одной стороны исключения не обрабатываются, с другой - они никогда не выскакивают
 	page = paginator.get_page(page_number)
 
-	page_numbers = paginator.get_elided_page_range(page.number)
+	page_numbers = paginator.get_elided_page_range(page.number, on_each_side = 2, on_ends = 2)
 
 	# возвращать только page ?
 	return page, page_numbers
@@ -44,7 +44,11 @@ def home(request):
 
 def hot(request):
 
-	return render(request, "hot.html")
+	page, page_numbers = paginate(questions, request, 5)
+
+	context = {'page': page, 'page_numbers': page_numbers}
+
+	return render(request, "hot.html", context)
 
 def tag(request, tag_name):
 	# костыль, чтобы работало хоть как для ДЗ

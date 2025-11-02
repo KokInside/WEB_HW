@@ -8,6 +8,21 @@ hot questions
 HOT QUESTIONS
 {% endblock content_title %}
 
+{% block content_sub_title %}
+<h3>
+	<a href="{% url "home" %}">NEW QUESTIONS</a>
+</h3>
+{% endblock content_sub_title %}
+
+
 {% block content %}
-{% include "include/question.html" %}
+
+	{% for question in page %}
+
+		{% include "include/question.html" with question_title=question.title tags=question.tags %}
+
+	{% endfor %}
+
+	{% include "include/pagination.html" %}
+
 {% endblock content %}
