@@ -322,8 +322,20 @@ body > main {
   position: relative;
 }
 
+.content_titles_container {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: start;
+  gap: 16px;
+}
+
 .content_title {
-  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.content_sub_title {
+  box-sizing: border-box;
 }
 
 main > aside {
