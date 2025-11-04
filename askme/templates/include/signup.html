@@ -1,0 +1,50 @@
+<span class="wrong">Что-то определённо неправильно</span>
+
+<form action="" class="signup_form">
+	<div class="login_field">
+		<label for="signup_login">Login</label>
+		<input type="text" id="signup_login" required minlength="4">
+	</div>
+
+	<div class="form_wrong">Логин не может быть пустым</div>
+
+	<div class="email_field">
+		<label for="signup_email">Email</label>
+		<input type="email" id="signup_email" required minlength="5" maxlength="40">
+	</div>
+
+	<div class="form_wrong">Email не может быть пустым</div>
+
+	<div class="nickname_field">
+		<label for="signup_nickname">Nickname</label>
+		<input type="text" id="signup_nickname" required minlength="4">
+	</div>
+
+	<div class="form_wrong">Ник не может быть пустым</div>
+
+	<div class="password_field">
+		<label for="signup_password">Password</label>
+		<input type="password" id="signup_password" required minlength="8">
+	</div>
+
+	<div class="form_wrong">Пароль не может быть пустым</div>
+
+	<div class="repeat_password_field">
+		<label for="signup_repeat_password">Repeat password</label>
+		<input type="password" id="signup_repeat_password" required minlength="8">
+	</div>
+
+	<div class="form_wrong">Пароли не совпадают</div>
+
+	<div class="signup_avatar">
+		<label for="signup_avatar">Upload avatar</label>
+		<input type="file" id="signup_avatar" accept=".png, .jpg, .jpeg">
+	</div>
+
+	<div class="signup_button">
+		<input type="submit" value="Register!" disabled>
+	</div>
+
+</form>
+
+<a class="have_account" href="./login.html">Already have account ?</a>
