@@ -13,6 +13,13 @@ questions = [
 	} for i in range(98)
 ]
 
+single_question = {
+		'id': 5,
+		'title': "question № " + str(5) + " title",
+		'text': ["question № " + str(5) + " text. Paragraph 1", "question № " + str(5) + " text. Paragraph 2", "question № " + str(5) + " text. Paragraph 3"],
+		'tags': ["c++", "python", "Go"]
+	}
+
 answers = [
 	{
 		'rating': 5,
@@ -64,7 +71,7 @@ def tag(request, tag_name):
 	return render(request, "tag.html", context)
 
 def question(request, question_id):
-	context = {'question': questions[0], 'answers': answers}
+	context = {'question': single_question, 'answers': answers}
 
 	context["question"]["id"] = question_id
 	context["question"]["title"] = "question № " + str(question_id) + " title"
@@ -72,7 +79,8 @@ def question(request, question_id):
 	return render(request, "question.html", context)
 
 def settings(request):
-	return render(request, "settings.html")
+	context = {'registered': True}
+	return render(request, "settings.html", context)
 
 def login(request):
 	return render(request, "login.html")
