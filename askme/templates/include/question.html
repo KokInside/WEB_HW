@@ -26,7 +26,7 @@
     <div class="question_content">
 
         <h3 class="question_header">
-            <a href="./question.html" style="text-decoration: none; color: rgb(0, 111, 238)">
+            <a href="{% url "question" question.id %}" style="text-decoration: none; color: rgb(0, 111, 238)">
                 {{ question_title }}
             </a>
         </h3>

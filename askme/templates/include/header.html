@@ -20,34 +20,45 @@
 		<a title="Задать вопрос" href="{% url "ask" %}">ASK!</a>
 	</div>
 
-	{% comment %} 
-	Незарегистрированный пользователь
-	{% endcomment %}
-	<nav>
-		<a href="{% url "signup" %}" class="register">Зарегистрироваться</a>
-		<a href="{% url "login" %}" class="login">Войти</a>
-	</nav>
+	{% if registered %}
 
-	{% comment %}
-	Зарегистрированный пользователь
-	{% endcomment %}
-	{% comment %}
-	<nav class="logged">
-        <div class="logged_user_avatar">
-            <a href="">
-                <img src="/static/svg/user.svg" alt="">
-            </a>
-        </div>
-        <div class="logged_user_info">
-            <div>
-                KokInside
-            </div>
-            <div>
-                <a href="./settings.html">settings</a>
-                <a href="./index.html">log out</a>
-            </div>
-        </div>
-    </nav>
-	{% endcomment %}
+		{% comment %}
+		Зарегистрированный пользователь
+		{% endcomment %}
+
+		<nav class="logged row">
+
+			<div class="user_avatar">
+				<a href="">
+					<img src="{% static "svg/user.svg" %} " alt="" class="user_avatar_pic">
+				</a>
+			</div>
+
+			<div class="logged_user_info column">
+
+				<div class="nickname">
+					KokInside
+				</div>
+
+				<div class="row">
+					<a href="{% url "settings" %}">settings</a>
+					<a href="{% url "home" %}">log out</a>
+				</div>
+
+			</div>
+
+		</nav>
+	{% else %}
+
+		{% comment %} 
+		Незарегистрированный пользователь
+		{% endcomment %}
+
+		<nav>
+			<a href="{% url "signup" %}" class="register">Зарегистрироваться</a>
+			<a href="{% url "login" %}" class="login">Войти</a>
+		</nav>
+	{% endif %}
+
 	
 </header>
