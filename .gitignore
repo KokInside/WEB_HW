@@ -3,3 +3,4 @@
 styles2.scss
 styles2.css
 __pycache__
+*.sqlite3
