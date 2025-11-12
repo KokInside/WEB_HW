@@ -1,37 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponseNotFound
 from django.core.paginator import Paginator
 
-# вопросы
-questions = [
-	# каждый вопрос имеет id, заголовок, текст(массив текстов параграфов), теги(массив тегов)
-	{
-		'id': i,
-		'title': "question № " + str(i) + " title",
-		'text': ["question № " + str(i) + " text. Paragraph 1", "question № " + str(i) + " text. Paragraph 2", "question № " + str(i) + " text. Paragraph 3"],
-		'tags': ["c++", "python", "Go"]
-	} for i in range(98)
-]
+from core.models import Question, Tag
 
-single_question = {
-		'id': 5,
-		'title': "question № " + str(5) + " title",
-		'text': ["question № " + str(5) + " text. Paragraph 1", "question № " + str(5) + " text. Paragraph 2", "question № " + str(5) + " text. Paragraph 3"],
-		'tags': ["c++", "python", "Go"]
-	}
 
-answers = [
-	{
-		'rating': 5,
-		'text': ["answer text 1"],
-		'correct': True,
-	} for i in range(10)
-]
+def paginate(questions, request: HttpRequest, per_page = 10):
 
-def paginate(questions_list, request: HttpRequest, per_page = 10):
-	paginator = Paginator(questions_list, per_page)
+	page_number = request.GET.get('page', 1)
 
-	page_number = (request.GET.get('page', 1))
+	paginator = Paginator(questions, per_page)
 
 	# с одной стороны исключения не обрабатываются, с другой - они никогда не выскакивают
 	page = paginator.get_page(page_number)
@@ -43,13 +22,19 @@ def paginate(questions_list, request: HttpRequest, per_page = 10):
 
 
 def home(request):
+
+	questions = Question.qManager.get_new()
+
 	page, page_numbers = paginate(questions, request, 3)
 
 	context = {'page': page, 'page_numbers': page_numbers}
 
 	return render(request, "index.html", context)
 
+
 def hot(request):
+
+	questions = Question.qManager.get_hot()
 
 	page, page_numbers = paginate(questions, request, 5)
 
@@ -57,36 +42,56 @@ def hot(request):
 
 	return render(request, "hot.html", context)
 
+
 def tag(request, tag_name):
-	# костыль, чтобы работало хоть как для ДЗ
-	# + передаю те же вопросы, просто чтобы не добавлять новые
-	page, page_numbers = paginate(questions, request, 3)
 
-	for question in page:
-		if tag_name not in question['tags']:
-			question['tags'][0] = tag_name
+	try:
+		questions = Tag.objects.get(name=tag_name).questions.all()
 
-	context = {'page': page, 'page_numbers': page_numbers, 'tag': tag_name}
+		page, page_numbers = paginate(questions, request, 3)
 
-	return render(request, "tag.html", context)
+		context = {'page': page, 'page_numbers': page_numbers, 'tag': tag_name}
+
+		return render(request, "tag.html", context)
+	
+	except Tag.DoesNotExist:
+		return HttpResponseNotFound("<h1>Tag not found</h1>")
+	
+	except Question.MultipleObjectsReturned:
+		return
+
 
 def question(request, question_id):
-	context = {'question': single_question, 'answers': answers}
 
-	context["question"]["id"] = question_id
-	context["question"]["title"] = "question № " + str(question_id) + " title"
+	try:
 
-	return render(request, "question.html", context)
+		question = Question.qManager.get_by_id(question_id)
+
+		answers = question.answer_set.order_by("-likes")
+
+		context = {'question': question, 'answers': answers}
+
+		return render(request, "question.html", context)
+
+	except Question.DoesNotExist:
+		return HttpResponseNotFound("<h1>Question not found</h1>")
+	
+	except Question.MultipleObjectsReturned:
+		return
+
 
 def settings(request):
 	context = {'registered': True}
 	return render(request, "settings.html", context)
 
+
 def login(request):
 	return render(request, "login.html")
 
+
 def signup(request):
 	return render(request, "signup.html")
+
 
 def ask(request):
 	return render(request, "ask.html")
