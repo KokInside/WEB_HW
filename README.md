@@ -1,1 +1,96 @@
-# WEB. ДЗ. Обработка HTTP запросов
+## Инструкция
+
+### Клонирование репозитория
+> Клонировать репозиторий:
+```
+git clone https://github.com/KokInside/WEB_HW.git -b hw_3
+```
+
+>Скачать RAW-код
+[GitHub репозиторий](https://github.com/KokInside/WEB_HW/tree/hw_3)
+
+### Создание виртуального окружения
+В данном случае с названием `.venv`
+
+> Windows:
+```
+python -m venv .venv
+```
+
+> Linux/MAC:
+```
+python3 -m venv .venv
+```
+
+### Активация виртуального окружения
+> Windows:
+```
+.venv/Scripts/activate
+```
+
+> Linux/MAC:
+```
+source .venv/bin/activate
+```
+
+### Установка необходимых компонентов
+>Windows:
+```
+python -m pip install -r requirements.txt
+```
+
+>Linux/MAC:
+```
+python3 -m pip install -r requirements.txt
+```
+
+### Перейдите в директорию Django приложения
+```
+cd askme
+```
+
+### Запустите Django приложение
+> Windows:
+```
+python manage.py runserver
+```
+
+> Linux/MAC:
+```
+python3 manage.py runserver
+```
+
+Перейдите по адресу, появившемуся в терминале.
+```
+http://127.0.0.1:8000/
+```
+
+## Наполнение базы данных тестовыми данными
+*Можно* заполнить базу данных тестовыми данными:
+
+> Windows:
+```
+python manage.py fill_db [ratio]
+```
+
+> Linux/MAC:
+```
+python3 manage.py fill_db [ratio]
+```
+
+Где `[ratio]` - коэффициент заполнения базы в соотношении:
+```
+пользователи = ratio
+вопросы = ratio * 10
+ответы > ratio * 100
+тэги = ratio
+оценки пользователей = ratio * 200
+```
+
+### Выход
+Для остановки сервера: `CTRL+C`
+
+Для выхода из виртуального окружения:
+```
+deactivate
+```
