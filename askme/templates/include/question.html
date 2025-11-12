@@ -14,7 +14,7 @@
                 <img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
             </button>
 
-            <span class="rating"> {% block question_rating %}0{% endblock question_rating %}</span>
+            <span class="rating">{{ question.likes }}</span>
 
             <button class="downvote" title="downvote">
                 <img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
@@ -27,37 +27,23 @@
 
         <h3 class="question_header">
             <a href="{% url "question" question.id %}" style="text-decoration: none; color: rgb(0, 111, 238)">
-                {{ question_title }}
+                {{ question.title }}
             </a>
         </h3>
 
 		{% comment %}question text{% endcomment %}
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo ab repellendus totam
-            cupiditate odit, minima iste accusantium iure alias? Assumenda culpa saepe deserunt,
-            reprehenderit consectetur exercitationem vero repellendus itaque debitis.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam possimus
-            dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in, veniam
-            sed sequi.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam possimus
-            dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in, veniam
-            sed sequi.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam possimus
-            dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in, veniam
-            sed sequi.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam possimus
-            dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in, veniam
-            sed sequi.</p>
+        <p>{{ question.text }}</p>
 
         <footer class="question_footer">
 
             <div class="answers_count">
-                <a href="/question.html#answers_list">Answers (3)</a>
+                <a href="/question.html#answers_list">Answers ({{ question.answer_set.count }})</a>
             </div>
 
             <div class="question_tags">
                 Tags:
 
-				{% for tag in tags %}
+				{% for tag in question.tags.all %}
 				<a href="">{{tag}}</a>
 				{% endfor %}
 
