@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from core.managers.QuestionManager import QuestionManager
+
 
 class DateInfo(models.Model):
 	created_at = models.DateField(auto_now_add = True)
@@ -12,13 +14,16 @@ class DateInfo(models.Model):
 
 class Question(DateInfo):
 	title = models.CharField(max_length = 150, verbose_name = "Заголовок")
-	text = models.TextField()
+	text = models.TextField(null=True)
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
 	likes = models.IntegerField(default = 0)
 	tags = models.ManyToManyField("Tag", related_name="questions", blank=True, verbose_name="Теги")
 
+	objects = models.Manager()
+	qManager = QuestionManager()
+
 	def __str__(self):
-		return "question №" + str(self.id) + " " + str(self.title)
+		return "question № " + str(self.id) + " " + str(self.title)
 
 	class Meta:
 		db_table = "Question"
@@ -27,7 +32,7 @@ class Question(DateInfo):
 
 
 class Answer(DateInfo):
-	text = models.TextField()
+	text = models.TextField(null=True)
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
 	question = models.ForeignKey("Question", verbose_name=("Question"), on_delete=models.CASCADE)
 	correct = models.BooleanField(default = False)
@@ -41,13 +46,14 @@ class Answer(DateInfo):
 		verbose_name = "Answer"
 		verbose_name_plural = "Answers"
 		constraints = [
-			models.UniqueConstraint(fields=['correct', 'question'], condition=models.Q(correct=True), name="unique_correct_question_answer")
+			models.UniqueConstraint(fields=['correct', 'question'], condition=models.Q(correct=True), name="unique_correct_question_answer"),
+			models.UniqueConstraint(fields=['question', 'author'], name="unique_question_author")
 		]
 
 
 class UserProfile(AbstractUser):
 	# user = models.OneToOneField(User, on_delete=models.SET_NULL)
-	avatar = models.ImageField()
+	avatar = models.ImageField(null = True)
 	# username = models.CharField(max_length = 50)
 	# email = models.EmailField(max_length = 254)
 	# is_staff = models.BooleanField(default = False)
@@ -59,11 +65,16 @@ class UserProfile(AbstractUser):
 	class Meta:
 		db_table = "UserProfile"
 
+class markChoices(models.IntegerChoices):
+	DOWN = -1, 'downvote'
+	NONE = 0, 'novote'
+	UP = 1, 'upvote'
 
 class QuestionLike(models.Model):
+
 	question = models.ForeignKey("Question", verbose_name="Question", on_delete=models.CASCADE)
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
-	mark = models.BooleanField(null = True)
+	mark = models.SmallIntegerField(choices=markChoices, default=markChoices.NONE)
 
 	class Meta:
 		db_table = "QuestionLike"
@@ -73,7 +84,7 @@ class QuestionLike(models.Model):
 class AnswerLike(models.Model):
 	answer = models.ForeignKey("Answer", verbose_name="Answer", on_delete=models.CASCADE)
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
-	mark = models.BooleanField(null = True)
+	mark = models.SmallIntegerField(choices=markChoices, default=markChoices.NONE)
 
 	class Meta:
 		db_table = "AnswerLike"
