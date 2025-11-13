@@ -31,6 +31,11 @@ python3 -m venv .venv
 .venv/Scripts/activate
 ```
 
+> Git Bash Windows
+```
+source .venv/Scripts/activate
+```
+
 > Linux/MAC:
 ```
 source .venv/bin/activate
