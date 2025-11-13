@@ -57,7 +57,18 @@ python3 -m pip install -r requirements.txt
 cd askme
 ```
 
-### Запуск Django приложение
+### Выполнение миграций БД
+> Windows:
+```
+python manage.py migrate
+```
+
+> Linux/MAC:
+```
+python3 manage.py migrate
+```
+
+### Запуск Django сервера
 > Windows:
 ```
 python manage.py runserver
