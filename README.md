@@ -7,11 +7,9 @@ git clone https://github.com/KokInside/WEB_HW.git -b hw_3
 ```
 
 >Скачать RAW-код
-[GitHub репозиторий](https://github.com/KokInside/WEB_HW/tree/hw_3)
+[RAW](https://github.com/KokInside/WEB_HW/archive/refs/heads/hw_3.zip)
 
 ### Создание виртуального окружения
-В данном случае с названием `.venv`
-
 > Windows:
 ```
 python -m venv .venv
@@ -44,12 +42,12 @@ python -m pip install -r requirements.txt
 python3 -m pip install -r requirements.txt
 ```
 
-### Перейдите в директорию Django приложения
+### Переход в директорию Django приложения
 ```
 cd askme
 ```
 
-### Запустите Django приложение
+### Запуск Django приложение
 > Windows:
 ```
 python manage.py runserver
@@ -65,7 +63,8 @@ python3 manage.py runserver
 http://127.0.0.1:8000/
 ```
 
-## Наполнение базы данных тестовыми данными
+## Опционально
+### Наполнение базы данных тестовыми данными
 *Можно* заполнить базу данных тестовыми данными:
 
 > Windows:
@@ -94,3 +93,6 @@ python3 manage.py fill_db [ratio]
 ```
 deactivate
 ```
+
+## Модель базы данных
+![Модель базы данных](<readme_img/База Данных.png>)
