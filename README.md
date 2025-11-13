@@ -9,6 +9,11 @@ git clone https://github.com/KokInside/WEB_HW.git -b hw_3
 >Скачать RAW-код
 [RAW](https://github.com/KokInside/WEB_HW/archive/refs/heads/hw_3.zip)
 
+### Переход в директорию проекта
+```
+cd WEB_HW
+```
+
 ### Создание виртуального окружения
 > Windows:
 ```
