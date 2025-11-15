@@ -48,7 +48,7 @@ def hot(request):
 def tag(request, tag_name):
 
 	try:
-		questions = Tag.objects.get(name=tag_name).questions.all()
+		questions = Tag.objects.get(name=tag_name).questions.order_by("-created_at")
 
 		page, page_numbers = paginate(questions, request)
 
