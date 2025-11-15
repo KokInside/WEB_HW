@@ -64,6 +64,8 @@ class UserProfile(AbstractUser):
 
 	class Meta:
 		db_table = "UserProfile"
+		verbose_name = "User"
+		verbose_name_plural = "Users"
 
 class markChoices(models.IntegerChoices):
 	DOWN = -1, 'downvote'
@@ -78,6 +80,8 @@ class QuestionLike(models.Model):
 
 	class Meta:
 		db_table = "QuestionLike"
+		verbose_name = "QuestionLike"
+		verbose_name_plural = "QuestionLikes"
 		unique_together = ('question', 'author')
 
 
@@ -88,6 +92,8 @@ class AnswerLike(models.Model):
 
 	class Meta:
 		db_table = "AnswerLike"
+		verbose_name = "AnswerLike"
+		verbose_name_plural = "AnswerLikes"
 		unique_together = ('answer', 'author')
 
 
@@ -95,6 +101,7 @@ class Tag(models.Model):
 	name = models.CharField(max_length=25, unique=True)
 
 	class Meta:
+		db_table = "Tag"
 		verbose_name = "Tag"
 		verbose_name_plural = "Tags"
 
