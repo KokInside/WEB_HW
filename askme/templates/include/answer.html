@@ -13,7 +13,7 @@
 				<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
 			</button>
 
-			<span class="rating">5</span>
+			<span class="rating">{{ answer.likes }}</span>
 
 			<button class="downvote" title="downvote">
 				<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
@@ -26,31 +26,7 @@
 	</aside>
 
 	<div class="answer_content">
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam
-			possimus
-			dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in,
-			veniam
-			sed sequi.</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam
-			possimus
-			dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in,
-			veniam
-			sed sequi.</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam
-			possimus
-			dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in,
-			veniam
-			sed sequi.</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam
-			possimus
-			dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in,
-			veniam
-			sed sequi.</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, soluta eos enim numquam
-			possimus
-			dolor. Sapiente ullam assumenda autem explicabo quaerat optio corporis, ipsum sunt ad in,
-			veniam
-			sed sequi.</p>
+		<p>{{ answer.text }}</p>
 
 		<div>
 			<input type="checkbox" checked>
