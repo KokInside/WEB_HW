@@ -6,16 +6,18 @@ from django.core.paginator import Paginator
 from core.models import Question, Tag
 
 
-def paginate(questions, request: HttpRequest, per_page = 10):
+def paginate(questions, request: HttpRequest):
 
 	page_number = request.GET.get('page', 1)
+
+	per_page = request.GET.get('perpage', 5)
 
 	paginator = Paginator(questions, per_page)
 
 	# с одной стороны исключения не обрабатываются, с другой - они никогда не выскакивают
 	page = paginator.get_page(page_number)
 
-	page_numbers = paginator.get_elided_page_range(page.number, on_each_side = 2, on_ends = 2)
+	page_numbers = paginator.get_elided_page_range(page.number, on_each_side = 2, on_ends = 1)
 
 	# возвращать только page ?
 	return page, page_numbers
@@ -25,7 +27,7 @@ def home(request):
 
 	questions = Question.qManager.get_new()
 
-	page, page_numbers = paginate(questions, request, 3)
+	page, page_numbers = paginate(questions, request)
 
 	context = {'page': page, 'page_numbers': page_numbers}
 
@@ -36,7 +38,7 @@ def hot(request):
 
 	questions = Question.qManager.get_hot()
 
-	page, page_numbers = paginate(questions, request, 5)
+	page, page_numbers = paginate(questions, request)
 
 	context = {'page': page, 'page_numbers': page_numbers}
 
@@ -48,7 +50,7 @@ def tag(request, tag_name):
 	try:
 		questions = Tag.objects.get(name=tag_name).questions.all()
 
-		page, page_numbers = paginate(questions, request, 3)
+		page, page_numbers = paginate(questions, request)
 
 		context = {'page': page, 'page_numbers': page_numbers, 'tag': tag_name}
 
