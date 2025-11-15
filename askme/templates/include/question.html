@@ -44,12 +44,9 @@
                 Tags:
 
 				{% for tag in question.tags.all %}
-				<a href="">{{tag}}</a>
+					<a href="/tag/{{tag}}">{{tag}}</a>
 				{% endfor %}
 
-                {% comment %} <a href="#">Python</a>
-                <a href="#">C++</a>
-                <a href="#">x64</a> {% endcomment %}
             </div>
 			
         </footer>
