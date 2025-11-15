@@ -120,7 +120,7 @@ python3 manage.py fill_db [ratio]
 ```
 пользователи = ratio
 вопросы = ratio * 10
-ответы = ratio * 100 при ratio > 9
+ответы = ratio * 100 при ratio > 10
 тэги = ratio
 оценки пользователей = ratio * 200 при ratio > 4
 ```
