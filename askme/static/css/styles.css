@@ -273,17 +273,37 @@ nav .login {
   background-color: white;
 }
 
+.paginator {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.perpage {
+  align-items: center !important;
+}
+
 .pagination {
   display: flex;
   flex-direction: row;
   align-items: end;
-  height: 10%;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  justify-content: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
 }
-.pagination a {
+
+.page_button:hover {
+  background-color: #65a3ff;
+  color: white;
+  border-color: transparent;
+}
+
+.page_button {
   box-sizing: border-box;
   border: 1px solid gray;
   color: #277dff;
@@ -294,11 +314,6 @@ nav .login {
   height: 2rem;
   width: 2.5rem;
   text-decoration: none;
-}
-.pagination a:hover {
-  background-color: #65a3ff;
-  color: white;
-  border-color: transparent;
 }
 
 body > main {
