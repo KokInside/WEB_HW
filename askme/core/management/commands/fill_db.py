@@ -14,13 +14,13 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		ratio = options['ratio']
 
-		if ratio < 4:
-			ratio = 4
+		if ratio < 5:
+			ratio = 5
 
 		# Количества полей для создания
-		user_count = tag_count = ratio
+		user_count = ratio # = tag_count
 		question_count = ratio * 10
-		answer_count = ratio * 100
+		# answer_count = ratio * 100
 		likes_count = ratio * 200
 
 		# Количество уже сущесвующих полей
@@ -28,8 +28,6 @@ class Command(BaseCommand):
 		question_existed = Question.objects.count()
 		answer_existed = Answer.objects.count()
 		tag_existed = Tag.objects.count()
-		#questionLike_existd = QuestionLike.objects.count()
-		#answerLike_existed = AnswerLike.objects.count()
 
 		# Списки полей для создания
 		users_to_create = []
@@ -55,7 +53,6 @@ class Command(BaseCommand):
 		self.stdout.write(self.style.SUCCESS(f"Дабавлено {len(created_tags)} тегов"))
 
 		# Заполнение списка вопросов на создание
-		# Авторы выбираются из списка уже созданных пользователей
 		for i in range(question_count):
 			questions_to_create.append(Question(title=f"Question № {question_existed + i + 1}", 
 									   text = f"Text of Question № {question_existed + i + 1}. " * 40, 
@@ -66,8 +63,6 @@ class Command(BaseCommand):
 		self.stdout.write(self.style.SUCCESS(f"Дабавлено {len(created_questions)} вопросов"))
 			
 		# Заполнение списка ответов на создание
-		# Авторы и ответы берутся из списка уже созданных пользователей и вопросов
-
 		for i in range(len(created_users)):
 			for j in range(len(created_questions)):
 				if (created_users[i].id != created_questions[j].author_id):
@@ -75,18 +70,11 @@ class Command(BaseCommand):
 									  author_id = created_users[i].id,
 									  question_id = created_questions[j].id))
 
-		#for i in range(answer_count):
-		#	answers_to_create.append(Answer(text = f"Text of Answer № {answer_existed + i + 1}. " * 40, 
-		#						   author_id = users_to_create[(i + ratio // 2) % user_count].id,
-		#						   question_id = questions_to_create[i % question_count].id))
-			
 		# Создание ответов в базу данных
 		created_answers = Answer.objects.bulk_create(answers_to_create)
 		self.stdout.write(self.style.SUCCESS(f"Дабавлено {len(created_answers)} ответов"))
 
 		# Заполнение лайков на вопросы
-		# Все поля берутся из списков уже созданных
-
 		likes_counter: int = 0
 
 		for user in created_users:
@@ -110,7 +98,6 @@ class Command(BaseCommand):
 											 author_id = user.id,
 											 mark = mark))
 					answer.likes += mark
-					
 			
 
 		# Создание лайков на ответы и вопросы в базу данных
@@ -122,7 +109,7 @@ class Command(BaseCommand):
 
 		# Первичный подсчёт лайков вопросов и ответов
 		Question.objects.bulk_update(created_questions, ['likes'])
-		Answer.objects.bulk_update(created_answers, ['likes']) # тут ошибка
+		Answer.objects.bulk_update(created_answers, ['likes'])
 
 		# Список для добавления тегов к вопросам
 		question_tags_to_create = []
