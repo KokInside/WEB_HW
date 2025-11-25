@@ -22,8 +22,18 @@ class Question(DateInfo):
 	objects = models.Manager()
 	qManager = QuestionManager()
 
+	def changeLikes(self, increase = 1):
+		if increase == 1:
+			likes += 1
+		else:
+			likes -= 1
+
+		self.save(update_fields=['likes'])
+
+
 	def __str__(self):
 		return "question № " + str(self.id) + " " + str(self.title)
+
 
 	class Meta:
 		db_table = "Question"
@@ -37,6 +47,15 @@ class Answer(DateInfo):
 	question = models.ForeignKey("Question", verbose_name=("Question"), on_delete=models.CASCADE)
 	correct = models.BooleanField(default = False)
 	likes = models.IntegerField(default = 0)
+
+	def changeLikes(self, increase = 1):
+		if increase == 1:
+			likes += 1
+		else:
+			likes -= 1
+
+		self.save(update_fields=['likes'])
+
 
 	def __str__(self):
 		return "Answer on № " + str(self.question.id) + " question"
@@ -54,6 +73,8 @@ class Answer(DateInfo):
 class UserProfile(AbstractUser):
 	# user = models.OneToOneField(User, on_delete=models.SET_NULL)
 	avatar = models.ImageField(null = True)
+
+	likes = models.IntegerField(default = 0)
 	# username = models.CharField(max_length = 50)
 	# email = models.EmailField(max_length = 254)
 	# is_staff = models.BooleanField(default = False)
@@ -61,6 +82,16 @@ class UserProfile(AbstractUser):
 
 	# пока password как CharField, потом, наверное, нужно будет хэшировать
 	# password = models.CharField()
+	
+
+	def changeLikes(self, increase = 1):
+		if increase == 1:
+			likes += 1
+		else:
+			likes -= 1
+
+		self.save(update_fields=['likes'])
+
 
 	class Meta:
 		db_table = "UserProfile"
@@ -99,6 +130,15 @@ class AnswerLike(models.Model):
 
 class Tag(models.Model):
 	name = models.CharField(max_length=25, unique=True)
+	questionCount = models.PositiveIntegerField(default = 0)
+
+	def changeCount(self, increase = 1):
+		if increase == 1:
+			self.questionCount += 1
+		else:
+			self.questionCount -= 1
+
+		self.save(update_fields=['questionCount'])
 
 	class Meta:
 		db_table = "Tag"
