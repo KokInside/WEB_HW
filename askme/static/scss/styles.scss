@@ -1,6 +1,6 @@
-@import 'fonts';
-
 @import 'normalize';
+
+@import 'fonts';
 
 @import 'individual';
 
@@ -9,18 +9,25 @@
 @import 'question';
 @import 'pagination';
 
+@import 'login';
+
 // main
 
 body>main {
-    margin-top: 5vh;
-    margin-left: 5vw;
-    margin-right: 5vw;
-    margin-bottom: 1rem;
+	padding-top: 5vh;
+	padding-left: 8vh;
+	padding-right: 5vh;
+	padding-bottom: 5vh;
+    // margin-top: 5vh;
+    // margin-left: 5vw;
+    // margin-right: 5vw;
+    // margin-bottom: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 5rem;
 	min-height: 100vh;
+	box-sizing: border-box;
 }
 
 .content {
@@ -99,113 +106,6 @@ body>footer {
     font-size: 2rem;
 }
 
-//-------------------------------------------------------------
-
-.wrong {
-    color: red;
-    //position: relative;
-}
-
-main form {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
-    width: 60%;
-    gap: 1rem;
-    justify-content: center;
-    position: relative;
-
-    >div {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-    }
-
-    input[type="email"],
-    input[type="password"],
-    input[type="text"] {
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-        border: solid 2px red !important;
-        width: 75%;
-        box-sizing: border-box;
-
-        &:focus {
-            outline: none;
-            border: solid 2px rgb(41, 116, 236);
-        }
-    }
-
-    input[type="submit"] {
-        padding: 1rem;
-        border-radius: 5px;
-        background-color: rgba(41, 116, 236, 0.6);
-        color: white;
-        font-weight: bold;
-        border: none;
-        cursor: pointer;
-        margin-left: 25%;
-    }
-
-    textarea {
-        resize: vertical;
-        width: 75%;
-        box-sizing: border-box;
-        height: 10rem;
-        padding: 0.5rem 0.25rem;
-        border: 2px solid red;
-        border-radius: 0.5rem;
-        min-height: 4rem;
-
-        &:focus {
-            outline: none;
-            border: 2px solid rgb(21, 0, 255);
-        }
-    }
-
-    .form_wrong {
-        color: red;
-        position: relative;
-        left: 25%;
-        margin-top: -1rem;
-    }
-
-    .signup_avatar {
-        padding: 1rem 0;
-
-        #signup_avatar {
-            width: 75%;
-        }
-    }
-}
-
-.password_field {
-    position: relative;
-
-    input {
-        padding-right: 24px;
-    }
-
-    img {
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        right: 0;
-        margin-right: 8px;
-
-        &:hover {
-            cursor: pointer;
-        }
-    }
-}
-
-.have_account,
-.create_account {
-    position: relative;
-    left: 15%;
-}
 
 //----------------------------------
 
