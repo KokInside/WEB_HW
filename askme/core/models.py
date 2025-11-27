@@ -72,7 +72,7 @@ class Answer(DateInfo):
 
 class UserProfile(AbstractUser):
 	# user = models.OneToOneField(User, on_delete=models.SET_NULL)
-	avatar = models.ImageField(null = True)
+	avatar = models.ImageField(null = True, upload_to="avatars/")
 
 	likes = models.IntegerField(default = 0)
 	# username = models.CharField(max_length = 50)
