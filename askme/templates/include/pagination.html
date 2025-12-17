@@ -8,7 +8,7 @@
 			{% elif number == page.number %}
 				<div class="pagination_page_{{number}} page_button">{{ number }}</div>
 			{% else %}
-				<a href="?page={{ number }}" class="pagination_page_{{number}} page_button">{{number}}</a>
+				<a href="?page={{ number }}&perpage={{ perpage }}" class="pagination_page_{{number}} page_button">{{number}}</a>
 			{% endif %}
 		
 		{% endfor %}
@@ -17,8 +17,8 @@
 
 	<div class="perpage pagination">
 		<span>Per page</span>
-		<a href="?&perpage=5" class="page_button perpage_5">5</a>
-		<a href="?&perpage=10" class="page_button perpage_10">10</a>
-		<a href="?&perpage=15" class="page_button perpage_15">15</a>
+		<a href="?page=1&perpage=5" class="page_button perpage_5">5</a>
+		<a href="?page=1&perpage=10" class="page_button perpage_10">10</a>
+		<a href="?page=1&perpage=15" class="page_button perpage_15">15</a>
 	</div>
 </div>

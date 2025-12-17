@@ -37,7 +37,7 @@
         <footer class="question_footer">
 
             <div class="answers_count">
-                <a href="/question.html#answers_list">Answers ({{ question.answer_set.count }})</a>
+                <a href="{% url "question" question.id %}#answers">Answers ({{ question.answer_set.count }})</a>
             </div>
 
             <div class="question_tags">

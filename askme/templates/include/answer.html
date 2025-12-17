@@ -28,9 +28,14 @@
 	<div class="answer_content">
 		<p>{{ answer.text }}</p>
 
-		<div>
-			<input type="checkbox" checked>
-			<label for="">Correct!</label>
-		</div>
+		{% if correct_answer_form %}
+			<form method="post">
+				{% csrf_token %}
+				{{ correct_answer_form.correct }}
+				{% comment %} <input type="checkbox" checked> {% endcomment %}
+				<label for="">Correct!</label>
+			</form>
+		{% endif %}
+
 	</div>
 </div>
