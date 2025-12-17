@@ -14,53 +14,83 @@
 	<main>
 		<div class="signup_content">
 
-			<form action="" class="signup_form">
+			<form class="signup_form" method="POST" enctype="multipart/form-data" novalidate>
 
-				<span class="wrong">Что-то определённо неправильно</span>
+				{% csrf_token %}
+
+				{% if form.non_field_errors %}
+					<span class="wrong">Что-то определённо неправильно</span>
+				{% endif %}
 
 				<div class="login_area">
 					<label for="signup_login">Login</label>
-					<input class="signup_input login_input" type="text" id="signup_login" required minlength="4">
-					<div class="form_wrong">Логин не может быть пустым</div>
+					{% comment %} <input class="signup_input login_input" type="text" id="signup_login" required minlength="4"> {% endcomment %}
+					{{ form.username }}
+
+
+					{% comment %} {% if form.username.errors %}
+						<div class="form_wrong">Логин не может быть пустым</div>
+					{% endif %} {% endcomment %}
+
+					{{ form.username.errors }}
+
 				</div>
 
 
 				<div class="email_area">
 					<label for="signup_email">Email</label>
-					<input class="signup_input email_input" type="email" id="signup_email" required minlength="5" maxlength="40">
-					<div class="form_wrong">Email не может быть пустым</div>
+					{% comment %} <input class="signup_input email_input" type="email" id="signup_email" required minlength="5" maxlength="40"> {% endcomment %}
+					{{ form.email }}
+
+					{% comment %} {% if form.email.errors %}
+						<div class="form_wrong">Email не может быть пустым</div>
+					{% endif %} {% endcomment %}
+					{{ form.email.errors }}
 				</div>
 
 
-				<div class="nickname_area">
+				{% comment %} <div class="nickname_area">
 					<label for="signup_nickname">Nickname</label>
 					<input class="signup_input nickname_input" type="text" id="signup_nickname" required minlength="4">
 					<div class="form_wrong">Ник не может быть пустым</div>
-				</div>
+				</div> {% endcomment %}
 
 
 				<div class="password_area">
 					<label for="signup_password">Password</label>
-					<input class="signup_input password_input" type="password" id="signup_password" required minlength="8">
-					<div class="form_wrong">Пароль не может быть пустым</div>
+					{% comment %} <input class="signup_input password_input" type="password" id="signup_password" required minlength="8"> {% endcomment %}
+					{{ form.password1 }}
+
+					{% comment %} {% if form.password1.errors %}
+						<div class="form_wrong">Пароль не может быть пустым</div>
+					{% endif %} {% endcomment %}
+
+					{{ form.password1.errors }}
+
 				</div>
 
 
 				<div class="repeat_password_area password_area">
 					<label for="signup_repeat_password">Repeat password</label>
-					<input class="signup_input repeat_password_input password_input" type="password" id="signup_repeat_password" required minlength="8">
-					<div class="form_wrong">Пароли не совпадают</div>
+					{% comment %} <input class="signup_input repeat_password_input password_input" type="password" id="signup_repeat_password" required minlength="8"> {% endcomment %}
+					{{ form.password2 }}
+					{% comment %} {% if form.password2.errors %}
+						<div class="form_wrong">Пароли не совпадают</div>
+					{% endif %} {% endcomment %}
+					{{ form.password2.errors }}
 				</div>
 
 
 				<div class="avatar_area">
 					<label for="signup_avatar">Upload avatar</label>
-					<input class="avatar_input" type="file" id="signup_avatar" accept=".png, .jpg, .jpeg">
+					{% comment %} <input class="avatar_input" type="file" id="signup_avatar" accept=".png, .jpg, .jpeg"> {% endcomment %}
+					{{ form.avatar }}
+					{{ form.avatar.errors }}
 				</div>
 
 				<div class="signup_buttons">
-					<input class="main_form_button" type="submit" value="Register!" disabled>
-					<a class="minor_form_button" href="./login.html">Already have account ?</a>
+					<input class="main_form_button" type="submit" value="Register!"	>
+					<a class="minor_form_button" href="{% url "login_username" %}">Already have account ?</a>
 				</div>
 
 

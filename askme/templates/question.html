@@ -12,7 +12,7 @@
 
 	{% include "include/question.html" %}
 
-	<h2>{{answers|length}} answers</h2>
+	<h2 id="answers">{{answers|length}} answers</h2>
 
 	{% for answer in answers %}
 		{% include "include/answer.html" %}

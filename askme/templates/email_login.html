@@ -14,25 +14,23 @@
 	<main>
 		<div class="login_content">
 
-			<form method="POST" action="" id="log_in_form" class="login_form" novalidate>
+			<form method="POST" action="" id="log_in_form" class="login_form">
 				{% csrf_token %}
 			
 				{% if form.non_field_errors %}
-					<span class="wrong">Неверный username или password</span>
+					<span class="wrong">Неверный email или пароль</span>
 				{% endif %}
 
 				
 				<div class="username_area">
-					<label for="login_username">Username</label>
+					<label for="login_username">Email</label>
 
 					{{ form.username }}
 					{% comment %} <input class="login_input username_input" required id="login_username" minlength="5" maxlength="40" name="username"> {% endcomment %}
 
-					{% comment %} {% if form.username.errors %}
-						<div class="form_wrong">Username не может быть пустым</div>
-					{% endif %} {% endcomment %}
-
-					{{ form.username.errors }}
+					{% if form.username.errors %}
+						<div class="form_wrong">Email не может быть пустым</div>
+					{% endif %}
 
 				</div>
 			
@@ -46,12 +44,9 @@
 						{% comment %} <img src="{% static "svg/eye-off.svg" %}" alt=""> {% endcomment %}
 					</div>
 
-					{% comment %} {% if form.password.errors %}
+					{% if form.password.errors %}
 						<div class="form_wrong">Пароль не может быть пустым</div>
-					{% endif %} {% endcomment %}
-
-					{{ form.password.errors }}
-
+					{% endif %}
 				</div>
 			
 			
@@ -68,18 +63,3 @@
 </body>
 
 </html>
-
-
-{% comment %} {% extends "include/base.html" %}
-
-{% block title %}
-login
-{% endblock title %}
-
-{% block content_title %}
-LOG IN
-{% endblock content_title %}
-
-{% block content %}
-{% include "include/login.html" %}
-{% endblock content %} {% endcomment %}
