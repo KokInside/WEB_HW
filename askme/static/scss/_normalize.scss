@@ -30,8 +30,8 @@ a {
 }
 
 input {
-    appearance: none;
-    -webkit-appearance: none;
+    appearance: auto;
+    // -webkit-appearance: none;
     border: 1px solid #ccc;
     border-radius: 6px;
     outline: none;

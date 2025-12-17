@@ -1,0 +1,24 @@
+.settings_input {
+	width: 50% !important;
+}
+
+.settings_form {
+
+    input[type="text"],
+    input[type="email"] {
+        border: 2px solid black;
+    }
+
+    img {
+        max-width: 7rem;
+        border: 1px solid black;
+    }
+
+    .settings_avatar {
+        display: flex;
+        flex-direction: column;
+        width: 75%;
+        gap: 0.5rem;
+    }
+
+}

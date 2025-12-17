@@ -30,8 +30,7 @@ a {
 }
 
 input {
-  appearance: none;
-  -webkit-appearance: none;
+  appearance: auto;
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
@@ -353,23 +352,12 @@ nav .login {
   color: red;
 }
 
-.email_area, .password_area, .login_area, .nickname_area, .avatar_area {
+.username_area, .password_area, .login_area, .nickname_area, .avatar_area, .email_area {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
   gap: 5px;
-}
-
-.password_area img {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  right: 0;
-  margin-right: 8px;
-}
-.password_area img:hover {
-  cursor: pointer;
 }
 
 .password_field {
@@ -424,6 +412,25 @@ nav .login {
   border: 2px solid currentColor;
   text-align: center;
   line-height: 50px;
+}
+
+.settings_input {
+  width: 50% !important;
+}
+
+.settings_form input[type=text],
+.settings_form input[type=email] {
+  border: 2px solid black;
+}
+.settings_form img {
+  max-width: 7rem;
+  border: 1px solid black;
+}
+.settings_form .settings_avatar {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  gap: 0.5rem;
 }
 
 body > main {
@@ -534,22 +541,6 @@ body > footer {
 }
 .leave_answer_form .form_wrong {
   position: static;
-}
-
-.settings_form input[type=text],
-.settings_form input[type=email] {
-  border: 2px solid black;
-}
-.settings_form img {
-  width: 7rem;
-  height: 7rem;
-  border: 1px solid black;
-}
-.settings_form .settings_avatar {
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-  gap: 0.5rem;
 }
 
 /*# sourceMappingURL=styles.css.map */

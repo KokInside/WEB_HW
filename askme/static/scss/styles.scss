@@ -11,6 +11,8 @@
 
 @import 'login';
 
+@import 'settings';
+
 // main
 
 body>main {
@@ -138,28 +140,4 @@ body>footer {
     .form_wrong {
         position: static;
     }
-}
-
-//--------------------------------------------------
-
-.settings_form {
-
-    input[type="text"],
-    input[type="email"] {
-        border: 2px solid black;
-    }
-
-    img {
-        width: 7rem;
-        height: 7rem;
-        border: 1px solid black;
-    }
-
-    .settings_avatar {
-        display: flex;
-        flex-direction: column;
-        width: 75%;
-        gap: 0.5rem;
-    }
-
 }
