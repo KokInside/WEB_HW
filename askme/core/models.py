@@ -19,8 +19,10 @@ class Question(DateInfo):
 	likes = models.IntegerField(default = 0)
 	tags = models.ManyToManyField("Tag", related_name="questions", blank=True, verbose_name="Теги")
 
+	# Model managers
 	objects = models.Manager()
 	qManager = QuestionManager()
+	
 
 	def changeLikes(self, increase = 1):
 		if increase == 1:
@@ -72,7 +74,7 @@ class Answer(DateInfo):
 
 class UserProfile(AbstractUser):
 	# user = models.OneToOneField(User, on_delete=models.SET_NULL)
-	avatar = models.ImageField(null = True, upload_to="avatars/")
+	avatar = models.ImageField(upload_to="avatars/", blank = True)
 
 	likes = models.IntegerField(default = 0)
 	# username = models.CharField(max_length = 50)
@@ -98,10 +100,12 @@ class UserProfile(AbstractUser):
 		verbose_name = "User"
 		verbose_name_plural = "Users"
 
+
 class markChoices(models.IntegerChoices):
 	DOWN = -1, 'downvote'
 	NONE = 0, 'novote'
 	UP = 1, 'upvote'
+
 
 class QuestionLike(models.Model):
 
