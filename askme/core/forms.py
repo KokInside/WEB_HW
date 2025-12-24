@@ -8,7 +8,7 @@ from .models import UserProfile, Question, Answer
 
 
 class UsernameLoginForm(AuthenticationForm):
-	
+
 	username = forms.CharField(
 		max_length = 150,
 		min_length = 3,
@@ -31,7 +31,7 @@ class UsernameLoginForm(AuthenticationForm):
 
 
 class EmailLoginForm(AuthenticationForm):
-	
+
 	username = forms.EmailField(
 		label = "email",
 		widget = forms.EmailInput(attrs = {
@@ -62,27 +62,27 @@ class EmailLoginForm(AuthenticationForm):
 
 			except UserProfile.DoesNotExist:
 				raise forms.ValidationError("Пользователь с таким email не найден", "user_does_not_exist")
-			
+
 			self.user_cache = authenticate(self.request, username = user.username, password = password)
 
 			if self.user_cache is None:
 				raise forms.ValidationError("Неверный email или пароль" ,"wrond_email_or_password")
 
 		return cleaned_data
-	
+
 
 class RegistrationForm(UserCreationForm):
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-	
+
 		self.fields['password1'].widget.attrs.update({
     	    'class': 'login_input password_input'
     	})
-	
+
 		self.fields['password2'].widget.attrs.update({
     	    'class': 'login_input password_input'
-    })
+    	})
 
 	username = forms.CharField(
 		max_length = 150,
@@ -99,7 +99,7 @@ class RegistrationForm(UserCreationForm):
 	}))
 
 	#avatar = forms.ImageField(required = False)
-	
+
 	class Meta:
 		model = UserProfile
 		fields = ("username", "email", "password1", "password2", "avatar")
@@ -118,9 +118,9 @@ class QuestionForm(forms.ModelForm):
 
 		if len(validated_tags) > 5:
 			self.add_error("tags", forms.ValidationError("Не больше 5 тегов", "max_tags"))
-			
+
 		return tags
-		
+
 
 	def validate_tags(self, tags: str):
 		tags = tags.strip().strip()
@@ -136,9 +136,9 @@ class QuestionForm(forms.ModelForm):
 				self.add_error("tags", forms.ValidationError("Можно использовать только буквы и цифры", "not_alnum"))
 
 		return tags_list
-	
 
-	
+
+
 	class Meta:
 		model = Question
 		fields = ("title", "text")
@@ -158,7 +158,18 @@ class CorrectAnswerForm(forms.ModelForm):
 		fields = ("correct",)
 
 
-class EditProfileForm(forms.ModelForm):
-	class Meta:
-		model = UserProfile
-		fields = ("username", "email", "avatar")
+class EditProfileForm(forms.Form):
+
+	username = forms.CharField(
+		max_length = 150,
+		min_length = 3,
+		widget = forms.TextInput(attrs = {
+			"class": "login_input settings_input",
+		})
+	)
+
+	email = forms.EmailField(min_length=3, max_length = 150, widget = forms.EmailInput(attrs = {
+		"class": "login_input email_input settings_input"
+	}))
+
+	avatar = forms.ImageField(required=False)
