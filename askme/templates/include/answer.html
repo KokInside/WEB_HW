@@ -5,36 +5,35 @@
 	<aside class="answer_aside">
 
 		<a href="#" class="answer_user" title="user profile">
-			<img src="{% static "svg/user.svg" %}" alt="user" class="user">
+			{% if answer.author.avatar %}
+				<img src="{{ MEDIA_URL }}{{ answer.author.avatar }}" alt="" class="user">
+			{% else %}
+				<img src="{% static "svg/user.svg" %}" alt="user" class="user">
+			{% endif %}
 		</a>
 
 		<div class="rate">
-			<button class="upvote" title="upvote">
+			<button class="upvote" title="upvote" onclick="answerLike({{ answer.id }}, `{{ csrf_token }}`)">
 				<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
 			</button>
 
-			<span class="rating">{{ answer.likes }}</span>
+			<span class="rating" id="{{answer.id}}--likes">{{ answer.likes }}</span>
 
-			<button class="downvote" title="downvote">
+			<button class="downvote" title="downvote" onclick="answerDislike({{ answer.id }}, `{{ csrf_token }}`)">
 				<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
 			</button>
 
 		</div>
 
-		<img src="{% static "svg/check-mark.svg" %}" alt="" class="marked" title="Marked as correct">
+		<img id="{{ answer.id }}--correct" src="{% static "svg/check-mark.svg" %}" alt="" class="marked" title="Marked as correct" {% if not answer.correct %}hidden{% endif %}>
 
 	</aside>
 
 	<div class="answer_content">
 		<p>{{ answer.text }}</p>
 
-		{% if correct_answer_form %}
-			<form method="post">
-				{% csrf_token %}
-				{{ correct_answer_form.correct }}
-				{% comment %} <input type="checkbox" checked> {% endcomment %}
-				<label for="">Correct!</label>
-			</form>
+		{% if question.author == user %}
+			<button onclick="correct({{ question.id }}, {{ answer.id }}, `{{ csrf_token }}`)">Correct</button>
 		{% endif %}
 
 	</div>

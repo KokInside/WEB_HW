@@ -1,13 +1,13 @@
 {% extends "include/base.html" %}
 
 {% block title %}
-	edit profile
+	profile
 {% endblock title %}
 
 {% block content_title %}
-	Edit Profile{% if user.username %}: {{user.username}}{% endif %}
+	Profile{% if user.username %}: {{user.username}} {% endif %}
 {% endblock content_title %}
 
 {% block content %}
-	{% include "include/settings.html" %}
+	{% include "include/profile.html" %}
 {% endblock content %}

@@ -1,0 +1,32 @@
+<div>
+	{% if user.username %}
+		<div>
+			Login:
+		</div>
+		<div>
+			{{ user.username }}
+		</div>
+	{% endif %}
+
+	{% if user.email %}
+		<div>
+			Email:
+		</div>
+		<div>
+			{{ user.email }}
+		</div>
+	{% endif %}
+
+	{% if user.avatar %}
+		<div>
+			Avatar:
+		</div>
+		<div class="settings_avatar">
+			<img src="{{ MEDIA_URL }}{{user.avatar}}">
+		</div>
+	{% endif %}
+
+	<div class="edit_link">
+		<a href="{% url "edit_profile" %}">Edit</a>
+	</div>
+</div>

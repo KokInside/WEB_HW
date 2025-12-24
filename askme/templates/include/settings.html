@@ -1,18 +1,24 @@
 {% load static %}
 
-<form action="" class="settings_form login_form" method="GET">
+<form action="" class="settings_form login_form" method="POST" enctype="multipart/form-data" novalidate>
 	{% csrf_token %}
+
+	{% if form.non_field_errors %}
+		<span class="wrong">Неверный email или пароль</span>
+	{% endif %}
 
 	<div class="login_area">
 		<label for="settings_login">Login</label>
 		{{ form.username }}
-		{% comment %} <input class="login_input username_input settings_input" type="text" id="settings_login" value="KokInside" disabled maxlength="20" minlength="4"> {% endcomment %}
+
+		{{ form.username.errors }}
 	</div>
 
 	<div class="email_area">
 		<label for="settings_email">Email</label>
 		{{ form.email }}
-		{% comment %} <input class="login_input email_input settings_input" type="email" id="settings_email" value="KokInside@gmail.com" disabled minlength="4"> {% endcomment %}
+
+		{{ form.email.errors }}
 	</div>
 
 	<div class="avatar_area">
@@ -22,17 +28,17 @@
 
 			{% if user.avatar %}
 				<img src="{% get_media_prefix %}{{user.avatar}}" alt="">
+			{% comment %} 
 			{% else %}
-				<img src="{% static "svg/user.svg" %}" alt="">
+				<img src="{% static "svg/user.svg" %}" alt=""> 
+			{% endcomment %}
 			{% endif %}
-			{% if edit_profile %}
-				<input type="file" accept=".png, .jpg, .jpeg">
-			{% endif %}
+			
+			{{ form.avatar }}
+
 		</div>
 	</div>
 
-	{% comment %} <div>
-		<input type="submit" value="Save" title="Сохранить" disabled>
-	</div> {% endcomment %}
-	{% comment %} <a href="{% url "edit_profile" %}"></a> {% endcomment %}
+	<input type="submit" value="Сохранить">
+
 </form>

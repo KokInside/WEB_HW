@@ -5,18 +5,22 @@
     <aside class="question_aside">
 
         <a href="#" class="question_user" title="user profile">
-            <img src="{% static "svg/user.svg" %}" alt="user" class="user">
+			{% if question.author.avatar %}
+				<img src="{{ MEDIA_URL }}{{ question.author.avatar }}" alt="">
+			{% else %}
+				<img src="{% static "svg/user.svg" %}" alt="user" class="user">
+			{% endif %}
         </a>
 
         <div class="rate">
 
-            <button class="upvote" title="upvote">
+            <button class="upvote" title="upvote" onclick="questionLike({{question.id}}, `{{csrf_token}}`)">
                 <img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
             </button>
 
-            <span class="rating">{{ question.likes }}</span>
+            <span id="{{ question.id }}--likes" class="rating">{{ question.likes }}</span>
 
-            <button class="downvote" title="downvote">
+            <button class="downvote" title="downvote" onclick="questionDislike({{question.id}}, `{{csrf_token}}`)">
                 <img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
             </button>
 
