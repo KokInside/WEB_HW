@@ -426,7 +426,8 @@ nav .login {
   max-width: 7rem;
   border: 1px solid black;
 }
-.settings_form .settings_avatar {
+
+.settings_avatar {
   display: flex;
   flex-direction: column;
   width: 75%;
