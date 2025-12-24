@@ -21,7 +21,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
-	list_display = ('author', 'question', 'correct', 'likes')
+	list_display = ('id', 'author', 'question', 'correct', 'likes')
 
 
 @admin.register(UserProfile)
@@ -31,7 +31,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(QuestionLike)
 class QuestionLikeAdmin(admin.ModelAdmin):
-	list_display = ('mark',)
+	list_display = ('mark', 'question', 'author')
 
 
 @admin.register(AnswerLike)
