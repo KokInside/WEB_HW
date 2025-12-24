@@ -22,8 +22,18 @@ questionurlpatterns = [
 ]
 
 profileurlpatterns = [
-	path("", settings, name = "profile"),
-	path("edit/", settings, name = "edit_profile")
+	path("", ProfileView.as_view(), name = "profile"),
+	path("edit/", EditProfileView.as_view(), name = "edit_profile")
+]
+
+apiurlpatterns = [
+	path("question/<int:id>/like/", QuestionLikeAPIView.as_view(), name = "question_like"),
+	path("question/<int:id>/dislike/", QuestionDislikeAPIView.as_view(), name = "question_dislike"),
+
+	path("answer/<int:id>/like/", AnswerLikeAPIView.as_view(), name = "answer_like"),
+	path("answer/<int:id>/dislike/", AnswerDislikeAPIView.as_view(), name = "answer_dislike"),
+
+	path("<int:question_id>/<int:answer_id>/correct/", AnswerCorrectAPIView.as_view(), name = "correct_answer"),
 ]
 
 coreurlpatterns = [
@@ -42,6 +52,8 @@ coreurlpatterns = [
 	path("logout/", LogoutView, name="logout"),
 
 	path("profile/", include(profileurlpatterns)),
+
+	path("api/", include(apiurlpatterns)),
 ]
 
 coreurlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
