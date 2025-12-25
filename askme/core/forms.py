@@ -123,7 +123,7 @@ class QuestionForm(forms.ModelForm):
 
 
 	def validate_tags(self, tags: str):
-		tags = tags.strip().strip()
+		tags = tags.strip()
 
 		tags_list = tags.split()
 
