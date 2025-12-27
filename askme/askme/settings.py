@@ -12,15 +12,23 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+from configparser import ConfigParser
+
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+config = ConfigParser()
+
+config.read(os.path.join(BASE_DIR, 'conf', 'local.conf'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d!p6rk)*^l^y)&=094_nmkq30)t#x)qv3vk5e0k9#i5m$@g%dj'
+SECRET_KEY = config.get("PROJECT", "secret_key", raw=True, fallback="<UNFILLED_SECRET_KEY>") #'django-insecure-d!p6rk)*^l^y)&=094_nmkq30)t#x)qv3vk5e0k9#i5m$@g%dj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -138,7 +146,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8080", "http://localhost:8080", "http://localhost:8000"
+    "http://localhost:8080", "http://localhost:8000"
 
 ]
 
@@ -146,3 +154,17 @@ CSRF_TRUSTED_ORIGINS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Caches
+
+CACHES = {
+	"default": {
+		"BACKEND": "django_redis.cache.RedisCache",
+		"LOCATION": config.get("REDIS", "location", fallback="redis://127.0.0.1:6379/1"),
+		"TIMEOUT": config.get("REDIS", "timeout", fallback=5*60),
+		"OPTIONS": {
+			"CLIENT_CLASS": "django_redis.client.DefaultClient"
+		}
+	}
+}
