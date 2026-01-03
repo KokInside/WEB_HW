@@ -50,9 +50,15 @@
 			{% include "include/aside.html" %}
 		</main>
 
+		<a href="#top" class="to_top">
+			<img src="{% static "svg/to_top.svg" %}" alt="">
+		</a>
+
 		{% include "include/footer.html" %}
 		
 		{% block script %}
+			<script src="{% static 'js/likes.js' %}"></script>
+			<script src="{% static 'js/correct_answer.js' %}"></script>
 		{% endblock script %}
 	</body>
 </html>

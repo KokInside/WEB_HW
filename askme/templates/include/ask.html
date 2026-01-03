@@ -1,6 +1,6 @@
 {% comment %} <span class="wrong">Что-то определённо неправильно</span> {% endcomment %}
 
-<form action="" class="ask_form" method="POST">
+<form action="" class="ask_form" method="POST" novalidate>
 	{% csrf_token %}
 
 	{{ form.non_field_errors }}
