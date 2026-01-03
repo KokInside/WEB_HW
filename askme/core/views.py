@@ -2,14 +2,19 @@ from django.http import HttpResponse, HttpRequest
 from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 
+from django.urls import reverse_lazy
+
 from django.core.paginator import Paginator
 
 from core.models import Question, Tag, QuestionLike, markChoices, Answer, AnswerLike, UserProfile
+
+from core.mixins import FormLimitMixin
 
 from django.utils.decorators import method_decorator
 
 from django.views import View
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 from django.views.decorators.cache import never_cache
 
 from django.shortcuts import render
@@ -24,6 +29,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import ValidationError
 
 from .forms import UsernameLoginForm, EmailLoginForm, RegistrationForm, QuestionForm, AnswerForm, CorrectAnswerForm, EditProfileForm
+
 
 def paginate(questions, request: HttpRequest):
 
@@ -53,6 +59,44 @@ def paginate(questions, request: HttpRequest):
 	return page, page_numbers, per_page
 
 
+def getPopularTags(tag_count = 7):
+	try:
+		int(tag_count)
+
+	except ValueError:
+		tag_count = 7
+
+	else:
+		if tag_count > 20 or tag_count <= 0:
+			tag_count = 20
+		
+	if Tag.objects.count() < tag_count:
+		return Tag.objects.all().order_by("-questionCount", "name")
+	
+	tags = Tag.objects.order_by("-questionCount", "name")[:tag_count].values_list("name", flat=True)
+
+	return tags
+
+
+def getPopularUsers(user_count = 5):
+	try:
+		int(user_count)
+
+	except ValueError:
+		user_count = 5
+
+	else:
+		if user_count <= 0 or user_count > 10:
+			user_count = 5
+
+	if UserProfile.objects.count() < user_count:
+		return UserProfile.objects.all().order_by("-likes", "username")
+	
+	users = UserProfile.objects.order_by("-likes", "username")[:user_count].values_list("username", flat=True)
+
+	return users
+
+
 @method_decorator(never_cache, name = 'dispatch')
 class IndexView(TemplateView):
 	http_method_names = ["get",]
@@ -68,8 +112,8 @@ class IndexView(TemplateView):
 		context['page'] = page
 		context['page_numbers'] = page_numbers
 		context["perpage"] = per_page
-
-		#context['user'] = self.request.user
+		context["tags"] = getPopularTags()
+		context["users"] = getPopularUsers()
 
 		return context
 
@@ -110,6 +154,7 @@ class TagView(TemplateView):
 		context['page'] = page
 		context['page_numbers'] = page_numbers
 		context["perpage"] = per_page
+		context["tag"] = tag_name
 
 		return context
 
@@ -286,44 +331,115 @@ class SignupView(TemplateView):
 
 
 @method_decorator([login_required, never_cache], name="dispatch")
-class AskView(TemplateView):
+class AskView(FormLimitMixin, FormView):
 	template_name = "ask.html"
-	http_method_names = ['get', 'post']
+	http_method_names = ["get", "post"]
+	form_class = QuestionForm
+
+	burst_key = "QuestionForm"
+
+	limits = {"minute": 2}
+
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		context['form'] = QuestionForm()
+
+		context["tags"] = getPopularTags()
+		context["users"] = getPopularUsers()
 
 		return context
 	
-	def post(self, request, *args, **kwarsg):
-		form = QuestionForm(request.POST)
 
-		if form.is_valid():
-			question = form.save(commit = False)
+	def form_valid(self, form):
 
-			question.author = request.user
+		question = form.save(commit = False)
 
-			tags = self.get_tags_objects(form.cleaned_data["tags"])
+		question.author = self.request.user
 
-			question.save()
+		tags = self.get_tags_objects(form.cleaned_data["tags"])
 
-			for tag in tags:
-				question.tags.add(tag)
+		question.save()
 
-			return redirect(f"/question/{question.id}")
+		print(tags)
+
+		for tag in tags:
+			question.tags.add(tag)
+
+		for tag in question.tags.all():
+			tag.questionCount += 1
+			tag.save(update_fields=["questionCount"])
+
+		self.object = question
+
+		return super().form_valid(form)
+
 	
-		return render(request, "ask.html", {"form": form})
-	
+	def get_success_url(self):
+
+		return reverse_lazy("question", kwargs={"question_id": self.object.id})
+
 
 	def get_tags_objects(self, tags: list) -> list:
+
+		print(tags)
 		
 		tags_objects = []
 
 		for tag in tags:
 			tags_objects.append(Tag.objects.get_or_create(name = tag)[0])
 
+
 		return tags_objects
+
+
+# @method_decorator([login_required, never_cache], name="dispatch")
+# class AskView(TemplateView):
+# 	template_name = "ask.html"
+# 	http_method_names = ['get', 'post']
+
+# 	def get_context_data(self, **kwargs):
+# 		context = super().get_context_data(**kwargs)
+# 		context['form'] = QuestionForm()
+
+# 		return context
+	
+# 	def post(self, request, *args, **kwarsg):
+# 		form = QuestionForm(request.POST)
+
+# 		if form.is_valid():
+# 			question = form.save(commit = False)
+
+# 			question.author = request.user
+
+# 			tags = self.get_tags_objects(form.cleaned_data["tags"])
+
+# 			question.save()
+
+# 			print(tags)
+
+# 			for tag in tags:
+# 				question.tags.add(tag)
+
+# 			for tag in question.tags.all():
+# 				tag.questionCount += 1
+# 				tag.save(update_fields=["questionCount"])
+
+# 			return redirect(f"/question/{question.id}")
+	
+# 		return render(request, "ask.html", {"form": form})
+	
+
+# 	def get_tags_objects(self, tags: list) -> list:
+
+# 		print(tags)
+		
+# 		tags_objects = []
+
+# 		for tag in tags:
+# 			tags_objects.append(Tag.objects.get_or_create(name = tag)[0])
+
+
+# 		return tags_objects
 	
 
 ###################################################################
@@ -366,7 +482,6 @@ class QuestionLikeAPIView(View):
 
 				like.save(update_fields=["mark"])
 				question.save(update_fields=["likes"])
-
 
 				return JsonResponse({
 					"success": True,
@@ -656,7 +771,11 @@ class AnswerDislikeAPIView(View):
 			"info": "dislike is created",
 			"likes": answer.likes
 		}, status = 201)
-	
+
+
+#////////////////////////////////////////////////////////
+# correct answer
+
 
 @method_decorator(login_required, name='dispatch')
 class AnswerCorrectAPIView(View):
