@@ -84,6 +84,8 @@ class RegistrationForm(UserCreationForm):
     	    'class': 'login_input password_input'
     	})
 
+		self.fields['avatar'].required = False
+
 	username = forms.CharField(
 		max_length = 150,
 		min_length = 3,
@@ -118,8 +120,8 @@ class QuestionForm(forms.ModelForm):
 
 		if len(validated_tags) > 5:
 			self.add_error("tags", forms.ValidationError("Не больше 5 тегов", "max_tags"))
-
-		return tags
+			
+		return validated_tags
 
 
 	def validate_tags(self, tags: str):
@@ -131,13 +133,12 @@ class QuestionForm(forms.ModelForm):
 
 		for tag in tags_list:
 			if (tag.isalnum()):
-				validated_tags.append(tag)
+				validated_tags.append(tag.lower())
 			else:
 				self.add_error("tags", forms.ValidationError("Можно использовать только буквы и цифры", "not_alnum"))
 
-		return tags_list
-
-
+		return validated_tags
+	
 
 	class Meta:
 		model = Question

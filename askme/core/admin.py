@@ -41,4 +41,4 @@ class AnswerLikeAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class UserTag(admin.ModelAdmin):
-	list_display = ('name',)
+	list_display = ('name', 'questionCount')
