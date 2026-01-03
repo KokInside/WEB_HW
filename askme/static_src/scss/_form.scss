@@ -25,33 +25,10 @@
 	justify-content: center;
 }
 
-// textarea {
-// 	resize: vertical;
-// 	width: 75%;
-// 	box-sizing: border-box;
-// 	height: 10rem;
-// 	padding: 0.5rem 0.25rem;
-// 	border: 2px solid red;
-// 	border-radius: 0.5rem;
-// 	min-height: 4rem;
-
-// 	&:focus {
-// 		outline: none;
-// 		border: 2px solid rgb(21, 0, 255);
-// 	}
-// }
-
 .form_wrong {
 	color: red;
 }
 
-// .signup_avatar {
-// 	padding: 1rem 0;
-
-// 	#signup_avatar {
-// 		width: 75%;
-// 	}
-// }
 
 .username_area, .password_area, .login_area, .nickname_area, .avatar_area, .email_area {
 	display: flex;
@@ -60,23 +37,6 @@
 	align-items: start;
 	gap: 5px;
 }
-
-// .password_area {
-
-// 	position: relative;
-
-// 	img {
-// 		position: absolute;
-// 		width: 16px;
-// 		height: 16px;
-// 		right: 0;
-// 		margin-right: 8px;
-
-// 		&:hover {
-// 			cursor: pointer;
-// 		}
-// 	}
-// }
 
 .password_field {
 	width: 100%;
@@ -132,4 +92,15 @@
 	border: 2px solid currentColor;
 	text-align: center;
 	line-height: 50px;
+}
+
+.errorlist {
+	padding-left: 0;
+	margin: 10px;
+	list-style: none;
+	margin-left: 0;
+
+	li {
+		color: red;
+	}
 }
