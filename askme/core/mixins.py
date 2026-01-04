@@ -12,6 +12,8 @@ class FormLimitMixin:
 
 	error_msg = "dispatch limit exceeded"
 
+	count_on = "attempt" # "attempt" | "success"
+
 	def get_user_identification(self, request: HttpRequest):
 
 		if request.user.is_authenticated:
@@ -75,13 +77,17 @@ class FormLimitMixin:
 
 		is_exceeded = self.check_burst(request)
 
-
-		if form.is_valid() and not is_exceeded:
+		if is_exceeded:
+			form.add_error(None, self.error_msg)
+		elif self.count_on == "attempt":
 			self.inc_count(request)
+
+
+		if form.is_valid():
+			if self.count_on == "success":
+				self.inc_count(request)
 
 			return self.form_valid(form)
 		else:
-			if is_exceeded:
-				form.add_error(None, self.error_msg)
 
 			return self.form_invalid(form)
