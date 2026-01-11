@@ -13,15 +13,18 @@ function questionLike(question_id, csrf) {
 		.then((res) => {
 			if (res.status >= 400) {
 				console.log(res.info);
+			} else {
+				res = res.json();
+				question_likes.innerText = `${res.likes}`;
 			}
 			return res;
 		})
-		.then((res) => {
-			return res.json();
-		})
-		.then((res) => {
-			question_likes.innerHTML = `${res.likes}`;
-		});
+	// .then((res) => {
+	// 	return res.json();
+	// })
+	// .then((res) => {
+	// 	question_likes.innerText = `${res.likes}`;
+	// });
 }
 
 
@@ -39,15 +42,24 @@ function questionDislike(question_id, csrf) {
 		.then((res) => {
 			if (res.status >= 400) {
 				console.log(res.info);
+			} else {
+				res = res.json();
+				question_likes.innerText = `${res.likes}`;
 			}
 			return res;
 		})
-		.then((res) => {
-			return res.json();
-		})
-		.then((res) => {
-			question_likes.innerHTML = `${res.likes}`;
-		});
+	// .then((res) => {
+	// 	if (res.status >= 400) {
+	// 		console.log(res.info);
+	// 	}
+	// 	return res;
+	// })
+	// .then((res) => {
+	// 	return res.json();
+	// })
+	// .then((res) => {
+	// 	question_likes.innerText = `${res.likes}`;
+	// });
 }
 
 
@@ -65,16 +77,25 @@ function answerLike(answer_id, csrf) {
 		.then((res) => {
 			if (res.status >= 400) {
 				console.log(res.info);
-				console.log("admin")
+			} else {
+				res = res.json();
+				answer_likes.innerText = `${res.likes}`;
 			}
 			return res;
 		})
-		.then((res) => {
-			return res.json();
-		})
-		.then((res) => {
-			answer_likes.innerHTML = `${res.likes}`;
-		});
+	// .then((res) => {
+	// 	if (res.status >= 400) {
+	// 		console.log(res.info);
+	// 		console.log("admin")
+	// 	}
+	// 	return res;
+	// })
+	// .then((res) => {
+	// 	return res.json();
+	// })
+	// .then((res) => {
+	// 	answer_likes.innerText = `${res.likes}`;
+	// });
 }
 
 
@@ -91,15 +112,24 @@ function answerDislike(answer_id, csrf) {
 	})
 		.then((res) => {
 			if (res.status >= 400) {
-				console.log("info " + res.info);
-
+				console.log(res.info);
+			} else {
+				res = res.json();
+				answer_likes.innerText = `${res.likes}`;
 			}
 			return res;
 		})
-		.then((res) => {
-			return res.json();
-		})
-		.then((res) => {
-			answer_likes.innerHTML = `${res.likes}`;
-		});
+	// .then((res) => {
+	// 	if (res.status >= 400) {
+	// 		console.log("info " + res.info);
+
+	// 	}
+	// 	return res;
+	// })
+	// .then((res) => {
+	// 	return res.json();
+	// })
+	// .then((res) => {
+	// 	answer_likes.innerText = `${res.likes}`;
+	// });
 }
