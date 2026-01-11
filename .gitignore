@@ -7,3 +7,5 @@ __pycache__
 media
 askme/static/
 askme/logs/
+/tests/
+node_modules/
