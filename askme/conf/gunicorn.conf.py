@@ -4,7 +4,7 @@ import multiprocessing
 wsgi_app = "askme.wsgi:application"
 
 # Server adres
-bind = "127.0.0.1:8033"
+bind = "127.0.0.1:8012"
 
 # Workers configurations
 workers = multiprocessing.cpu_count() * 2 + 1
