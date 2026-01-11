@@ -16,6 +16,8 @@ from configparser import ConfigParser
 
 import os
 
+import json
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,6 +31,13 @@ config.read(os.path.join(BASE_DIR, 'conf', 'local.conf'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config.get("PROJECT", "secret_key", raw=True, fallback="<UNFILLED_SECRET_KEY>") #'django-insecure-d!p6rk)*^l^y)&=094_nmkq30)t#x)qv3vk5e0k9#i5m$@g%dj'
+
+# Centrifugo secrets
+with open(os.path.join(BASE_DIR, "conf", "centrifugo.config.json"), 'r', encoding='utf-8') as centConf:
+	conf_file = json.load(centConf)
+	
+	CLIENT_KEY = conf_file["client"]["token"]["hmac_secret_key"]
+	HTTP_KEY = conf_file["http_api"]["key"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -167,3 +176,12 @@ CACHES = {
 		}
 	}
 }
+
+
+# mailing
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config.get("SMTP", "host", fallback="localhost")
+EMAIL_PORT = config.get("SMTP", "port", fallback="1025")
+DEFAULT_FROM_EMAIL = config.get("SMTP", "from_email", fallback="fromemail@mail.com")
+# SERVER_EMAIL = config.get("SMTP", "server_email", fallback="servermail@mail.com")
