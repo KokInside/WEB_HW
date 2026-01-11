@@ -1,32 +1,48 @@
-<div>
+<div class="profile_content">
 	{% if user.username %}
-		<div>
-			Login:
-		</div>
-		<div>
-			{{ user.username }}
+		<div class="login_area">
+
+			<div>
+				Login:
+			</div>
+
+			<div class="profile_login">
+				{{ user.username }}
+			</div>
+
 		</div>
 	{% endif %}
 
 	{% if user.email %}
-		<div>
-			Email:
-		</div>
-		<div>
-			{{ user.email }}
+		<div class="email_area">
+
+			<div>
+				Email:
+			</div>
+
+			<div class="profile_email">
+				{{ user.email }}
+			</div>
+
 		</div>
 	{% endif %}
 
 	{% if user.avatar %}
-		<div>
-			Avatar:
-		</div>
-		<div class="settings_avatar">
-			<img src="{{ MEDIA_URL }}{{user.avatar}}">
+		<div class="avatar_area">
+
+			<div>
+				Avatar:
+			</div>
+
+			<div>
+				<img src="{{ MEDIA_URL }}{{user.avatar}}" class="profile_avatar_img">
+			</div>
+
 		</div>
 	{% endif %}
 
-	<div class="edit_link">
-		<a href="{% url "edit_profile" %}">Edit</a>
+	<div class="edit_profile_link_area">
+		<a href="{% url "edit_profile" %}" class="edit_profile_link">Edit profile</a>
 	</div>
+
 </div>

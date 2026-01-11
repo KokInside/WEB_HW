@@ -62,8 +62,8 @@
 		{% endcomment %}
 
 		<nav>
-			<a href="{% url "signup" %}" class="register">Зарегистрироваться</a>
-			<a href="{% url "login_username" %}" class="login">Войти</a>
+			<a href="{% url "signup" %}?next={{ request.path }}" class="register">Зарегистрироваться</a>
+			<a href="{% url "login_username" %}?next={{ request.path }}" class="login">Войти</a>
 		</nav>
 	{% endif %}
 

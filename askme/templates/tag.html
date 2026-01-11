@@ -8,8 +8,10 @@
 	Tag: {{tag}}
 {% endblock content_title %}
 
-
 {% block content %}
+	<h3>
+		Questions: {{ question_count }}
+	</h3>
 
 	{% for question in page %}
 

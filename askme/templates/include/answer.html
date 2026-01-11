@@ -30,7 +30,7 @@
 	</aside>
 
 	<div class="answer_content">
-		<p>{{ answer.text }}</p>
+		<p class="answer_text">{{ answer.text }}</p>
 
 		{% if question.author == user %}
 			<button onclick="correct({{ question.id }}, {{ answer.id }}, `{{ csrf_token }}`)">Correct</button>
