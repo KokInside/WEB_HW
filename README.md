@@ -1,104 +1,153 @@
-## Инструкция
+## Инструкция  
 
 ### Клонирование репозитория
 > Клонировать репозиторий:
+
 ```
-git clone https://github.com/KokInside/WEB_HW.git -b hw_3
+git clone https://github.com/KokInside/WEB_HW.git -b hw_6
 ```
 
 >Скачать RAW-код
-[RAW](https://github.com/KokInside/WEB_HW/archive/refs/heads/hw_3.zip)
+[RAW](https://github.com/KokInside/WEB_HW/archive/refs/heads/hw_6.zip)
 
 ### Переход в директорию проекта
+
 ```
 cd WEB_HW
 ```
 
 ### Создание виртуального окружения
-> Windows:
-```
-python -m venv .venv
-```
 
-> Linux/MAC:
 ```
 python3 -m venv .venv
 ```
 
 ### Активация виртуального окружения
-> Windows:
-```
-.venv/Scripts/activate
-```
 
-> Git Bash Windows
-```
-source .venv/Scripts/activate
-```
-
-> Linux/MAC:
 ```
 source .venv/bin/activate
 ```
 
 ### Установка необходимых компонентов
->Windows:
-```
-python -m pip install -r requirements.txt
-```
 
->Linux/MAC:
 ```
 python3 -m pip install -r requirements.txt
 ```
 
 ### Переход в директорию Django приложения
+
 ```
 cd askme
 ```
 
 ### Выполнение миграций БД
-> Windows:
-```
-python manage.py migrate
-```
 
-> Linux/MAC:
 ```
 python3 manage.py migrate
 ```
 
-### Запуск Django сервера
-> Windows:
+### Сборка статических файлов
+
 ```
-python manage.py runserver
+python3 manage.py collectstatic
+```
+`yes`, при необходимости.
+
+### Установка node.js зависимостей
+
+Находясь в `WEB_HW/askme` выполнить:
+
+```
+npm install
 ```
 
-> Linux/MAC:
+### Настройка прокси-сервера
+
+В конфигурационный файл nginx нужно вставить или скопировать конфиг из `WEB_HW/askme/conf/nginx.local`.
+
+И проверить правильность конфигурации:
+
 ```
-python3 manage.py runserver
+sudo nginx -t
 ```
 
-Перейдите по адресу, появившемуся в терминале.
+Затем необходимо запустить nginx:
+
 ```
-http://127.0.0.1:8000/
+sudo nginx
+sudo nginx -s reload
 ```
+
+### Запуск wsgi-сервера
+
+Находясь в `WEB_HW/askme` с активированным `venv` запустить gunicorn:
+
+```
+gunicorn -c conf/gunicorn.conf.py
+```
+
+На экране должна появиться информация о воркерах.
+
+### Запуск сервера-сообщений
+
+Находясь в `WEB_HW/askme/conf`, выполнить:
+
+```
+centrifugo -c centrifugo.config.json
+```
+
+### Запуск тестового SMTP-сервера
+
+Запустить maildev:
+
+```
+npx maildev
+```
+
+Должны вывестись порты, на которых открыт веб-интерфейс и smtp-сервер.
+
+Он доступен по `http://<PROXY-SERVER-NAME>/maildev`
+
+### Настройка кэширования
+
+Для правильной работы кэширования, необходимо установить и запустить redis:
+
+```
+sudo apt install redis-server -y
+sudo systemctl start redis
+```
+Он должен запуститься на стандартном порту 6379.
+
+Для проверки работы:
+```
+sudo systemctl status redis
+```
+
+```
+redis-cli
+```
+
+```
+ping
+```
+Должно ответить `PONG`
+
+### Проект
+
+Проект доступен по хосту и порту из конфига nginx.
 
 ## Опционально
+
 ### Наполнение базы данных тестовыми данными
+
 *Можно* заполнить базу данных тестовыми данными:
 
-> Windows:
-```
-python manage.py fill_db [ratio]
-```
-
-> Linux/MAC:
 ```
 python3 manage.py fill_db [ratio]
 ```
 
 Где `[ratio]` - коэффициент заполнения базы в соотношении:
+
 ```
 пользователи = ratio
 вопросы = ratio * 10
@@ -108,6 +157,7 @@ python3 manage.py fill_db [ratio]
 ```
 
 Фактически:
+
 ```
 пользователи = ratio
 вопросы = ratio * 10
@@ -117,6 +167,7 @@ python3 manage.py fill_db [ratio]
 ```
 
 Теоретически:
+
 ```
 пользователи = ratio
 вопросы = ratio * 10
@@ -125,13 +176,15 @@ python3 manage.py fill_db [ratio]
 оценки пользователей = ratio * 200 при ratio > 4
 ```
 
-### Выход
-Для остановки сервера: `CTRL+C`
-
-Для выхода из виртуального окружения:
-```
-deactivate
-```
-
 ## Модель базы данных
+
 ![Модель базы данных](<readme_img/База Данных.png>)
+
+
+```
+пользователи = ratio
+вопросы = ratio * 10
+ответы = 10 * ratio * (ratio - 1)
+тэги = ratio
+оценки пользователей (вопросы и ответы) = 10 * ratio^2 * (ratio - 1)
+```

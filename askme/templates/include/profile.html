@@ -41,8 +41,10 @@
 		</div>
 	{% endif %}
 
-	<div class="edit_profile_link_area">
-		<a href="{% url "edit_profile" %}" class="edit_profile_link">Edit profile</a>
-	</div>
+	{% if user.id == request.user.id %}
+		<div class="edit_profile_link_area">
+			<a href="{% url "edit_profile" %}" class="edit_profile_link">Edit profile</a>
+		</div>
+	{% endif %}
 
 </div>

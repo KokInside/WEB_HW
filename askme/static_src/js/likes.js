@@ -1,6 +1,6 @@
 function questionLike(question_id, csrf) {
-	console.log(question_id);
-	console.log("good");
+	// console.log(question_id);
+	// console.log("good");
 
 	const question_likes = document.getElementById(`${question_id}--likes`);
 
@@ -11,13 +11,20 @@ function questionLike(question_id, csrf) {
 		}
 	})
 		.then((res) => {
-			if (res.status >= 400) {
-				console.log(res.info);
-			} else {
-				res = res.json();
+			// if (res.status >= 400) {
+			// 	console.log(res.info);
+			// } else {
+			// 	res = res.json();
+			// 	console.log(res.likes);
+			// 	answer_likes.innerText = `${res.likes}`;
+			// }
+			return res.json();
+		})
+		.then((res) => {
+			if (res.success === true) {
+				// console.log(res.likes);
 				question_likes.innerText = `${res.likes}`;
 			}
-			return res;
 		})
 	// .then((res) => {
 	// 	return res.json();
@@ -29,7 +36,7 @@ function questionLike(question_id, csrf) {
 
 
 function questionDislike(question_id, csrf) {
-	console.log(question_id);
+	// console.log(question_id);
 
 	const question_likes = document.getElementById(`${question_id}--likes`);
 
@@ -40,13 +47,20 @@ function questionDislike(question_id, csrf) {
 		}
 	})
 		.then((res) => {
-			if (res.status >= 400) {
-				console.log(res.info);
-			} else {
-				res = res.json();
+			// if (res.status >= 400) {
+			// 	console.log(res.info);
+			// } else {
+			// 	res = res.json();
+			// 	console.log(res.likes);
+			// 	answer_likes.innerText = `${res.likes}`;
+			// }
+			return res.json();
+		})
+		.then((res) => {
+			if (res.success === true) {
+				// console.log(res.likes);
 				question_likes.innerText = `${res.likes}`;
 			}
-			return res;
 		})
 	// .then((res) => {
 	// 	if (res.status >= 400) {
@@ -64,7 +78,7 @@ function questionDislike(question_id, csrf) {
 
 
 function answerLike(answer_id, csrf) {
-	console.log(answer_id);
+	// console.log(answer_id);
 
 	const answer_likes = document.getElementById(`${answer_id}--likes`);
 
@@ -75,13 +89,20 @@ function answerLike(answer_id, csrf) {
 		}
 	})
 		.then((res) => {
-			if (res.status >= 400) {
-				console.log(res.info);
-			} else {
-				res = res.json();
+			// if (res.status >= 400) {
+			// 	console.log(res.info);
+			// } else {
+			// 	res = res.json();
+			// 	console.log(res.likes);
+			// 	answer_likes.innerText = `${res.likes}`;
+			// }
+			return res.json();
+		})
+		.then((res) => {
+			if (res.success === true) {
+				// console.log(res.likes);
 				answer_likes.innerText = `${res.likes}`;
 			}
-			return res;
 		})
 	// .then((res) => {
 	// 	if (res.status >= 400) {
@@ -100,7 +121,7 @@ function answerLike(answer_id, csrf) {
 
 
 function answerDislike(answer_id, csrf) {
-	console.log(answer_id);
+	// console.log(answer_id);
 
 	const answer_likes = document.getElementById(`${answer_id}--likes`);
 
@@ -111,13 +132,20 @@ function answerDislike(answer_id, csrf) {
 		}
 	})
 		.then((res) => {
-			if (res.status >= 400) {
-				console.log(res.info);
-			} else {
-				res = res.json();
+			// if (res.status >= 400) {
+			// 	console.log(res.info);
+			// } else {
+			// 	res = res.json();
+			// 	console.log(res.likes);
+			// 	answer_likes.innerText = `${res.likes}`;
+			// }
+			return res.json();
+		})
+		.then((res) => {
+			if (res.success === true) {
+				// console.log(res.likes);
 				answer_likes.innerText = `${res.likes}`;
 			}
-			return res;
 		})
 	// .then((res) => {
 	// 	if (res.status >= 400) {

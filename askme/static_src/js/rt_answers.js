@@ -1,6 +1,6 @@
 const csrf = Cookies.get("csrftoken");
 
-console.log(csrf);
+// console.log(csrf);
 
 async function getToken() {
 
@@ -52,7 +52,7 @@ const sub = client.newSubscription(channel_name);
 sub
 .on('publication', function (ctx) {
 	console.log("PUBLICATION");
-	console.log(ctx.data);
+	// console.log(ctx.data);
 	
 	const text = ctx.data.text;
 	const author_id = ctx.data.author_id;

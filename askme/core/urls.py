@@ -23,7 +23,9 @@ questionurlpatterns = [
 
 profileurlpatterns = [
 	path("", ProfileView.as_view(), name = "profile"),
-	path("edit/", EditProfileView.as_view(), name = "edit_profile")
+	path("edit/", EditProfileView.as_view(), name = "edit_profile"),
+
+	path("user/<str:user_username>/", ProfileView.as_view(), name="user_profile")
 ]
 
 apiurlpatterns = [

@@ -28,7 +28,7 @@
                 <a href="#" style="text-decoration: none; color: mediumblue;">Killer_228</a>
                 <a href="#" style="text-decoration: none; color: seagreen;">Ashot</a> {% endcomment %}
 				{% for popUser in users %}
-					<a href="">{{ popUser }}</a>
+					<a href="{% url "user_profile" popUser %}">{{ popUser }}</a>
 				{% endfor %}
             </div>
         </div>

@@ -185,7 +185,7 @@ class EditProfileForm(forms.Form):
 		})
 	)
 
-	email = forms.EmailField(min_length=3, max_length = 150, widget = forms.EmailInput(attrs = {
+	email = forms.EmailField(required=False, min_length=3, max_length = 150, widget = forms.EmailInput(attrs = {
 		"class": "login_input email_input username_input"
 	}))
 

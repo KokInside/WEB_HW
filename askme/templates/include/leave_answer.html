@@ -5,13 +5,19 @@
 		<form class="leave_answer_form" method="post" novalidate>
 			{% csrf_token %}
 			<input type="hidden" name="question_id" value="{{ question.id }}">
-			{{ answer_form.non_field_errors }}
+			<ul class="errorlist" id="id_non_field_error" hidden>
+				<li class="non_field_error" hidden></li>
+			</ul>
+			{% comment %} {{ answer_form.non_field_errors }} {% endcomment %}
 			{% comment %} <textarea name="" id="answer_area" required minlength="50"></textarea> {% endcomment %}
 			{{ answer_form.text }}
+			<ul class="errorlist" id="id_text_error" hidden>
+				<li class="field_error" hidden></li>
+			</ul>
 			
-			{{ answer_form.text.errors }}
+			{% comment %} {{ answer_form.text.errors }} {% endcomment %}
 			
-			<input type="submit" value="Leave!">
+			<input type="submit" value="Leave!" class="main_form_button">
 			
 				
 		</form>

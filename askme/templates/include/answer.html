@@ -4,7 +4,7 @@
 
 	<aside class="answer_aside">
 
-		<a href="#" class="answer_user" title="user profile">
+		<a href="{% url "user_profile" answer.author.username %}" class="answer_user" title="user profile">
 			{% if answer.author.avatar %}
 				<img src="{{ MEDIA_URL }}{{ answer.author.avatar }}" alt="" class="user">
 			{% else %}

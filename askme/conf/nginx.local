@@ -1,16 +1,22 @@
 upstream django_app {
-        # gunicorn host
-        server 127.0.0.1:8012;
+    # gunicorn host
+    server 127.0.0.1:8012;
 }
 
-#upstream centrifugo {
-        # centrifugo host
-        # server 127.0.0.1:8033;
-#}
+# upstream centrifugo {
+    # centrifugo host
+    # server 127.0.0.1:8033;
+# }
+
+upstream maildev_web {
+	# maildev WEB interface
+	server 127.0.0.1:1080/;
+}
+
 
 server {
 
-        listen 8822;
+    listen 8822;
     server_name ask.kokinside;
 
     client_max_body_size 6m;
@@ -41,7 +47,7 @@ server {
     }
 
     location /centrifugo/connection/websocket {
-        proxy_pass http://127.0.0.1:8033;
+        proxy_pass http://centrifugo;
         proxy_http_version  1.1;
 
         proxy_set_header    Upgrade $http_upgrade;
@@ -57,7 +63,7 @@ server {
     }
 
     location /centrifugo/api {
-        proxy_pass http://127.0.0.1:8033;
+        proxy_pass http://centrifugo;
 
         proxy_http_version 1.1;
         proxy_buffering off;
@@ -73,7 +79,7 @@ server {
         }
 
     location /maildev {
-        proxy_pass http://localhost:1080/;
+        proxy_pass http://maildev_web;
 
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;

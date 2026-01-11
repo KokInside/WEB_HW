@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpRequest
 from django.http import HttpResponseNotFound
 from django.http import JsonResponse
+from django.http import Http404
 
 from django.urls import reverse_lazy
 
@@ -210,6 +211,15 @@ class ProfileView(TemplateView):
 		context["tags"] = TagCache.get_popular_tags()
 		context["users"] = UserCache.get_popular_users()
 
+		user_id = kwargs.get("user_username", None)
+
+		# print(user_id)
+		# print(self.request.user)
+		
+		if user_id:
+
+			context["user"] = get_object_or_404(UserProfile, username = user_id)
+
 		return context 
 
 
@@ -280,9 +290,10 @@ class EditProfileView(LoginRequiredMixin, TemplateView):
 
 			if len(update_fields) > 0:
 				user.save(update_fields=update_fields)
-				print("Изменения сохранены")
+				# print("Изменения сохранены")
 			else:
-				print("Ничего не изменено")
+				pass
+				# print("Ничего не изменено")
 
 		else:
 			return render(request, self.template_name, {"form": form})
@@ -762,16 +773,18 @@ class LeaveAnswerAPIView(View):
 
 	def post(self, request, *args, **kwargs):
 
-		print("форма принята на стороне api")
+		# print("форма принята на стороне api")
 
 		if not request.user.is_authenticated:
 			return JsonResponse({
+				"success": False,
 				"error": "Unauthorized"
 			}, status = 401)
 
 		question_id = kwargs.get("id", None)
 		if not question_id:
 			return JsonResponse({
+				"success": False,
 				"error": "empty question id"
 			}, status = 404)
 		
@@ -779,29 +792,33 @@ class LeaveAnswerAPIView(View):
 
 		if question.author == request.user:
 			return JsonResponse({
+				"success": False,
 				"error": "Вы не можете ответить на свой же вопрос"
 			}, status=403)
 		
 		if question.answer_set.filter(author = request.user).count() != 0:
 			return JsonResponse({
+				"success": False,
 				"error": "non_field_error",
-				"non_fields_errors": ["you have already answer this question"]
+				"non_field_errors": ["You have already answer this question."],
+				"error_codes": ["already_answered_error"]
 			}, status=409)
 		
 		
 		answer_data: dict = json.loads(request.body)
 		answer_text = answer_data.get("text", None)
 
-		print("text = ", answer_text)
-		print("answer data = ", answer_data)
+		# print("text = ", answer_text)
+		# print("answer data = ", answer_data)
 
-		if not answer_text:
-			return JsonResponse({
-				"error": "validation_error",
-				"fields": {
-					"text": ["This field is required"]
-				}
-			}, status=400)
+		# if not answer_text:
+		# 	return JsonResponse({
+		# 		"error": "field_error",
+		# 		"fields": {
+		#			"success": False,
+		# 			"text": ["This field is required"]
+		# 		}
+		# 	}, status=400)
 		
 		user_id = request.user.id
 		user_avatar = request.user.avatar
@@ -838,21 +855,22 @@ class LeaveAnswerAPIView(View):
 			"answer_id": str(answer_id)
 		}
 
-		print("chennal data:")
-		print(channel_data)
+		# print("chennal data:")
+		# print(channel_data)
 
 		client = Client("http://localhost:8033/centrifugo/api", HTTP_KEY)
 		#client = Client("http://ask.kokinside:8822/api", HTTP_KEY)
 
 		channel_name = f"question--{question_id}--answers"
-		print("channel name = ", channel_name)
+		# print("channel name = ", channel_name)
 
 		req = PublishRequest(channel=channel_name, data=channel_data)
 		client.publish(req)
 
-		print("Успешно отправлено в канал")
+		# print("Успешно отправлено в канал")
 
 		return JsonResponse({
+			"success": True,
 			"data": "successfuly created"
 		}, status = 201)
 		
@@ -937,7 +955,7 @@ class AnswerCorrectAPIView(View):
 @login_required
 def generate_client_jwt(request):
 	if request.method == "POST":
-		print("дошло до client api")
+		# print("дошло до client api")
 
 		if not request.user.is_authenticated:
 			return JsonResponse({
@@ -950,14 +968,14 @@ def generate_client_jwt(request):
 
 		token = jwt.encode({"sub": sub, "exp": exp}, CLIENT_KEY, algorithm = "HS256")
 
-		print("токен сгенерировался")
+		# print("токен сгенерировался")
 
 		return JsonResponse({
 			"token": token
 		}, status=200)
 	
 	else:
-		print("что-то не так с client-api")
+		# print("что-то не так с client-api")
 		return JsonResponse({
 			"data": "get"
 		}, status=203)

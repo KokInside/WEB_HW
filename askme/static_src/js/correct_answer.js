@@ -6,7 +6,7 @@ function correct(question_id, answer_id, csrf) {
 		}
 	}).then((res) => {
 		if (res.status >= 400) {
-			console.log("something wrong: " + res.json.info);
+			// console.log("something wrong: " + res.json.info);
 		}
 		return res;
 	}).then((res) => {
