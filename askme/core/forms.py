@@ -51,10 +51,10 @@ class EmailLoginForm(AuthenticationForm):
 	)
 
 	def clean(self):
-		cleaned_data = super().clean()
 
 		email = self.cleaned_data.get("username")
 		password = self.cleaned_data.get("password")
+
 
 		if email and password:
 			try:
@@ -67,8 +67,10 @@ class EmailLoginForm(AuthenticationForm):
 
 			if self.user_cache is None:
 				raise forms.ValidationError("Неверный email или пароль" ,"wrond_email_or_password")
+			
+			self.cleaned_data['username'] = user.username
 
-		return cleaned_data
+		return self.cleaned_data
 
 
 class RegistrationForm(UserCreationForm):
@@ -109,8 +111,22 @@ class RegistrationForm(UserCreationForm):
 
 class QuestionForm(forms.ModelForm):
 
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		self.fields["title"].widget.attrs.update({
+			"class": "ask_question_title",
+			"placeholder": "Ёмкий заголовок вашего вопроса"
+		})
+
+		self.fields["text"].widget.attrs.update({
+			"class": "ask_question_text",
+			"placeholder": "Подробно опишите ваш вопрос"
+		})
+
 	tags = forms.CharField(required=True, widget = forms.TextInput(attrs = {
-		"placeholder": "tag1 tag2 tag3..."
+		"placeholder": "tag1 tag2 tag3...",
+		"class": "ask_question_tags"
 	}))
 
 	def clean_tags(self):
@@ -132,7 +148,7 @@ class QuestionForm(forms.ModelForm):
 		validated_tags = []
 
 		for tag in tags_list:
-			if (tag.isalnum()):
+			if tag.isalnum():
 				validated_tags.append(tag.lower())
 			else:
 				self.add_error("tags", forms.ValidationError("Можно использовать только буквы и цифры", "not_alnum"))
@@ -165,12 +181,12 @@ class EditProfileForm(forms.Form):
 		max_length = 150,
 		min_length = 3,
 		widget = forms.TextInput(attrs = {
-			"class": "login_input settings_input",
+			"class": "login_input username_input",
 		})
 	)
 
 	email = forms.EmailField(min_length=3, max_length = 150, widget = forms.EmailInput(attrs = {
-		"class": "login_input email_input settings_input"
+		"class": "login_input email_input username_input"
 	}))
 
 	avatar = forms.ImageField(required=False)

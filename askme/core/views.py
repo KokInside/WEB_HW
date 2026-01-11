@@ -5,10 +5,13 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from django.core.paginator import Paginator
+from django.core.mail import send_mail
 
 from core.models import Question, Tag, QuestionLike, markChoices, Answer, AnswerLike, UserProfile
 
 from core.mixins import FormLimitMixin
+
+from core.caches import TagCache, UserCache
 
 from django.utils.decorators import method_decorator
 
@@ -16,6 +19,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
 
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
@@ -29,6 +33,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import ValidationError
 
 from .forms import UsernameLoginForm, EmailLoginForm, RegistrationForm, QuestionForm, AnswerForm, CorrectAnswerForm, EditProfileForm
+
+from askme.settings import CLIENT_KEY, HTTP_KEY
+
+import jwt
+
+import time
+
+from cent import Client, PublishRequest
+
+import json
 
 
 def paginate(questions, request: HttpRequest):
@@ -59,44 +73,6 @@ def paginate(questions, request: HttpRequest):
 	return page, page_numbers, per_page
 
 
-def getPopularTags(tag_count = 7):
-	try:
-		int(tag_count)
-
-	except ValueError:
-		tag_count = 7
-
-	else:
-		if tag_count > 20 or tag_count <= 0:
-			tag_count = 20
-		
-	if Tag.objects.count() < tag_count:
-		return Tag.objects.all().order_by("-questionCount", "name")
-	
-	tags = Tag.objects.order_by("-questionCount", "name")[:tag_count].values_list("name", flat=True)
-
-	return tags
-
-
-def getPopularUsers(user_count = 5):
-	try:
-		int(user_count)
-
-	except ValueError:
-		user_count = 5
-
-	else:
-		if user_count <= 0 or user_count > 10:
-			user_count = 5
-
-	if UserProfile.objects.count() < user_count:
-		return UserProfile.objects.all().order_by("-likes", "username")
-	
-	users = UserProfile.objects.order_by("-likes", "username")[:user_count].values_list("username", flat=True)
-
-	return users
-
-
 @method_decorator(never_cache, name = 'dispatch')
 class IndexView(TemplateView):
 	http_method_names = ["get",]
@@ -112,8 +88,8 @@ class IndexView(TemplateView):
 		context['page'] = page
 		context['page_numbers'] = page_numbers
 		context["perpage"] = per_page
-		context["tags"] = getPopularTags()
-		context["users"] = getPopularUsers()
+		context["tags"] = TagCache.get_popular_tags()
+		context["users"] = UserCache.get_popular_users()
 
 		return context
 
@@ -133,6 +109,8 @@ class HotView(TemplateView):
 		context['page'] = page
 		context['page_numbers'] = page_numbers
 		context["perpage"] = per_page
+		context["tags"] = TagCache.get_popular_tags()
+		context["users"] = UserCache.get_popular_users()
 
 		return context
 
@@ -155,14 +133,17 @@ class TagView(TemplateView):
 		context['page_numbers'] = page_numbers
 		context["perpage"] = per_page
 		context["tag"] = tag_name
+		context["tags"] = TagCache.get_popular_tags()
+		context["users"] = UserCache.get_popular_users()
+		context["question_count"] = questions.count()
 
 		return context
 
 
 @method_decorator(never_cache, name = 'dispatch')
-@method_decorator(login_required, name = 'post')
+#@method_decorator(login_required, name = 'dispatch')
 class QuestionView(TemplateView):
-	http_method_names = ['get', 'post']
+	http_method_names = ['get']
 	template_name = 'question.html'
 
 	def get_context_data(self, **kwargs):
@@ -176,6 +157,8 @@ class QuestionView(TemplateView):
 
 		context['question'] = question
 		context['answers'] = answers
+		context["tags"] = TagCache.get_popular_tags()
+		context["users"] = UserCache.get_popular_users()
 
 
 		if question.author == self.request.user:
@@ -187,22 +170,32 @@ class QuestionView(TemplateView):
 		return context
 
 
-	def post(self, request, *args, **kwargs):
-		form = AnswerForm(request.POST)
+	# ответ на вопрос
+	# def post(self, request, *args, **kwargs):
+	# 	form = AnswerForm(request.POST)
 
-		if form.is_valid():
+	# 	if form.is_valid():
 
-			answer = form.save(commit = False)
+	# 		answer = form.save(commit = False)
 
-			answer.author = request.user
+	# 		answer.author = request.user
 
-			question_id = self.kwargs.get("question_id")
+	# 		question_id = self.kwargs.get("question_id")
 
-			answer.question_id = question_id
+	# 		answer.question_id = question_id
 
-			answer.save()
+	# 		answer.save()
 
-		return redirect(f"/question/{question_id}#answers")
+	# 	else:
+	# 		question_id = self.kwargs.get('question_id')
+
+	# 		context = self.get_context_data(**kwargs)
+
+	# 		context["answer_form"] = form
+
+	# 		return render(request, self.template_name, context)
+			
+	# 	return redirect(f"/question/{question_id}#answers")
 
 
 @method_decorator([never_cache, login_required], name = 'dispatch')
@@ -211,26 +204,38 @@ class ProfileView(TemplateView):
 	http_method_names = ['get']
 	template_name = 'profile.html'
 
-	# def get_context_data(self, **kwargs):
-	# 	context = super().get_context_data(**kwargs)
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
 
-	# 	return context 
+		context["tags"] = TagCache.get_popular_tags()
+		context["users"] = UserCache.get_popular_users()
+
+		return context 
 
 
 @method_decorator([never_cache, login_required], name = 'dispatch')	
 class EditProfileView(LoginRequiredMixin, TemplateView):
 	http_method_names=["get", "post"]
 	template_name = "settings.html"
-	
 
-	def get(self, request, *args, **kwargs):
-		form = EditProfileForm({"username": request.user.username, "email": request.user.email})
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
 
-		context = self.get_context_data()
-
+		form = EditProfileForm({"username": self.request.user.username, "email": self.request.user.email})
+		
 		context["form"] = form
 
-		return render(request, self.template_name, context)
+		context["tags"] = TagCache.get_popular_tags()
+		context["users"] = UserCache.get_popular_users()
+
+		return context 
+	
+
+	# def get(self, request, *args, **kwargs):
+	# 	form = EditProfileForm({"username": request.user.username, "email": request.user.email})
+	# 	context = self.get_context_data()
+	# 	context["form"] = form
+	# 	return render(request, self.template_name, context)
 
 
 	def post(self, request, *args, **kwargs):
@@ -255,6 +260,7 @@ class EditProfileView(LoginRequiredMixin, TemplateView):
 
 				has_form_errors = True
 			
+			# Добавить проверку на вес и размер изображения (PIL)
 
 			if has_form_errors:
 				return render(request, self.template_name, {"form": form})
@@ -273,8 +279,8 @@ class EditProfileView(LoginRequiredMixin, TemplateView):
 				user.avatar = form.cleaned_data["avatar"]
 
 			if len(update_fields) > 0:
-				print("Изменения сохранены")
 				user.save(update_fields=update_fields)
+				print("Изменения сохранены")
 			else:
 				print("Ничего не изменено")
 
@@ -293,6 +299,7 @@ class UsernameLoginView(LoginView):
 
 @method_decorator(never_cache, name='dispatch')
 class EmailLoginView(LoginView):
+	redirect_field_name = "name"
 	template_name = "email_login.html"
 	authentication_form = EmailLoginForm
 
@@ -337,17 +344,17 @@ class AskView(FormLimitMixin, FormView):
 	form_class = QuestionForm
 
 	burst_key = "QuestionForm"
-
+	error_msg = "Dispatch limit exceeded"
 	limits = {"minute": 2}
 
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 
-		context["tags"] = getPopularTags()
-		context["users"] = getPopularUsers()
+		context["tags"] = TagCache.get_popular_tags()
+		context["users"] = UserCache.get_popular_users()
 
-		return context
+		return context 
 	
 
 	def form_valid(self, form):
@@ -360,14 +367,13 @@ class AskView(FormLimitMixin, FormView):
 
 		question.save()
 
-		print(tags)
+		#print(tags)
 
 		for tag in tags:
 			question.tags.add(tag)
 
 		for tag in question.tags.all():
-			tag.questionCount += 1
-			tag.save(update_fields=["questionCount"])
+			tag.increase()
 
 		self.object = question
 
@@ -381,7 +387,7 @@ class AskView(FormLimitMixin, FormView):
 
 	def get_tags_objects(self, tags: list) -> list:
 
-		print(tags)
+		#print(tags)
 		
 		tags_objects = []
 
@@ -390,66 +396,21 @@ class AskView(FormLimitMixin, FormView):
 
 
 		return tags_objects
-
-
-# @method_decorator([login_required, never_cache], name="dispatch")
-# class AskView(TemplateView):
-# 	template_name = "ask.html"
-# 	http_method_names = ['get', 'post']
-
-# 	def get_context_data(self, **kwargs):
-# 		context = super().get_context_data(**kwargs)
-# 		context['form'] = QuestionForm()
-
-# 		return context
-	
-# 	def post(self, request, *args, **kwarsg):
-# 		form = QuestionForm(request.POST)
-
-# 		if form.is_valid():
-# 			question = form.save(commit = False)
-
-# 			question.author = request.user
-
-# 			tags = self.get_tags_objects(form.cleaned_data["tags"])
-
-# 			question.save()
-
-# 			print(tags)
-
-# 			for tag in tags:
-# 				question.tags.add(tag)
-
-# 			for tag in question.tags.all():
-# 				tag.questionCount += 1
-# 				tag.save(update_fields=["questionCount"])
-
-# 			return redirect(f"/question/{question.id}")
-	
-# 		return render(request, "ask.html", {"form": form})
-	
-
-# 	def get_tags_objects(self, tags: list) -> list:
-
-# 		print(tags)
-		
-# 		tags_objects = []
-
-# 		for tag in tags:
-# 			tags_objects.append(Tag.objects.get_or_create(name = tag)[0])
-
-
-# 		return tags_objects
 	
 
 ###################################################################
 # Like/Dislike APIs
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(csrf_protect, name='dispatch')
 class QuestionLikeAPIView(View):
 	http_method_names = ["post"]
 
 	def post(self, request, *args, **kwargs):
+
+		if not request.user.is_authenticated:
+			return JsonResponse({
+				"error": "Unauthorized"
+			}, status = 401)
 
 		question_id = kwargs.get("id", None)
 
@@ -529,11 +490,17 @@ class QuestionLikeAPIView(View):
 		}, status=201)		
 		
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(csrf_protect, name='dispatch')
 class QuestionDislikeAPIView(View):
 	http_method_names = ["post"]
 
 	def post(self, request, *args, **kwargs):
+
+		if not request.user.is_authenticated:
+			return JsonResponse({
+				"error": "Unauthorized"
+			}, status = 401)
+		
 		question_id = kwargs.get("id", None)
 
 		if question_id is None:
@@ -545,7 +512,6 @@ class QuestionDislikeAPIView(View):
 		question = get_object_or_404(Question, id = question_id)
 
 		if question.author == request.user:
-
 			return JsonResponse({
 				"success": False,
 				"info": "Author can not like himself",
@@ -610,11 +576,18 @@ class QuestionDislikeAPIView(View):
 		}, status = 201)
 	
 
-@method_decorator(login_required, name='dispatch')
+
+@method_decorator(csrf_protect, name='dispatch')
 class AnswerLikeAPIView(View):
 	http_method_names = ["post"]
 
 	def post(self, request, *args, **kwargs):
+
+		if not request.user.is_authenticated:
+			return JsonResponse({
+				"error": "Unauthorized"
+			}, status = 401)
+
 		answer_id = kwargs.get("id", None)
 
 		if answer_id is None:
@@ -693,11 +666,17 @@ class AnswerLikeAPIView(View):
 		}, status=201)		
 		
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(csrf_protect, name='dispatch')
 class AnswerDislikeAPIView(View):
 	http_method_names = ["post"]
 
 	def post(self, request, *args, **kwargs):
+
+		if not request.user.is_authenticated:
+			return JsonResponse({
+				"error": "Unauthorized"
+			}, status = 401)		
+
 		answer_id = kwargs.get("id", None)
 
 		if answer_id is None:
@@ -774,14 +753,124 @@ class AnswerDislikeAPIView(View):
 
 
 #////////////////////////////////////////////////////////
+# leave answer api
+
+
+@method_decorator(csrf_protect, name='dispatch')
+class LeaveAnswerAPIView(View):
+	http_method_names=["post"]
+
+	def post(self, request, *args, **kwargs):
+
+		print("форма принята на стороне api")
+
+		if not request.user.is_authenticated:
+			return JsonResponse({
+				"error": "Unauthorized"
+			}, status = 401)
+
+		question_id = kwargs.get("id", None)
+		if not question_id:
+			return JsonResponse({
+				"error": "empty question id"
+			}, status = 404)
+		
+		question = Question.objects.get(id = question_id)
+
+		if question.author == request.user:
+			return JsonResponse({
+				"error": "Вы не можете ответить на свой же вопрос"
+			}, status=403)
+		
+		if question.answer_set.filter(author = request.user).count() != 0:
+			return JsonResponse({
+				"error": "non_field_error",
+				"non_fields_errors": ["you have already answer this question"]
+			}, status=409)
+		
+		
+		answer_data: dict = json.loads(request.body)
+		answer_text = answer_data.get("text", None)
+
+		print("text = ", answer_text)
+		print("answer data = ", answer_data)
+
+		if not answer_text:
+			return JsonResponse({
+				"error": "validation_error",
+				"fields": {
+					"text": ["This field is required"]
+				}
+			}, status=400)
+		
+		user_id = request.user.id
+		user_avatar = request.user.avatar
+
+		if not user_avatar:
+			user_avatar_path = "/static/svg/user.svg"
+		else:
+			user_avatar_path = user_avatar.url
+
+		answer = Answer(text = answer_text, author = request.user, question = question)
+		answer.save()
+
+		# отправка сообщения автору вопроса, что на него оставили ответ
+		# Если пользователь (автор вопроса) не заполнил поле emai в профиле - сообщение придёт на болванку (просто для проверки)
+
+		if not question.author.email:
+			question_author_email = "dummy-question-author@email.da"
+		else:
+			question_author_email = question.author.email 
+
+		send_mail(f"Пользователь {request.user.username} оставит ответ на Ваш вопрос.",
+			f"Вопрос:\n{question.title}\n\nОтвет:\n{answer_text}",
+			None,
+			[question_author_email],
+			True)
+
+		answer_id = answer.id
+
+		channel_data = {
+			"text": str(answer_text),
+			"author_id": str(user_id),
+			"author_img": str(user_avatar_path),
+			"question_id": str(question_id),
+			"answer_id": str(answer_id)
+		}
+
+		print("chennal data:")
+		print(channel_data)
+
+		client = Client("http://localhost:8033/centrifugo/api", HTTP_KEY)
+		#client = Client("http://ask.kokinside:8822/api", HTTP_KEY)
+
+		channel_name = f"question--{question_id}--answers"
+		print("channel name = ", channel_name)
+
+		req = PublishRequest(channel=channel_name, data=channel_data)
+		client.publish(req)
+
+		print("Успешно отправлено в канал")
+
+		return JsonResponse({
+			"data": "successfuly created"
+		}, status = 201)
+		
+
+#////////////////////////////////////////////////////////
 # correct answer
 
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(csrf_protect, name='dispatch')
 class AnswerCorrectAPIView(View):
 	http_method_names=["post"]
 
 	def post(self, request, *args, **kwargs):
+
+		if not request.user.is_authenticated:
+			return JsonResponse({
+				"error": "Unauthorized"
+			}, status = 401)
 
 		question_id = kwargs.get("question_id", None)
 		answer_id = kwargs.get("answer_id", None)
@@ -840,4 +929,43 @@ class AnswerCorrectAPIView(View):
 				"answers_to_uncorrect": correctAnswersIds,
 				"current_correct": currentCorrect
 			}, status=201)
-		
+
+
+#///////////////////////////////////////////////////////
+# Получение клиентского JWT токена
+
+@login_required
+def generate_client_jwt(request):
+	if request.method == "POST":
+		print("дошло до client api")
+
+		if not request.user.is_authenticated:
+			return JsonResponse({
+				"ok": False,
+				"error": "Unauthorized"
+			}, status=401)
+
+		sub = str(request.user.id)
+		exp = int(time.time()) + 10*60
+
+		token = jwt.encode({"sub": sub, "exp": exp}, CLIENT_KEY, algorithm = "HS256")
+
+		print("токен сгенерировался")
+
+		return JsonResponse({
+			"token": token
+		}, status=200)
+	
+	else:
+		print("что-то не так с client-api")
+		return JsonResponse({
+			"data": "get"
+		}, status=203)
+
+
+#///////////////////////////////////////////////////////
+# Получение JWT токена для канала
+
+@login_required
+def generate_channel_jwt(request):
+	pass

@@ -20,6 +20,6 @@ def tag_deleted(sender, **kwargs):
 	# print("tag post deleted")
 
 
-@receiver(signals.m2m_changed, sender=Question.tags.through)
-def question_tags(sender, **kwargs):
-	print("m2m changed")
+# @receiver(signals.m2m_changed, sender=Question.tags.through)
+# def question_tags(sender, **kwargs):
+# 	print("m2m changed")

@@ -34,6 +34,11 @@ apiurlpatterns = [
 	path("answer/<int:id>/dislike/", AnswerDislikeAPIView.as_view(), name = "answer_dislike"),
 
 	path("<int:question_id>/<int:answer_id>/correct/", AnswerCorrectAPIView.as_view(), name = "correct_answer"),
+
+	path("question/<int:id>/leave_answer/", LeaveAnswerAPIView.as_view(), name="leave_answer"),
+
+	path("client/jwt/", generate_client_jwt, name="generate_client_jwt"),
+	#path("channel/jwt/", ),
 ]
 
 coreurlpatterns = [

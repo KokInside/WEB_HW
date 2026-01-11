@@ -44,7 +44,7 @@ class Question(DateInfo):
 
 
 class Answer(DateInfo):
-	text = models.TextField(null=True)
+	text = models.TextField()
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
 	question = models.ForeignKey("Question", verbose_name=("Question"), on_delete=models.CASCADE)
 	correct = models.BooleanField(default = False)
@@ -136,13 +136,18 @@ class Tag(models.Model):
 	name = models.CharField(max_length=25, unique=True)
 	questionCount = models.PositiveIntegerField(default = 0)
 
-	def changeCount(self, increase = 1):
-		if increase == 1:
-			self.questionCount += 1
-		else:
-			self.questionCount -= 1
+	def increase(self, inc = 1):
+		self.questionCount += inc
 
 		self.save(update_fields=['questionCount'])
+
+	def decrease(self, dec = 1):
+		if self.questionCount < dec:
+			self.questionCount = 0
+		else:
+			self.questionCount -= dec
+
+		self.save(update_fields=["questionCount"])
 
 	class Meta:
 		db_table = "Tag"
