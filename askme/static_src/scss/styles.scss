@@ -1,17 +1,17 @@
-@import 'normalize';
+@use 'normalize';
 
-@import 'fonts';
+@use 'fonts';
 
-@import 'individual';
+@use 'individual';
 
-@import 'header';
+@use 'header';
 
-@import 'question';
-@import 'pagination';
+@use 'question';
+@use 'pagination';
 
-@import 'form';
+@use 'form';
 
-@import 'settings';
+@use 'settings';
 
 // main
 

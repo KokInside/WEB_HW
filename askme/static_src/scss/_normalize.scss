@@ -38,3 +38,15 @@ input {
     box-shadow: none;
     background-clip: padding-box; 
 }
+
+ul {
+	margin: 0;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.hidden-answer {
+	display: none !important;
+}
