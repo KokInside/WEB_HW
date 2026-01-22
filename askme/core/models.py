@@ -16,7 +16,7 @@ class Question(DateInfo):
 	title = models.CharField(max_length = 150, verbose_name = "Заголовок")
 	text = models.TextField(null=True)
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
-	likes = models.IntegerField(default = 0)
+	likes_count = models.IntegerField(default = 0)
 	tags = models.ManyToManyField("Tag", related_name="questions", blank=True, verbose_name="Теги")
 
 	# Model managers
@@ -26,11 +26,11 @@ class Question(DateInfo):
 
 	def changeLikes(self, increase = 1):
 		if increase == 1:
-			likes += 1
+			self.likes_count += 1
 		else:
-			likes -= 1
+			self.likes_count -= 1
 
-		self.save(update_fields=['likes'])
+		self.save(update_fields=['likes_count'])
 
 
 	def __str__(self):
@@ -48,15 +48,15 @@ class Answer(DateInfo):
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
 	question = models.ForeignKey("Question", verbose_name=("Question"), on_delete=models.CASCADE)
 	correct = models.BooleanField(default = False)
-	likes = models.IntegerField(default = 0)
+	likes_count = models.IntegerField(default = 0)
 
 	def changeLikes(self, increase = 1):
 		if increase == 1:
-			likes += 1
+			self.likes_count += 1
 		else:
-			likes -= 1
+			self.likes_count -= 1
 
-		self.save(update_fields=['likes'])
+		self.save(update_fields=['likes_count'])
 
 
 	def __str__(self):
@@ -109,9 +109,12 @@ class markChoices(models.IntegerChoices):
 
 class QuestionLike(models.Model):
 
-	question = models.ForeignKey("Question", verbose_name="Question", on_delete=models.CASCADE)
+	question = models.ForeignKey("Question", verbose_name="Question", on_delete=models.CASCADE, related_name="likes")
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
 	mark = models.SmallIntegerField(choices=markChoices, default=markChoices.NONE)
+
+	def __str__(self):
+		return "Оценка на вопрос " + str(self.question.id) + " = " + str(self.mark) 
 
 	class Meta:
 		db_table = "QuestionLike"

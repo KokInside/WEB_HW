@@ -1,4 +1,7 @@
-function correct(question_id, answer_id, csrf) {
+function correct(question_id, answer_id) {
+
+	const csrf = Cookies.get("csrftoken");
+
 	fetch(`/api/${question_id}/${answer_id}/correct/`, {
 		method: "POST",
 		headers: {

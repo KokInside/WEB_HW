@@ -1,8 +1,5 @@
-const csrf = Cookies.get("csrftoken");
-
-// console.log(csrf);
-
 async function getToken() {
+	const csrf = Cookies.get("csrftoken");
 
 	const res = await fetch(`/api/client/jwt/`, {
 		method: "POST",

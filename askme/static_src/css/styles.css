@@ -195,8 +195,8 @@ nav .login {
   padding: 20px;
   gap: 5%;
 }
-.question footer,
-.answer footer {
+
+.question_footer {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -233,7 +233,7 @@ nav .login {
   color: rgb(0, 111, 238);
 }
 
-.rate {
+.rate, .question_rate, .answer_rate {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -254,11 +254,11 @@ nav .login {
   height: 100%;
 }
 
-.upvote:hover {
+.upvote:hover, .upvoted {
   background-color: rgba(15, 168, 4, 0.5);
 }
 
-.downvote:hover {
+.downvote:hover, .downvoted {
   background-color: rgba(255, 0, 0, 0.5);
 }
 

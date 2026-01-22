@@ -1,5 +1,5 @@
 <div class="profile_content">
-	{% if user.username %}
+	{% if another_user.username %}
 		<div class="login_area">
 
 			<div>
@@ -7,13 +7,13 @@
 			</div>
 
 			<div class="profile_login">
-				{{ user.username }}
+				{{ another_user.username }}
 			</div>
 
 		</div>
 	{% endif %}
 
-	{% if user.email %}
+	{% if another_user.email %}
 		<div class="email_area">
 
 			<div>
@@ -21,13 +21,13 @@
 			</div>
 
 			<div class="profile_email">
-				{{ user.email }}
+				{{ another_user.email }}
 			</div>
 
 		</div>
 	{% endif %}
 
-	{% if user.avatar %}
+	{% if another_user.avatar %}
 		<div class="avatar_area">
 
 			<div>
@@ -35,13 +35,13 @@
 			</div>
 
 			<div>
-				<img src="{{ MEDIA_URL }}{{user.avatar}}" class="profile_avatar_img">
+				<img src="{{ MEDIA_URL }}{{another_user.avatar}}" class="profile_avatar_img">
 			</div>
 
 		</div>
 	{% endif %}
 
-	{% if user.id == request.user.id %}
+	{% if another_user.id == request.user.id %}
 		<div class="edit_profile_link_area">
 			<a href="{% url "edit_profile" %}" class="edit_profile_link">Edit profile</a>
 		</div>

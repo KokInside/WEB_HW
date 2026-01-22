@@ -34,7 +34,7 @@
 	
 			</a>
 	
-			<div class="rate">
+			<div class="answer_rate">
 				<button class="upvote" title="upvote">
 					<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
 				</button>
@@ -64,10 +64,13 @@
 {% endblock content %}
 
 {% block script %}
-	<script src="{% static "js/libs/js.cookie.min.js" %}"></script>
+	{% comment %} <script src="{% static "js/libs/js.cookie.min.js" %}"></script> {% endcomment %}
+	{% comment %} <script src="{% static "js/centrifugo/centrifuge.js" %}"></script> {% endcomment %}
+	<script src="{% static "js.cookie.min.js" %}"></script>
+	<script src="{% static "centrifuge.js" %}"></script>
+
 	<script src="{% static 'js/likes.js' %}"></script>
 	<script src="{% static 'js/correct_answer.js' %}"></script>
-	<script src="{% static "js/centrifugo/centrifuge.js" %}"></script>
 	<script src="{% static "js/rt_answers.js" %}"></script>
 	<script src="{% static "js/answer.js" %}"></script>
 {% endblock script %}

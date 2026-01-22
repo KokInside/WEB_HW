@@ -57,6 +57,7 @@
 		{% include "include/footer.html" %}
 		
 		{% block script %}
+			<script src="{% static "js.cookie.min.js" %}"></script>
 			<script src="{% static 'js/likes.js' %}"></script>
 			<script src="{% static 'js/correct_answer.js' %}"></script>
 		{% endblock script %}

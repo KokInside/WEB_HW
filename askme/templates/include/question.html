@@ -4,7 +4,7 @@
 
     <aside class="question_aside">
 
-        <a href="{% url "user_profile" question.author.username %}" class="question_user" title="user profile">
+        <a href="{% url "user_profile" question.author.username %}" class="question_user" title="{{ question.author.username }}">
 			{% if question.author.avatar %}
 				<img src="{{ MEDIA_URL }}{{ question.author.avatar }}" alt="">
 			{% else %}
@@ -12,17 +12,38 @@
 			{% endif %}
         </a>
 
-        <div class="rate">
+        <div class="question_rate" data-question-id="{{ question.id }}">
 
-            <button class="upvote" title="upvote" onclick="questionLike({{question.id}}, `{{csrf_token}}`)">
-                <img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
-            </button>
+			{% if question.user_likes %}
 
-            <span id="{{ question.id }}--likes" class="rating">{{ question.likes }}</span>
+				{% with like=question.user_likes.0.mark %}
 
-            <button class="downvote" title="downvote" onclick="questionDislike({{question.id}}, `{{csrf_token}}`)">
-                <img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
-            </button>
+					<button id="question--{{ question.id }}--upvote" class="upvote {% if like == 1 %}upvoted{% endif %}" data-question-id="{{ question.id }}" title="upvote">
+						<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
+					</button>
+
+					<span id="{{ question.id }}--likes" class="rating">{{ question.likes_count }}</span>
+
+					<button id="question--{{ question.id }}--downvote" class="downvote {% if like == -1 %}downvoted{% endif %}" data-question-id="{{ question.id }}" title="downvote">
+						<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
+					</button>			
+
+				{% endwith %}
+
+			{% else %}
+			
+				<button id="question--{{ question.id }}--upvote" class="upvote" data-question-id="{{ question.id }}" title="upvote">
+					<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
+				</button>
+
+				<span id="{{ question.id }}--likes" class="rating">{{ question.likes_count }}</span>
+
+				<button id="question--{{ question.id }}--downvote" class="downvote" data-question-id="{{ question.id }}" title="downvote">
+					<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
+				</button>
+
+			{% endif %}
+
 
         </div>
     </aside>
@@ -41,7 +62,7 @@
         <footer class="question_footer">
 
             <div class="answers_count">
-                <a href="{% url "question" question.id %}#answers">Answers ({{ question.answer_set.count }})</a>
+                <a href="{% url "question" question.id %}#answers-count">Answers ({{ question.answer_set.count }})</a>
             </div>
 
             <div class="question_tags">

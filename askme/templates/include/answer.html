@@ -12,16 +12,37 @@
 			{% endif %}
 		</a>
 
-		<div class="rate">
-			<button class="upvote" title="upvote" onclick="answerLike({{ answer.id }}, `{{ csrf_token }}`)">
-				<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
-			</button>
+		<div class="answer_rate">
 
-			<span class="rating" id="{{answer.id}}--likes">{{ answer.likes }}</span>
+			{% if answer.user_answer_likes %}
 
-			<button class="downvote" title="downvote" onclick="answerDislike({{ answer.id }}, `{{ csrf_token }}`)">
-				<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
-			</button>
+				{% with like=answer.user_answer_likes.0.mark %}
+				
+					<button id="answer--{{ answer.id }}--upvote" class="upvote {% if like == 1 %}upvoted{% endif %}" data-answer-id="{{ answer.id }}" title="upvote">
+						<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
+					</button>
+					
+					<span class="rating" id="{{answer.id}}--likes">{{ answer.likes_count }}</span>
+					
+					<button id="answer--{{ answer.id }}--downvote" class="downvote {% if like == -1 %}downvoted{% endif %}" data-answer-id="{{ answer.id }}" title="downvote">
+						<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
+					</button>
+				
+				{% endwith %}
+
+			{% else %}
+
+				<button id="answer--{{ answer.id }}--upvote" class="upvote" data-answer-id="{{ answer.id }}" title="upvote">
+					<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
+				</button>
+
+				<span class="rating" id="{{answer.id}}--likes">{{ answer.likes_count }}</span>
+
+				<button id="answer--{{ answer.id }}--downvote" class="downvote" data-answer-id="{{ answer.id }}" title="downvote">
+					<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
+				</button>
+
+			{% endif %}
 
 		</div>
 
@@ -33,7 +54,7 @@
 		<p class="answer_text">{{ answer.text }}</p>
 
 		{% if question.author == user %}
-			<button onclick="correct({{ question.id }}, {{ answer.id }}, `{{ csrf_token }}`)">Correct</button>
+			<button onclick="correct({{ question.id }}, {{ answer.id }})">Correct</button>
 		{% endif %}
 
 	</div>

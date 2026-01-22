@@ -16,11 +16,12 @@ NEW QUESTIONS
 
 {% block content %}
 
-{% for question in page %}
+	{% for question in page %}
 
-    {% include "include/question.html" %}
+		{% include "include/question.html" %}
 
-{% endfor %}
+	{% endfor %}
 
-{% include "include/pagination.html" %}
+	{% include "include/pagination.html" %}
+	
 {% endblock content %}

@@ -10,6 +10,8 @@ from django.core.mail import send_mail
 
 from core.models import Question, Tag, QuestionLike, markChoices, Answer, AnswerLike, UserProfile
 
+from django.db.models import Prefetch
+
 from core.mixins import FormLimitMixin
 
 from core.caches import TagCache, UserCache
@@ -70,7 +72,6 @@ def paginate(questions, request: HttpRequest):
 
 	page_numbers = paginator.get_elided_page_range(page.number, on_each_side = 2, on_ends = 1)
 
-	# возвращать только page ?
 	return page, page_numbers, per_page
 
 
@@ -82,7 +83,16 @@ class IndexView(TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 
-		questions = Question.qManager.get_new()
+		#questions = Question.qManager.get_new()
+
+		questions = Question.qManager.get_new().select_related("author").prefetch_related("tags")
+
+		if self.request.user.is_authenticated:
+
+			likes = QuestionLike.objects.filter(author = self.request.user)
+
+			questions = questions.prefetch_related(Prefetch("likes", queryset=likes, to_attr="user_likes"))
+
 
 		page, page_numbers, per_page = paginate(questions, self.request)
 
@@ -103,7 +113,14 @@ class HotView(TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 
-		questions = Question.qManager.get_hot()
+		questions = Question.qManager.get_hot().select_related("author").prefetch_related("tags")
+
+		if self.request.user.is_authenticated:
+
+			likes = QuestionLike.objects.filter(author = self.request.user)
+
+			questions = questions.prefetch_related(Prefetch("likes", queryset=likes, to_attr="user_likes"))
+
 
 		page, page_numbers, per_page = paginate(questions, self.request)
 
@@ -126,7 +143,12 @@ class TagView(TemplateView):
 
 		tag_name = self.kwargs.get('tag_name')
 
-		questions = get_object_or_404(Tag, name = tag_name).questions.order_by("-created_at")
+		questions = get_object_or_404(Tag, name = tag_name).questions.order_by("-created_at").select_related("author").prefetch_related("tags")
+
+		if self.request.user.is_authenticated:
+			likes = QuestionLike.objects.filter(author = self.request.user)
+
+			questions = questions.prefetch_related(Prefetch("likes", queryset=likes, to_attr="user_likes"))
 
 		page, page_numbers, per_page = paginate(questions, self.request)
 
@@ -152,20 +174,35 @@ class QuestionView(TemplateView):
 
 		question_id = self.kwargs.get('question_id')
 
-		question = get_object_or_404(Question.qManager, id = question_id)
+		# question = get_object_or_404(Question.qManager, id = question_id)
 
-		answers = question.answer_set.order_by("-created_at")
+		question = Question.objects.filter(id = question_id)
 
-		context['question'] = question
+		if not question:
+			return Http404("question not found")
+
+		# добавить related_name для вопроса к ответам
+		answers = question.first().answer_set.order_by("-created_at").select_related("author")
+
+		if self.request.user.is_authenticated:
+			answers_likes = AnswerLike.objects.filter(author = self.request.user, answer__question = question.first())
+
+			# и сюда related_name
+			answers = answers.prefetch_related(Prefetch("answerlike_set", queryset=answers_likes, to_attr="user_answer_likes"))
+
+			question = question.prefetch_related(Prefetch("likes", queryset=QuestionLike.objects.filter(question=question.first(), author=self.request.user), to_attr="user_likes"))
+
+		context['question'] = question.first
 		context['answers'] = answers
 		context["tags"] = TagCache.get_popular_tags()
 		context["users"] = UserCache.get_popular_users()
 
 
-		if question.author == self.request.user:
-			context["correct_answer_form"] = CorrectAnswerForm()
+		# if question.first().author == self.request.user:
+		# 	context["correct_answer_form"] = CorrectAnswerForm()
 
-		else:
+		# else:
+		if question.first().author != self.request.user:
 			context["answer_form"] = AnswerForm()
 
 		return context
@@ -211,14 +248,16 @@ class ProfileView(TemplateView):
 		context["tags"] = TagCache.get_popular_tags()
 		context["users"] = UserCache.get_popular_users()
 
-		user_id = kwargs.get("user_username", None)
-
-		# print(user_id)
-		# print(self.request.user)
+		another_user = kwargs.get("user_username", None)
 		
-		if user_id:
+		if another_user:
 
-			context["user"] = get_object_or_404(UserProfile, username = user_id)
+			context["another_user"] = get_object_or_404(UserProfile, username = another_user)
+
+		else:
+
+			context["another_user"] = self.request.user
+			
 
 		return context 
 
@@ -418,8 +457,11 @@ class QuestionLikeAPIView(View):
 
 	def post(self, request, *args, **kwargs):
 
+		print("Запрос пришёл на сервер")
+
 		if not request.user.is_authenticated:
 			return JsonResponse({
+				"success": False,
 				"error": "Unauthorized"
 			}, status = 401)
 
@@ -428,20 +470,22 @@ class QuestionLikeAPIView(View):
 		if question_id is None:
 			return JsonResponse({
 				"success": True,
-				"info": "empty data",
-				"likes": question.likes
+				"info": "Empty data",
+				#"likes": question.likes
 			}, status=204)
 		
 		question = get_object_or_404(Question, id = question_id)
 
 		if question.author == request.user:
 			return JsonResponse({
-				"success": False,
+				"success": True,
 				"info": "Author can not like himself",
-				"likes": question.likes
-			}, status=400)
+				"likes": question.likes_count
+			}, status=204)
 		
 		like = QuestionLike.objects.filter(question=question, author=request.user).first()
+
+		print("Началась обработка лайка")
 
 		if like:
 
@@ -450,54 +494,64 @@ class QuestionLikeAPIView(View):
 			if mark == markChoices.UP:
 
 				like.mark = markChoices.NONE
-				question.likes -= 1
+				question.likes_count -= 1
 
 				like.save(update_fields=["mark"])
-				question.save(update_fields=["likes"])
+				question.save(update_fields=["likes_count"])
+
+				print("Ответ от сервера отправлен")
 
 				return JsonResponse({
 					"success": True,
 					"info": "like is removed",
-					"likes": question.likes
+					"likes": question.likes_count
 				}, status=201)
 			
 			elif mark == markChoices.NONE:
 
 				like.mark = markChoices.UP
-				question.likes += 1
+				question.likes_count += 1
 
 				like.save(update_fields=["mark"])
-				question.save(update_fields=["likes"])
+				question.save(update_fields=["likes_count"])
+
+				print("Ответ от сервера отправлен")
 
 				return JsonResponse({
 					"success": True,
 					"info": "liked",
-					"likes": question.likes
+					"likes": question.likes_count
 				}, status=201)
 			
 			else: #mark == markChoices.DOWN:
 
 				like.mark = markChoices.UP
-				question.likes += 2
+				question.likes_count += 2
 
 				like.save(update_fields=["mark"])
-				question.save(update_fields=["likes"])
+				question.save(update_fields=["likes_count"])
+
+				print("Ответ от сервера отправлен")
 
 				return JsonResponse({
 					"success": True,
 					"info": "dislike is removed, liked",
-					"likes": question.likes
+					"likes": question.likes_count
 				}, status = 201)
 			
 		QuestionLike.objects.create(question = question, author = request.user, mark = markChoices.UP)
-		question.likes += 1
+		
+		# изменять через метод модели
+		question.likes_count += 1
 
-		question.save(update_fields=["likes"])
+		question.save(update_fields=["likes_count"])
+
+		print("Ответ от сервера отправлен")
 
 		return JsonResponse({
 			"success": True,
 			"info": "like created",
-			"likes": question.likes
+			"likes": question.likes_count
 		}, status=201)		
 		
 
@@ -509,27 +563,29 @@ class QuestionDislikeAPIView(View):
 
 		if not request.user.is_authenticated:
 			return JsonResponse({
+				"success": False,
 				"error": "Unauthorized"
 			}, status = 401)
-		
+
 		question_id = kwargs.get("id", None)
 
 		if question_id is None:
 			return JsonResponse({
 				"success": True,
-				"info": "question is not exists"
+				"info": "Empty data",
+				#"likes": question.likes
 			}, status=204)
 		
 		question = get_object_or_404(Question, id = question_id)
 
 		if question.author == request.user:
 			return JsonResponse({
-				"success": False,
+				"success": True,
 				"info": "Author can not like himself",
-				"likes": question.likes
-			}, status=400)
-
-		like = QuestionLike.objects.filter(author = request.user, question = question).first()
+				"likes": question.likes_count
+			}, status=204)
+		
+		like = QuestionLike.objects.filter(question=question, author=request.user).first()
 
 		if like:
 			mark = like.mark
@@ -537,56 +593,55 @@ class QuestionDislikeAPIView(View):
 			if mark == markChoices.UP:
 
 				like.mark = markChoices.DOWN
-				question.likes -= 2
+				question.likes_count -= 2
 
 				like.save(update_fields=["mark"])
-				question.save(update_fields=["likes"])
+				question.save(update_fields=["likes_count"])
 
 				return JsonResponse({
 					"success": True,
 					"info": "like is removed, disliked",
-					"likes": question.likes
+					"likes": question.likes_count
 				}, status=201)
 			
 			elif mark == markChoices.NONE:
 
 				like.mark = markChoices.DOWN
-				question.likes -= 1
+				question.likes_count -= 1
 
 				like.save(update_fields=["mark"])
-				question.save(update_fields=["likes"])
+				question.save(update_fields=["likes_count"])
 
 				return JsonResponse({
 					"success": True,
 					"info": "disliked",
-					"likes": question.likes
+					"likes": question.likes_count
 				}, status=201)
 			
 			else:
 				like.mark = markChoices.NONE
-				question.likes += 1
+				question.likes_count += 1
 
 				like.save(update_fields=["mark"])
-				question.save(update_fields=["likes"])
+				question.save(update_fields=["likes_count"])
 
 				return JsonResponse({
 					"success": True,
 					"info": "dislike is removed",
-					"likes": question.likes
+					"likes": question.likes_count
 				}, status=201)
 			
 		QuestionLike.objects.create(author = request.user, question = question, mark = markChoices.DOWN)
-		question.likes -= 1
+		question.likes_count -= 1
 
-		question.save(update_fields=["likes"])
+		question.save(update_fields=["likes_count"])
 
 		return JsonResponse({
 			"success": True,
 			"info": "dislike is created",
-			"likes": question.likes
+			"likes": question.likes_count
 		}, status = 201)
 	
-
 
 @method_decorator(csrf_protect, name='dispatch')
 class AnswerLikeAPIView(View):
@@ -613,7 +668,7 @@ class AnswerLikeAPIView(View):
 			return JsonResponse({
 				"success": False,
 				"info": "Author can not like himself",
-				"likes": answer.likes
+				"likes": answer.likes_count
 			}, status=400)
 		
 		like = AnswerLike.objects.filter(answer=answer, author=request.user).first()
@@ -625,55 +680,55 @@ class AnswerLikeAPIView(View):
 			if mark == markChoices.UP:
 
 				like.mark = markChoices.NONE
-				answer.likes -= 1
+				answer.likes_count -= 1
 
 				like.save(update_fields=["mark"])
-				answer.save(update_fields=["likes"])
+				answer.save(update_fields=["likes_count"])
 
 
 				return JsonResponse({
 					"success": True,
 					"info": "like is removed",
-					"likes": answer.likes
+					"likes": answer.likes_count
 				}, status=201)
 			
 			elif mark == markChoices.NONE:
 
 				like.mark = markChoices.UP
-				answer.likes += 1
+				answer.likes_count += 1
 
 				like.save(update_fields=["mark"])
-				answer.save(update_fields=["likes"])
+				answer.save(update_fields=["likes_count"])
 
 				return JsonResponse({
 					"success": True,
 					"info": "liked",
-					"likes": answer.likes
+					"likes": answer.likes_count
 				}, status=201)
 			
 			else: #mark == markChoices.DOWN:
 
 				like.mark = markChoices.UP
-				answer.likes += 2
+				answer.likes_count += 2
 
 				like.save(update_fields=["mark"])
-				answer.save(update_fields=["likes"])
+				answer.save(update_fields=["likes_count"])
 
 				return JsonResponse({
 					"success": True,
 					"info": "dislike is removed, liked",
-					"likes": answer.likes
+					"likes": answer.likes_count
 				}, status = 201)
 			
 		AnswerLike.objects.create(answer = answer, author = request.user, mark = markChoices.UP)
-		answer.likes += 1
+		answer.likes_count += 1
 
-		answer.save(update_fields=["likes"])
+		answer.save(update_fields=["likes_count"])
 
 		return JsonResponse({
 			"success": True,
 			"info": "like created",
-			"likes": answer.likes
+			"likes": answer.likes_count
 		}, status=201)		
 		
 
@@ -702,7 +757,7 @@ class AnswerDislikeAPIView(View):
 			return JsonResponse({
 				"success": False,
 				"info": "Author can not like himself",
-				"likes": answer.likes
+				"likes": answer.likes_count
 			}, status=400)
 
 		like = AnswerLike.objects.filter(author = request.user, answer = answer).first()
@@ -713,53 +768,53 @@ class AnswerDislikeAPIView(View):
 			if mark == markChoices.UP:
 
 				like.mark = markChoices.DOWN
-				answer.likes -= 2
+				answer.likes_count -= 2
 
 				like.save(update_fields=["mark"])
-				answer.save(update_fields=["likes"])
+				answer.save(update_fields=["likes_count"])
 
 				return JsonResponse({
 					"success": True,
 					"info": "like is removed, disliked",
-					"likes": answer.likes
+					"likes": answer.likes_count
 				}, status=201)
 			
 			elif mark == markChoices.NONE:
 
 				like.mark = markChoices.DOWN
-				answer.likes -= 1
+				answer.likes_count -= 1
 
 				like.save(update_fields=["mark"])
-				answer.save(update_fields=["likes"])
+				answer.save(update_fields=["likes_count"])
 
 				return JsonResponse({
 					"success": True,
 					"info": "disliked",
-					"likes": answer.likes
+					"likes": answer.likes_count
 				}, status=201)
 			
 			else:
 				like.mark = markChoices.NONE
-				answer.likes += 1
+				answer.likes_count += 1
 
 				like.save(update_fields=["mark"])
-				answer.save(update_fields=["likes"])
+				answer.save(update_fields=["likes_count"])
 
 				return JsonResponse({
 					"success": True,
 					"info": "dislike is removed",
-					"likes": answer.likes
+					"likes": answer.likes_count
 				}, status=201)
 			
 		AnswerLike.objects.create(author = request.user, answer = answer, mark = markChoices.DOWN)
-		answer.likes -= 1
+		answer.likes_count -= 1
 
-		answer.save(update_fields=["likes"])
+		answer.save(update_fields=["likes_count"])
 
 		return JsonResponse({
 			"success": True,
 			"info": "dislike is created",
-			"likes": answer.likes
+			"likes": answer.likes_count
 		}, status = 201)
 
 

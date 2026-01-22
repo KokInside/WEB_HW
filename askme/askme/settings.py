@@ -145,6 +145,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
 	BASE_DIR / 'static_src',
+	BASE_DIR / 'node_modules' / 'js-cookie' / 'dist',
+	BASE_DIR / 'node_modules' / 'centrifuge' / 'dist',
 ]
 
 STATIC_ROOT = BASE_DIR / "static"
