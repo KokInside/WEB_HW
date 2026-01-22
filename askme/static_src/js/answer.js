@@ -61,6 +61,7 @@ function sendForm(e) {
 	const data = { "question_id": question_id, "text": text };
 
 	// console.log("data = ", data);
+	console.log("ДОшло до сюдова");
 
 	fetch(`/api/question/${question_id}/leave_answer/`, {
 		method: "POST",
@@ -71,9 +72,10 @@ function sendForm(e) {
 	})
 		.then((res) => {
 			// console.log("res");
-			if (res.status >= 400) {
-				return res.json();
-			}
+			// if (res.status >= 400) {
+			// 	console.log("Алло");
+			// }
+			return res.json();
 		})
 		.then((res) => {
 			
@@ -81,11 +83,14 @@ function sendForm(e) {
 			// console.log(res.error);
 
 			if (!res) {
+				console.log("Хоть что-то сегодня выполняться ?");
 				return;
 			}
 
 			if (res.success === false) {
 				// console.log("success === false");
+
+				console.log("Вопрос невалидный");
 
 				if (res.error === 'non_field_error') {
 
@@ -104,6 +109,8 @@ function sendForm(e) {
 
 					non_field_error_list.hidden = false;
 				}
+			} else {
+				console.log("Вопрос валидный");
 			}
 		})
 }

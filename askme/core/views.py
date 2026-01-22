@@ -197,43 +197,10 @@ class QuestionView(TemplateView):
 		context["tags"] = TagCache.get_popular_tags()
 		context["users"] = UserCache.get_popular_users()
 
-
-		# if question.first().author == self.request.user:
-		# 	context["correct_answer_form"] = CorrectAnswerForm()
-
-		# else:
 		if question.first().author != self.request.user:
 			context["answer_form"] = AnswerForm()
 
 		return context
-
-
-	# ответ на вопрос
-	# def post(self, request, *args, **kwargs):
-	# 	form = AnswerForm(request.POST)
-
-	# 	if form.is_valid():
-
-	# 		answer = form.save(commit = False)
-
-	# 		answer.author = request.user
-
-	# 		question_id = self.kwargs.get("question_id")
-
-	# 		answer.question_id = question_id
-
-	# 		answer.save()
-
-	# 	else:
-	# 		question_id = self.kwargs.get('question_id')
-
-	# 		context = self.get_context_data(**kwargs)
-
-	# 		context["answer_form"] = form
-
-	# 		return render(request, self.template_name, context)
-			
-	# 	return redirect(f"/question/{question_id}#answers")
 
 
 @method_decorator([never_cache, login_required], name = 'dispatch')
@@ -451,41 +418,45 @@ class AskView(FormLimitMixin, FormView):
 ###################################################################
 # Like/Dislike APIs
 
+def QuestionOrAnswerMarkPreCheckout(request, object_id, object):
+	if not request.user.is_authenticated:
+		return JsonResponse({
+			"success": False,
+			"error": "Unauthorized"
+		}, status = 401)
+
+
+	if object_id is None:
+		return JsonResponse({
+			"success": True,
+			"info": "Empty data",
+		}, status=204)
+	
+
+	if object.author == request.user:
+		return JsonResponse({
+			"success": True,
+			"info": "Author can not like himself",
+			"likes": object.likes_count
+		}, status=204)
+
+
 @method_decorator(csrf_protect, name='dispatch')
 class QuestionLikeAPIView(View):
 	http_method_names = ["post"]
 
 	def post(self, request, *args, **kwargs):
 
-		print("Запрос пришёл на сервер")
-
-		if not request.user.is_authenticated:
-			return JsonResponse({
-				"success": False,
-				"error": "Unauthorized"
-			}, status = 401)
-
 		question_id = kwargs.get("id", None)
 
-		if question_id is None:
-			return JsonResponse({
-				"success": True,
-				"info": "Empty data",
-				#"likes": question.likes
-			}, status=204)
-		
 		question = get_object_or_404(Question, id = question_id)
+		
+		preCheckoutResponse = QuestionOrAnswerMarkPreCheckout(request, question_id, question)
 
-		if question.author == request.user:
-			return JsonResponse({
-				"success": True,
-				"info": "Author can not like himself",
-				"likes": question.likes_count
-			}, status=204)
+		if preCheckoutResponse:
+			return preCheckoutResponse
 		
 		like = QuestionLike.objects.filter(question=question, author=request.user).first()
-
-		print("Началась обработка лайка")
 
 		if like:
 
@@ -561,33 +532,19 @@ class QuestionDislikeAPIView(View):
 
 	def post(self, request, *args, **kwargs):
 
-		if not request.user.is_authenticated:
-			return JsonResponse({
-				"success": False,
-				"error": "Unauthorized"
-			}, status = 401)
-
 		question_id = kwargs.get("id", None)
 
-		if question_id is None:
-			return JsonResponse({
-				"success": True,
-				"info": "Empty data",
-				#"likes": question.likes
-			}, status=204)
-		
 		question = get_object_or_404(Question, id = question_id)
+		
+		preCheckoutResponse = QuestionOrAnswerMarkPreCheckout(request, question_id, question)
 
-		if question.author == request.user:
-			return JsonResponse({
-				"success": True,
-				"info": "Author can not like himself",
-				"likes": question.likes_count
-			}, status=204)
+		if preCheckoutResponse:
+			return preCheckoutResponse
 		
 		like = QuestionLike.objects.filter(question=question, author=request.user).first()
 
 		if like:
+
 			mark = like.mark
 
 			if mark == markChoices.UP:
@@ -649,27 +606,13 @@ class AnswerLikeAPIView(View):
 
 	def post(self, request, *args, **kwargs):
 
-		if not request.user.is_authenticated:
-			return JsonResponse({
-				"error": "Unauthorized"
-			}, status = 401)
-
 		answer_id = kwargs.get("id", None)
-
-		if answer_id is None:
-			return JsonResponse({
-				"success": True,
-				"info": "empty data"
-			}, status=204)
-		
 		answer = get_object_or_404(Answer, id = answer_id)
+		
+		preCheckoutResponse = QuestionOrAnswerMarkPreCheckout(request, answer_id, answer)
 
-		if answer.author == request.user:
-			return JsonResponse({
-				"success": False,
-				"info": "Author can not like himself",
-				"likes": answer.likes_count
-			}, status=400)
+		if preCheckoutResponse:
+			return preCheckoutResponse
 		
 		like = AnswerLike.objects.filter(answer=answer, author=request.user).first()
 
@@ -738,27 +681,13 @@ class AnswerDislikeAPIView(View):
 
 	def post(self, request, *args, **kwargs):
 
-		if not request.user.is_authenticated:
-			return JsonResponse({
-				"error": "Unauthorized"
-			}, status = 401)		
-
 		answer_id = kwargs.get("id", None)
-
-		if answer_id is None:
-			return JsonResponse({
-				"success": True,
-				"info": "question is not exists"
-			}, status=204)
-		
 		answer = get_object_or_404(Answer, id = answer_id)
+		
+		preCheckoutResponse = QuestionOrAnswerMarkPreCheckout(request, answer_id, answer)
 
-		if answer.author == request.user:
-			return JsonResponse({
-				"success": False,
-				"info": "Author can not like himself",
-				"likes": answer.likes_count
-			}, status=400)
+		if preCheckoutResponse:
+			return preCheckoutResponse
 
 		like = AnswerLike.objects.filter(author = request.user, answer = answer).first()
 
@@ -877,6 +806,9 @@ class LeaveAnswerAPIView(View):
 		
 		user_id = request.user.id
 		user_avatar = request.user.avatar
+		user_username = request.user.username
+
+		print(user_username)
 
 		if not user_avatar:
 			user_avatar_path = "/static/svg/user.svg"
@@ -907,7 +839,8 @@ class LeaveAnswerAPIView(View):
 			"author_id": str(user_id),
 			"author_img": str(user_avatar_path),
 			"question_id": str(question_id),
-			"answer_id": str(answer_id)
+			"answer_id": str(answer_id),
+			"author_username": str(user_username)
 		}
 
 		# print("chennal data:")
