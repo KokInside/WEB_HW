@@ -1,4 +1,116 @@
-{% extends "include/base.html" %}
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SignUP</title>
+	<link rel="stylesheet" href="{% static "css/styles.css" %}">
+</head>
+
+<body>
+	<main>
+		<div class="signup_content">
+
+			<form class="signup_form" method="POST" enctype="multipart/form-data" novalidate>
+
+				{% csrf_token %}
+
+				{% if form.non_field_errors %}
+					<span class="wrong">Что-то определённо неправильно</span>
+				{% endif %}
+
+				<div class="login_area">
+					<label for="signup_login">Login</label>
+					{% comment %} <input class="signup_input login_input" type="text" id="signup_login" required minlength="4"> {% endcomment %}
+					{{ form.username }}
+
+
+					{% comment %} {% if form.username.errors %}
+						<div class="form_wrong">Логин не может быть пустым</div>
+					{% endif %} {% endcomment %}
+
+					{{ form.username.errors }}
+
+				</div>
+
+
+				<div class="email_area">
+					<label for="signup_email">Email</label>
+					{% comment %} <input class="signup_input email_input" type="email" id="signup_email" required minlength="5" maxlength="40"> {% endcomment %}
+					{{ form.email }}
+
+					{% comment %} {% if form.email.errors %}
+						<div class="form_wrong">Email не может быть пустым</div>
+					{% endif %} {% endcomment %}
+					{{ form.email.errors }}
+				</div>
+
+
+				{% comment %} <div class="nickname_area">
+					<label for="signup_nickname">Nickname</label>
+					<input class="signup_input nickname_input" type="text" id="signup_nickname" required minlength="4">
+					<div class="form_wrong">Ник не может быть пустым</div>
+				</div> {% endcomment %}
+
+
+				<div class="password_area">
+					<label for="signup_password">Password</label>
+					{% comment %} <input class="signup_input password_input" type="password" id="signup_password" required minlength="8"> {% endcomment %}
+					{{ form.password1 }}
+
+					{% comment %} {% if form.password1.errors %}
+						<div class="form_wrong">Пароль не может быть пустым</div>
+					{% endif %} {% endcomment %}
+
+					{{ form.password1.errors }}
+
+				</div>
+
+
+				<div class="repeat_password_area password_area">
+					<label for="signup_repeat_password">Repeat password</label>
+					{% comment %} <input class="signup_input repeat_password_input password_input" type="password" id="signup_repeat_password" required minlength="8"> {% endcomment %}
+					{{ form.password2 }}
+					{% comment %} {% if form.password2.errors %}
+						<div class="form_wrong">Пароли не совпадают</div>
+					{% endif %} {% endcomment %}
+					{{ form.password2.errors }}
+				</div>
+
+
+				<div class="avatar_area">
+					<label for="signup_avatar">Upload avatar</label>
+					{% comment %} <input class="avatar_input" type="file" id="signup_avatar" accept=".png, .jpg, .jpeg"> {% endcomment %}
+					{{ form.avatar }}
+					{{ form.avatar.errors }}
+				</div>
+
+				<div class="signup_buttons">
+					<input class="main_form_button" type="submit" value="Register!"	>
+					<a class="minor_form_button" href="{% url "login_username" %}">Already have account ?</a>
+				</div>
+
+
+			</form>
+
+		</div>
+	</main>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends "include/base.html" %}
 
 {% block title %}
 signup
@@ -10,4 +122,4 @@ SIGN UP
 
 {% block content %}
 {% include "include/signup.html" %}
-{% endblock content %}
+{% endblock content %} {% endcomment %}

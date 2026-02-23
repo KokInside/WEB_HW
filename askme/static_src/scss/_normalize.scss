@@ -28,3 +28,25 @@ p {
 a {
 	text-decoration: none;
 }
+
+input {
+    appearance: auto;
+    // -webkit-appearance: none;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    box-shadow: none;
+    background-clip: padding-box; 
+}
+
+ul {
+	margin: 0;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.hidden-answer {
+	display: none !important;
+}

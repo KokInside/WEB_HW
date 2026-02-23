@@ -1,0 +1,21 @@
+{
+	"name": "askme",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/js-cookie": "^3.0.6",
+		"maildev": "^2.2.1"
+	},
+	"dependencies": {
+		"centrifuge": "^5.5.3",
+		"js-cookie": "^3.0.5"
+	}
+}

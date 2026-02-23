@@ -1,9 +1,3 @@
-@font-face {
-  font-family: "Sour";
-  src: url(../fonts/SourGummy-VariableFont_wdth\,wght.ttf);
-  font-style: normal;
-  font-display: swap;
-}
 html {
   font-size: 16px;
   font-family: Arial, sans-serif;
@@ -35,6 +29,33 @@ a {
   text-decoration: none;
 }
 
+input {
+  appearance: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: none;
+  background-clip: padding-box;
+}
+
+ul {
+  margin: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.hidden-answer {
+  display: none !important;
+}
+
+@font-face {
+  font-family: "Sour";
+  src: url(../fonts/SourGummy-VariableFont_wdth\,wght.ttf);
+  font-style: normal;
+  font-display: swap;
+}
 .row {
   display: flex;
   flex-direction: row;
@@ -92,11 +113,11 @@ body > header {
 }
 .search input:focus {
   outline: none;
-  border: 2px solid #1500ff;
+  border: 2px solid rgb(21, 0, 255);
 }
 
 .ask_button {
-  background-color: #0c81c9;
+  background-color: rgb(12, 129, 201);
   width: 4rem;
   height: 50%;
   border: none;
@@ -104,12 +125,16 @@ body > header {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 }
 .ask_button a {
   color: white;
   font-size: 1rem;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 nav {
@@ -128,11 +153,11 @@ nav a {
 }
 nav .register {
   color: white;
-  background-color: #4266ea;
-  border: 1px solid #4266ea;
+  background-color: rgb(66, 102, 234);
+  border: 1px solid rgb(66, 102, 234);
 }
 nav .login {
-  color: #4266ea;
+  color: rgb(66, 102, 234);
   background-color: white;
   border: 1px solid currentColor;
 }
@@ -163,15 +188,15 @@ nav .login {
 .answer {
   display: flex;
   flex-direction: row;
-  border: 1px solid #323232;
+  border: 1px solid rgb(50, 50, 50);
   border-radius: 30px;
-  background-color: #fafafa;
+  background-color: rgb(250, 250, 250);
   box-sizing: border-box;
   padding: 20px;
   gap: 5%;
 }
-.question footer,
-.answer footer {
+
+.question_footer {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -205,10 +230,10 @@ nav .login {
 .question_content h3 > a,
 .answer_content h3 > a {
   text-decoration: none;
-  color: #006fee;
+  color: rgb(0, 111, 238);
 }
 
-.rate {
+.rate, .question_rate, .answer_rate {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -229,11 +254,11 @@ nav .login {
   height: 100%;
 }
 
-.upvote:hover {
+.upvote:hover, .upvoted {
   background-color: rgba(15, 168, 4, 0.5);
 }
 
-.downvote:hover {
+.downvote:hover, .downvoted {
   background-color: rgba(255, 0, 0, 0.5);
 }
 
@@ -243,7 +268,7 @@ nav .login {
 }
 
 .answers_count a {
-  color: #2057d8 !important;
+  color: rgb(32, 87, 216) !important;
 }
 
 .leave_answer_title {
@@ -273,20 +298,39 @@ nav .login {
   background-color: white;
 }
 
+.paginator {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.perpage {
+  align-items: center !important;
+}
+
 .pagination {
   display: flex;
   flex-direction: row;
   align-items: end;
-  height: 10%;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  justify-content: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
 }
-.pagination a {
+
+.page_button:hover {
+  background-color: rgb(101, 163, 255);
+  color: white;
+  border-color: transparent;
+}
+
+.page_button {
   box-sizing: border-box;
-  border: 1px solid gray;
-  color: #277dff;
+  border: 1px solid rgb(128, 128, 128);
+  color: rgb(39, 125, 255);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -295,22 +339,197 @@ nav .login {
   width: 2.5rem;
   text-decoration: none;
 }
-.pagination a:hover {
-  background-color: #65a3ff;
+
+.login_content, .signup_content {
+  display: flex;
+  height: auto;
+  background-color: #ffffff;
+  border: 1px solid #dfe7ef;
+  border-radius: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px;
+  width: 500px;
+}
+
+.wrong {
+  color: red;
+}
+
+.login_form, .signup_form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.form_wrong {
+  color: red;
+}
+
+.username_area, .password_area, .login_area, .nickname_area, .avatar_area, .email_area, .ask_question_title_area, .ask_question_text_area, .ask_question_tags_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  gap: 5px;
+}
+
+.password_field {
+  width: 100%;
+}
+
+.login_input, .signup_input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 2px solid #c4c4c4;
+  transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+.login_input:focus, .signup_input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #4a90e2;
+  border-color: #4a90e2;
+}
+
+.login_buttons, .signup_buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.main_form_button, .minor_form_button {
+  width: 45%;
+  min-width: 225px;
+  max-width: 250px;
+  height: 50px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  border-radius: 30px;
+}
+
+.main_form_button {
+  background-color: rgb(0, 111, 238);
   color: white;
-  border-color: transparent;
+  border: 2px solid rgb(0, 111, 238);
+}
+.main_form_button:hover {
+  cursor: pointer;
+}
+
+.minor_form_button {
+  background-color: white;
+  color: rgb(0, 111, 238);
+  border: 2px solid currentColor;
+  text-align: center;
+  line-height: 50px;
+}
+
+.errorlist {
+  padding-left: 0;
+  list-style: none;
+  margin-left: 0;
+}
+.errorlist li {
+  color: red;
+}
+
+.ask_question_text {
+  resize: vertical;
+  width: 70%;
+  min-width: 260px;
+  min-height: 10rem;
+  box-sizing: border-box;
+  padding: 5px;
+  line-height: 1.5;
+  font-size: 1rem;
+  max-height: 500px;
+}
+
+.ask_question_title, .ask_question_tags {
+  font-size: 1rem;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.ask_question_title {
+  width: 70%;
+  min-width: 260px;
+}
+
+.settings_form input[type=text],
+.settings_form input[type=email] {
+  min-width: 100px;
+  width: 50% !important;
+}
+.settings_form img {
+  max-width: 7rem;
+  border: 1px solid black;
+}
+
+.settings_avatar {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 225px;
+  gap: 0.5rem;
+}
+
+.profile_content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile_login, .profile_email {
+  margin: 10px 0;
+  font-size: large;
+}
+
+.profile_avatar_img {
+  width: 300px;
+  max-height: 1000px;
+}
+
+.edit_profile_link_area {
+  width: 100px;
+  height: 2rem;
+  background-color: rgb(0, 111, 238);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.edit_profile_link {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 body > main {
-  margin-top: 5vh;
-  margin-left: 5vw;
-  margin-right: 5vw;
-  margin-bottom: 1rem;
+  padding-top: 5vh;
+  padding-left: 8vh;
+  padding-right: 5vh;
+  padding-bottom: 5vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 5rem;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .content {
@@ -338,14 +557,21 @@ body > main {
   box-sizing: border-box;
 }
 
-main > aside {
+.content_aside {
   box-sizing: border-box;
-  padding-right: 20px;
   width: 25%;
   position: sticky;
   top: 0px;
 }
-main > aside .tags {
+.content_aside > div {
+  position: sticky;
+  top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tags {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -353,20 +579,20 @@ main > aside .tags {
   gap: 1rem;
   font-family: "Sour";
 }
-main > aside > div {
-  position: sticky;
-  top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.tags a {
+  color: red;
 }
-main > aside .members {
+
+.members {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 1rem;
   font-family: "Sour";
+}
+.members a {
+  color: blue;
 }
 
 body > footer {
@@ -382,99 +608,23 @@ body > footer {
   font-size: 2rem;
 }
 
-.wrong {
-  color: red;
-}
-
-main form {
+.to_top {
+  width: 2rem;
+  height: 2rem;
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 300;
   display: flex;
-  flex-direction: column;
-  margin: 1rem 0;
-  width: 60%;
-  gap: 1rem;
   justify-content: center;
-  position: relative;
-}
-main form > div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  position: relative;
+  background-color: #fff;
+  border-radius: 10%;
+  border: 2px solid black;
 }
-main form input[type=email],
-main form input[type=password],
-main form input[type=text] {
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  border: solid 2px red !important;
-  width: 75%;
-  box-sizing: border-box;
-}
-main form input[type=email]:focus,
-main form input[type=password]:focus,
-main form input[type=text]:focus {
-  outline: none;
-  border: solid 2px #2974ec;
-}
-main form input[type=submit] {
-  padding: 1rem;
-  border-radius: 5px;
-  background-color: rgba(41, 116, 236, 0.6);
-  color: white;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  margin-left: 25%;
-}
-main form textarea {
-  resize: vertical;
-  width: 75%;
-  box-sizing: border-box;
-  height: 10rem;
-  padding: 0.5rem 0.25rem;
-  border: 2px solid red;
-  border-radius: 0.5rem;
-  min-height: 4rem;
-}
-main form textarea:focus {
-  outline: none;
-  border: 2px solid #1500ff;
-}
-main form .form_wrong {
-  color: red;
-  position: relative;
-  left: 25%;
-  margin-top: -1rem;
-}
-main form .signup_avatar {
-  padding: 1rem 0;
-}
-main form .signup_avatar #signup_avatar {
-  width: 75%;
-}
-
-.password_field {
-  position: relative;
-}
-.password_field input {
-  padding-right: 24px;
-}
-.password_field img {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  right: 0;
-  margin-right: 8px;
-}
-.password_field img:hover {
-  cursor: pointer;
-}
-
-.have_account,
-.create_account {
-  position: relative;
-  left: 15%;
+.to_top img {
+  width: 100%;
+  height: 100%;
 }
 
 .marked {
@@ -494,31 +644,28 @@ main form .signup_avatar #signup_avatar {
 
 .leave_answer_form {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 .leave_answer_form textarea {
   width: 100%;
+  max-width: 100%;
+  resize: vertical;
+  min-width: 260px;
+  min-height: 10rem;
+  max-height: 500px;
+  box-sizing: border-box;
+  padding: 5px;
+  line-height: 1.5;
+  font-size: 1rem;
+  border-radius: 10px 10px 0px 10px;
 }
 .leave_answer_form input {
   margin-left: 0 !important;
 }
 .leave_answer_form .form_wrong {
   position: static;
-}
-
-.settings_form input[type=text],
-.settings_form input[type=email] {
-  border: 2px solid black;
-}
-.settings_form img {
-  width: 7rem;
-  height: 7rem;
-  border: 1px solid black;
-}
-.settings_form .settings_avatar {
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-  gap: 0.5rem;
 }
 
 /*# sourceMappingURL=styles.css.map */

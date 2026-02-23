@@ -1,0 +1,13 @@
+{% extends "include/base.html" %}
+
+{% block title %}
+	profile
+{% endblock title %}
+
+{% block content_title %}
+	Profile{% if another_user.username %}: {{another_user.username}} {% endif %}
+{% endblock content_title %}
+
+{% block content %}
+	{% include "include/profile.html" %}
+{% endblock content %}

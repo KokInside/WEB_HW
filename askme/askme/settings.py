@@ -12,15 +12,32 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+from configparser import ConfigParser
+
+import os
+
+import json
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+config = ConfigParser()
+
+config.read(os.path.join(BASE_DIR, 'conf', 'local.conf'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d!p6rk)*^l^y)&=094_nmkq30)t#x)qv3vk5e0k9#i5m$@g%dj'
+SECRET_KEY = config.get("PROJECT", "secret_key", raw=True, fallback="<UNFILLED_SECRET_KEY>") #'django-insecure-d!p6rk)*^l^y)&=094_nmkq30)t#x)qv3vk5e0k9#i5m$@g%dj'
+
+# Centrifugo secrets
+with open(os.path.join(BASE_DIR, "conf", "centrifugo.config.json"), 'r', encoding='utf-8') as centConf:
+	conf_file = json.load(centConf)
+	
+	CLIENT_KEY = conf_file["client"]["token"]["hmac_secret_key"]
+	HTTP_KEY = conf_file["http_api"]["key"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -66,6 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+				'django.template.context_processors.media',
             ],
         },
     },
@@ -103,6 +121,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'core.UserProfile'
+
+LOGIN_URL = "login_username"
+LOGIN_REDIRECT_URL = 'home'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -120,9 +142,48 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+
+STATICFILES_DIRS = [
+	BASE_DIR / 'static_src',
+	BASE_DIR / 'node_modules' / 'js-cookie' / 'dist',
+	BASE_DIR / 'node_modules' / 'centrifuge' / 'dist',
+]
+
+STATIC_ROOT = BASE_DIR / "static"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "ask.kokinside"]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8080", "http://localhost:8000", "http://ask.kokinside:8822"
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Caches
+
+CACHES = {
+	"default": {
+		"BACKEND": "django_redis.cache.RedisCache",
+		"LOCATION": config.get("REDIS", "location", fallback="redis://127.0.0.1:6379/1"),
+		"TIMEOUT": config.get("REDIS", "timeout", fallback=5*60),
+		"OPTIONS": {
+			"CLIENT_CLASS": "django_redis.client.DefaultClient"
+		}
+	}
+}
+
+
+# mailing
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config.get("SMTP", "host", fallback="localhost")
+EMAIL_PORT = config.get("SMTP", "port", fallback="1025")
+DEFAULT_FROM_EMAIL = config.get("SMTP", "from_email", fallback="fromemail@mail.com")
+# SERVER_EMAIL = config.get("SMTP", "server_email", fallback="servermail@mail.com")

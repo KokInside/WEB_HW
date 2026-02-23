@@ -4,3 +4,8 @@ styles2.scss
 styles2.css
 __pycache__
 *.sqlite3
+media
+askme/static/
+askme/logs/
+/tests/
+node_modules/

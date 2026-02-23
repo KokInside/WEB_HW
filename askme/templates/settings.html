@@ -1,11 +1,11 @@
 {% extends "include/base.html" %}
 
 {% block title %}
-	profile settings
+	edit profile
 {% endblock title %}
 
 {% block content_title %}
-	Settings: KokInside
+	Edit Profile{% if user.username %}: {{user.username}}{% endif %}
 {% endblock content_title %}
 
 {% block content %}

@@ -1,13 +1,28 @@
 <div class="leave_answer">
 	<h2 class="leave_answer_title">Leave your answer</h2>
 
-	<form action="" class="leave_answer_form">
-		<textarea name="" id="answer_area" required minlength="50"></textarea>
-		<div class="form_wrong">Ответ не может быть пустым</div>
-		<div>
-			<input type="submit" value="Leave!" disabled>
-		</div>
-
-	</form>
+	{% if answer_form %}		
+		<form class="leave_answer_form" method="post" novalidate>
+			{% csrf_token %}
+			<input type="hidden" name="question_id" value="{{ question.id }}">
+			<ul class="errorlist" id="id_non_field_error" hidden>
+				<li class="non_field_error" hidden></li>
+			</ul>
+			{% comment %} {{ answer_form.non_field_errors }} {% endcomment %}
+			{% comment %} <textarea name="" id="answer_area" required minlength="50"></textarea> {% endcomment %}
+			{{ answer_form.text }}
+			<ul class="errorlist" id="id_text_error" hidden>
+				<li class="field_error" hidden></li>
+			</ul>
+			
+			{% comment %} {{ answer_form.text.errors }} {% endcomment %}
+			
+			<input type="submit" value="Leave!" class="main_form_button">
+			
+				
+		</form>
+	{% else %}
+		<p>Нельзя оставить ответ на свой же вопрос</p>
+	{% endif %}
 
 </div>
