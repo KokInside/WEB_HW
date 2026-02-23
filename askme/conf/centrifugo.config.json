@@ -1,0 +1,32 @@
+{
+	"client": {
+		"token": {
+			"hmac_secret_key": "BMZ9lVYmC4H6t-PkXLKoQxtTGA8T3p31PmSLiXR341a6dJu4xz4ooo74yxV-r4wS0_SMI-SUdUwXYEGSnuxeUg"
+		},
+		"allowed_origins": [
+			"http://127.0.0.1:8000",
+			"http://localhost:8000",
+			"http://ask.kokinside:8822"
+		]
+	},
+	"admin": {
+		"enabled": true,
+		"password": "01kjo7w_TurAvGm46bRJgw",
+		"secret": "a0YvLxiWnOBuvLmJ9P4XUksmOGUiBGIuiqI_FFlWayUDFyGNJDAdPUfF398Fpv4zpp-G3y6cPwQNcCY5Ohd2FQ"
+	},
+	"http_api": {
+		"key": "Wkgm3YMIrz5E5D1KXv_15Oyyc7wUR4pB9xPsdJexZwedMJLF_RzkLz_3v3b5maQAU_QLvZHwTbiY70l0xSQYIQ",
+		"handler_prefix": "/centrifugo/api"
+	},
+	"http_server": {
+		"port": "8033"
+	},
+	"channel": {
+		"without_namespace": {
+			"allow_subscribe_for_client": true
+		}
+	},
+	"websocket": {
+		"handler_prefix": "/centrifugo/connection/websocket"
+	}
+}

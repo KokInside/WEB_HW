@@ -1,0 +1,46 @@
+{% load static %}
+
+<form action="" class="settings_form login_form" method="POST" enctype="multipart/form-data" novalidate>
+	{% csrf_token %}
+
+	{% if form.non_field_errors %}
+		<span class="wrong">Неверный email или пароль</span>
+	{% endif %}
+
+	<div class="login_area">
+		<label for="settings_login">Login</label>
+		{{ form.username }}
+
+		{{ form.username.errors }}
+	</div>
+
+	<div class="email_area">
+		<label for="settings_email">Email</label>
+		{{ form.email }}
+
+		{{ form.email.errors }}
+	</div>
+
+	<div class="avatar_area">
+		<label for="">Avatar</label>
+
+		<div class="settings_avatar">
+
+			{% if user.avatar %}
+				<img src="{% get_media_prefix %}{{user.avatar}}" alt="">
+			{% comment %} 
+			{% else %}
+				<img src="{% static "svg/user.svg" %}" alt=""> 
+			{% endcomment %}
+			{% endif %}
+			
+			{{ form.avatar }}
+
+			{{ form.avatar.errors }}
+
+		</div>
+	</div>
+
+	<input type="submit" value="Сохранить" class="main_form_button">
+
+</form>

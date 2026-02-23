@@ -1,0 +1,71 @@
+{% load static %}
+
+<header id = "top">
+
+	<div class="logo">
+		<a href="{% url "home" %}" aria-label="Главное меню">
+			<img src="{% static "svg/atom.svg" %}" alt="Логотип" />
+		</a>
+	</div>
+
+	<div class="search">
+		<img src="{% static "svg/search.svg" %}" alt="" />
+
+		<form action="">
+			<input type="text" placeholder="Search" />
+		</form>
+	</div>
+
+	<div class="ask_button">
+		<a title="Задать вопрос" href="{% url "ask" %}">ASK!</a>
+	</div>
+
+	{% if request.user.is_authenticated %}
+
+		{% comment %}
+		Зарегистрированный пользователь
+		{% endcomment %}
+
+		<nav class="logged row">
+
+			<div class="user_avatar">
+				<a href="{% url "profile" %}">
+					{% if request.user.avatar %}
+						<img src="{{ MEDIA_URL }}{{ user.avatar }}" alt="" class="user_avatar_pic">
+					{% else %}
+						<img src="{% static "svg/user.svg" %}" alt="" class="user_avatar_pic">
+					{% endif %}
+				</a>
+			</div>
+
+			<div class="logged_user_info column">
+
+				<div class="nickname">
+					{{ user.username }}
+				</div>
+
+				<div class="row">
+					<a href="{% url "profile" %}">settings</a>
+					<form action="{% url "logout" %}?to={{request.path}}" method="post">
+						{% csrf_token %}
+						<button type="submit">log out</button>
+					</form>
+				</div>
+
+			</div>
+
+		</nav>
+	{% else %}
+
+		{% comment %} 
+		Незарегистрированный пользователь
+		{% endcomment %}
+
+		<nav>
+			<a href="{% url "signup" %}?next={{ request.path }}" class="register">Зарегистрироваться</a>
+			<a href="{% url "login_username" %}?next={{ request.path }}" class="login">Войти</a>
+		</nav>
+	{% endif %}
+
+	
+</header>

@@ -1,0 +1,28 @@
+{% extends "include/base.html" %}
+
+{% block title %}
+hot questions
+{% endblock title %}
+
+{% block content_title %}
+HOT QUESTIONS
+{% endblock content_title %}
+
+{% block content_sub_title %}
+<h3>
+	<a href="{% url "home" %}">NEW QUESTIONS</a>
+</h3>
+{% endblock content_sub_title %}
+
+
+{% block content %}
+
+	{% for question in page %}
+
+		{% include "include/question.html" %}
+
+	{% endfor %}
+
+	{% include "include/pagination.html" %}
+
+{% endblock content %}

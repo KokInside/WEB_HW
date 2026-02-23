@@ -1,0 +1,28 @@
+{% load static %}
+
+<span class="wrong">Неверный email или пароль.</span>
+
+<form action="" id="log_in_form" class="login_form">
+
+	<div class="email_field">
+		<label for="login_email">Email</label>
+		<input type="email" required id="login_email" minlength="5" maxlength="40">
+	</div>
+
+	<div class="form_wrong">Email не может быть пустым</div>
+
+	<div class="password_field">
+		<label for="login_password">Password</label>
+		<input type="password" required id="login_password" minlength="8">
+		<img src="{% static "svg/eye-off.svg" %}" alt="">
+	</div>
+
+	<div class="form_wrong">Пароль не может быть пустым</div>
+
+	<div class="login_button">
+		<input type="submit" value="Log in!" disabled>
+	</div>
+
+</form>
+
+<a class="create_account" href="./signup.html">Create new account</a>

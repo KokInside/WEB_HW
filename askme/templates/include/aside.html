@@ -1,0 +1,25 @@
+<aside class="content_aside">
+    <div>
+
+        <div class="popular_tags">
+            <h2>POPULAR TAGS</h2>
+            <div class="tags">
+
+				{% for tag in tags %}
+					<a href="{% url "tag" tag %}">{{ tag }}</a>
+				{% endfor %}
+            </div>
+        </div>
+
+        <div class="best_members">
+            <h2>BEST MEMBERS</h2>
+            <div class="members">
+
+				{% for popUser in users %}
+					<a href="{% url "user_profile" popUser %}">{{ popUser }}</a>
+				{% endfor %}
+            </div>
+        </div>
+		
+    </div>
+</aside>

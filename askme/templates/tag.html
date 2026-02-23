@@ -1,0 +1,24 @@
+{% extends "include/base.html" %}
+
+{% block title %}
+	Tag {{tag}}
+{% endblock title %}
+
+{% block content_title %}
+	Tag: {{tag}}
+{% endblock content_title %}
+
+{% block content %}
+	<h3>
+		Questions: {{ question_count }}
+	</h3>
+
+	{% for question in page %}
+
+		{% include "include/question.html" %}
+
+	{% endfor %}
+
+	{% include "include/pagination.html" %}
+
+{% endblock content %}

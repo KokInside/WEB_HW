@@ -1,0 +1,30 @@
+html {
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+	min-width: 500px;
+}
+
+body {
+    margin: 0;
+	min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+	padding-bottom: 16px;
+}
+
+p {
+    white-space: pre-line;
+    word-wrap: break-word;
+	margin-top: 0;
+}
+
+a {
+	text-decoration: none;
+}
