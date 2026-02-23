@@ -1,0 +1,50 @@
+<div class="profile_content">
+	{% if another_user.username %}
+		<div class="login_area">
+
+			<div>
+				Login:
+			</div>
+
+			<div class="profile_login">
+				{{ another_user.username }}
+			</div>
+
+		</div>
+	{% endif %}
+
+	{% if another_user.email %}
+		<div class="email_area">
+
+			<div>
+				Email:
+			</div>
+
+			<div class="profile_email">
+				{{ another_user.email }}
+			</div>
+
+		</div>
+	{% endif %}
+
+	{% if another_user.avatar %}
+		<div class="avatar_area">
+
+			<div>
+				Avatar:
+			</div>
+
+			<div>
+				<img src="{{ MEDIA_URL }}{{another_user.avatar}}" class="profile_avatar_img">
+			</div>
+
+		</div>
+	{% endif %}
+
+	{% if another_user.id == request.user.id %}
+		<div class="edit_profile_link_area">
+			<a href="{% url "edit_profile" %}" class="edit_profile_link">Edit profile</a>
+		</div>
+	{% endif %}
+
+</div>

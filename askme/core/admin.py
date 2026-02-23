@@ -18,23 +18,27 @@ class QuestionAdmin(admin.ModelAdmin):
 
 	inlines = (AnswerInline, )
 
+
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
-	list_display = ('author', 'question', 'correct', 'likes')
+	list_display = ('id', 'author', 'question', 'correct', 'likes_count')
+
 
 @admin.register(UserProfile)
-class UserAdmin(UserAdmin):
-	list_display = ('username', 'email', 'password')
+class UserAdmin(admin.ModelAdmin):
+	list_display = ('username', 'email', 'password', 'likes', 'avatar')
+
 
 @admin.register(QuestionLike)
 class QuestionLikeAdmin(admin.ModelAdmin):
-	list_display = ('mark',)
+	list_display = ('mark', 'question', 'author')
+
 
 @admin.register(AnswerLike)
 class AnswerLikeAdmin(admin.ModelAdmin):
-	list_display = ('mark',)
+	list_display = ('mark', 'author', 'answer')
 
 
 @admin.register(Tag)
 class UserTag(admin.ModelAdmin):
-	list_display = ('name',)
+	list_display = ('name', 'questionCount')

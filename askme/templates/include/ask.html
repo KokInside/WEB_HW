@@ -1,30 +1,41 @@
-<span class="wrong">Что-то определённо неправильно</span>
+{% comment %} <span class="wrong">Что-то определённо неправильно</span> {% endcomment %}
 
-<form action="" class="ask_form">
+<form action="" class="ask_question_form login_form" method="POST" novalidate>
+	{% csrf_token %}
 
-	<div class="ask_question_title">
+	{{ form.non_field_errors }}
+
+	<div class="ask_question_title_area">
 		<label for="title">Title</label>
-		<input type="text" required id="title" minlength="15" maxlength="200">
+		{% comment %} <input type="text" required id="title" minlength="15" maxlength="200"> {% endcomment %}
+		{{ form.title }}
+		{{ form.title.errors }}
 	</div>
 
-	<div class="form_wrong">Заголовок не может быть пустым</div>
+	{% comment %} <div class="form_wrong">Заголовок не может быть пустым</div> {% endcomment %}
 
-	<div class="ask_question_text">
+	<div class="ask_question_text_area">
 		<label for="text">Text</label>
-		<textarea required id="text" minlength="220" maxlength="2000"></textarea>
+		{% comment %} <textarea required id="text" minlength="220" maxlength="2000"></textarea> {% endcomment %}
+		{{ form.text }}
+		{{ form.text.errors }}
 	</div>
 
-	<div class="form_wrong">Тепло вопроса не может быть пустым</div>
+	{% comment %} <div class="form_wrong">Тепло вопроса не может быть пустым</div> {% endcomment %}
 
-	<div class="ask_question_tags">
+	<div class="ask_question_tags_area">
 		<label for="tags">Tags</label>
-		<input type="text" required name="tags" id="tags">
+		{% comment %} <input type="text" required name="tags" id="tags"> {% endcomment %}
+
+		{{ form.tags }}
+		{{ form.tags.errors }}
+
 	</div>
 
-	<div class="form_wrong">Введите хотя бы один тег</div>
+	{% comment %} <div class="form_wrong">Введите хотя бы один тег</div> {% endcomment %}
 
-	<div class="ask_question_button">
-		<input type="submit" value="ASK!" disabled title="Недоступно">
-	</div>
+	{% comment %} <div class="ask_question_button"> {% endcomment %}
+	<input type="submit" value="ASK!" class="main_form_button">
+	{% comment %} </div> {% endcomment %}
 
 </form>

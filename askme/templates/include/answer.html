@@ -4,33 +4,58 @@
 
 	<aside class="answer_aside">
 
-		<a href="#" class="answer_user" title="user profile">
-			<img src="{% static "svg/user.svg" %}" alt="user" class="user">
+		<a href="{% url "user_profile" answer.author.username %}" class="answer_user" title="user profile">
+			{% if answer.author.avatar %}
+				<img src="{{ MEDIA_URL }}{{ answer.author.avatar }}" alt="" class="user">
+			{% else %}
+				<img src="{% static "svg/user.svg" %}" alt="user" class="user">
+			{% endif %}
 		</a>
 
-		<div class="rate">
-			<button class="upvote" title="upvote">
-				<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
-			</button>
+		<div class="answer_rate">
 
-			<span class="rating">{{ answer.likes }}</span>
+			{% if answer.user_answer_likes %}
 
-			<button class="downvote" title="downvote">
-				<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
-			</button>
+				{% with like=answer.user_answer_likes.0.mark %}
+				
+					<button id="answer--{{ answer.id }}--upvote" class="upvote {% if like == 1 %}upvoted{% endif %}" data-answer-id="{{ answer.id }}" title="upvote">
+						<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
+					</button>
+					
+					<span class="rating" id="{{answer.id}}--likes">{{ answer.likes_count }}</span>
+					
+					<button id="answer--{{ answer.id }}--downvote" class="downvote {% if like == -1 %}downvoted{% endif %}" data-answer-id="{{ answer.id }}" title="downvote">
+						<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
+					</button>
+				
+				{% endwith %}
+
+			{% else %}
+
+				<button id="answer--{{ answer.id }}--upvote" class="upvote" data-answer-id="{{ answer.id }}" title="upvote">
+					<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
+				</button>
+
+				<span class="rating" id="{{answer.id}}--likes">{{ answer.likes_count }}</span>
+
+				<button id="answer--{{ answer.id }}--downvote" class="downvote" data-answer-id="{{ answer.id }}" title="downvote">
+					<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
+				</button>
+
+			{% endif %}
 
 		</div>
 
-		<img src="{% static "svg/check-mark.svg" %}" alt="" class="marked" title="Marked as correct">
+		<img id="{{ answer.id }}--correct" src="{% static "svg/check-mark.svg" %}" alt="" class="marked" title="Marked as correct" {% if not answer.correct %}hidden{% endif %}>
 
 	</aside>
 
 	<div class="answer_content">
-		<p>{{ answer.text }}</p>
+		<p class="answer_text">{{ answer.text }}</p>
 
-		<div>
-			<input type="checkbox" checked>
-			<label for="">Correct!</label>
-		</div>
+		{% if question.author == user %}
+			<button onclick="correct({{ question.id }}, {{ answer.id }})">Correct</button>
+		{% endif %}
+
 	</div>
 </div>

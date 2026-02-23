@@ -1,5 +1,7 @@
 {% extends "include/base.html" %}
 
+{% load static %}
+
 {% block title %}
 	question {{question.id}}
 {% endblock title %}
@@ -12,12 +14,63 @@
 
 	{% include "include/question.html" %}
 
-	<h2>{{answers|length}} answers</h2>
+	<h2 id="answers-count">{{answers|length}} answers</h2>
 
-	{% for answer in answers %}
-		{% include "include/answer.html" %}
-	{% endfor %}
+	<div class="answers">
+		{% for answer in answers %}
+			{% include "include/answer.html" %}
+		{% endfor %}
+	</div>
 
 	{% include "include/leave_answer.html" %}
 
+	<div class="answer hidden-answer" hidden>
+	
+		<aside class="answer_aside">
+	
+			<a href="#" class="answer_user" title="user profile">
+	
+				<img src="{% static "svg/user.svg" %}" alt="user" class="user">
+	
+			</a>
+	
+			<div class="answer_rate">
+				<button class="upvote" title="upvote">
+					<img src="{% static "svg/arrow-up.svg" %}" alt="" class="arrow_up">
+				</button>
+	
+				<span class="rating" id="{{answer.id}}--likes">0</span>
+	
+				<button class="downvote" title="downvote">
+					<img src="{% static "svg/arrow-down.svg" %}" alt="" class="arrow_down">
+				</button>
+	
+			</div>
+	
+			<img id="{{ answer.id }}--correct" src="{% static "svg/check-mark.svg" %}" alt="" class="marked" title="Marked as correct" hidden>
+	
+		</aside>
+	
+		<div class="answer_content">
+			<p class="answer__text"></p>
+	
+			{% if question.author == user %}
+				<button hidden>Correct</button>
+			{% endif %}
+
+	
+		</div>
+	</div>
 {% endblock content %}
+
+{% block script %}
+	{% comment %} <script src="{% static "js/libs/js.cookie.min.js" %}"></script> {% endcomment %}
+	{% comment %} <script src="{% static "js/centrifugo/centrifuge.js" %}"></script> {% endcomment %}
+	<script src="{% static "js.cookie.min.js" %}"></script>
+	<script src="{% static "centrifuge.js" %}"></script>
+
+	<script src="{% static 'js/likes.js' %}"></script>
+	<script src="{% static 'js/correct_answer.js' %}"></script>
+	<script src="{% static "js/rt_answers.js" %}"></script>
+	<script src="{% static "js/answer.js" %}"></script>
+{% endblock script %}

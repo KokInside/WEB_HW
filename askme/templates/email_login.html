@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" href="{% static "css/styles.css" %}">
+</head>
+
+<body>
+	<main>
+		<div class="login_content">
+
+			<form method="POST" action="" id="log_in_form" class="login_form">
+				{% csrf_token %}
+			
+				{% if form.non_field_errors %}
+					<span class="wrong">Неверный email или пароль</span>
+				{% endif %}
+
+				
+				<div class="username_area">
+					<label for="login_username">Email</label>
+
+					{{ form.username }}
+					{% comment %} <input class="login_input username_input" required id="login_username" minlength="5" maxlength="40" name="username"> {% endcomment %}
+
+					{% if form.username.errors %}
+						<div class="form_wrong">Email не может быть пустым</div>
+					{% endif %}
+
+				</div>
+			
+			
+				<div class="password_area">
+					<label for="login_password">Password</label>
+
+					<div class="password_field">
+						{% comment %} <input class="login_input password_input" type="password" required id="login_password" minlength="8" name="password"> {% endcomment %}
+						{{ form.password }}
+						{% comment %} <img src="{% static "svg/eye-off.svg" %}" alt=""> {% endcomment %}
+					</div>
+
+					{% if form.password.errors %}
+						<div class="form_wrong">Пароль не может быть пустым</div>
+					{% endif %}
+				</div>
+			
+			
+				<div class="login_buttons">
+					<input class="main_form_button" type="submit" value="Log in!">
+
+					<a class="minor_form_button" href="{% url "signup" %}">Create new account</a>
+				</div>
+			
+			</form>
+			
+		</div>
+	</main>
+</body>
+
+</html>

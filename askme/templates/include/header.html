@@ -1,6 +1,6 @@
 {% load static %}
 
-<header>
+<header id = "top">
 
 	<div class="logo">
 		<a href="{% url "home" %}" aria-label="Главное меню">
@@ -20,7 +20,7 @@
 		<a title="Задать вопрос" href="{% url "ask" %}">ASK!</a>
 	</div>
 
-	{% if registered %}
+	{% if request.user.is_authenticated %}
 
 		{% comment %}
 		Зарегистрированный пользователь
@@ -29,20 +29,27 @@
 		<nav class="logged row">
 
 			<div class="user_avatar">
-				<a href="">
-					<img src="{% static "svg/user.svg" %} " alt="" class="user_avatar_pic">
+				<a href="{% url "profile" %}">
+					{% if request.user.avatar %}
+						<img src="{{ MEDIA_URL }}{{ user.avatar }}" alt="" class="user_avatar_pic">
+					{% else %}
+						<img src="{% static "svg/user.svg" %}" alt="" class="user_avatar_pic">
+					{% endif %}
 				</a>
 			</div>
 
 			<div class="logged_user_info column">
 
 				<div class="nickname">
-					KokInside
+					{{ user.username }}
 				</div>
 
 				<div class="row">
-					<a href="{% url "settings" %}">settings</a>
-					<a href="{% url "home" %}">log out</a>
+					<a href="{% url "profile" %}">settings</a>
+					<form action="{% url "logout" %}?to={{request.path}}" method="post">
+						{% csrf_token %}
+						<button type="submit">log out</button>
+					</form>
 				</div>
 
 			</div>
@@ -55,8 +62,8 @@
 		{% endcomment %}
 
 		<nav>
-			<a href="{% url "signup" %}" class="register">Зарегистрироваться</a>
-			<a href="{% url "login" %}" class="login">Войти</a>
+			<a href="{% url "signup" %}?next={{ request.path }}" class="register">Зарегистрироваться</a>
+			<a href="{% url "login_username" %}?next={{ request.path }}" class="login">Войти</a>
 		</nav>
 	{% endif %}
 

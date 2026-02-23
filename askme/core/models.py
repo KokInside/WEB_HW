@@ -16,19 +16,21 @@ class Question(DateInfo):
 	title = models.CharField(max_length = 150, verbose_name = "Заголовок")
 	text = models.TextField(null=True)
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
-	likes = models.IntegerField(default = 0)
+	likes_count = models.IntegerField(default = 0)
 	tags = models.ManyToManyField("Tag", related_name="questions", blank=True, verbose_name="Теги")
 
+	# Model managers
 	objects = models.Manager()
 	qManager = QuestionManager()
+	
 
 	def changeLikes(self, increase = 1):
 		if increase == 1:
-			likes += 1
+			self.likes_count += 1
 		else:
-			likes -= 1
+			self.likes_count -= 1
 
-		self.save(update_fields=['likes'])
+		self.save(update_fields=['likes_count'])
 
 
 	def __str__(self):
@@ -42,19 +44,19 @@ class Question(DateInfo):
 
 
 class Answer(DateInfo):
-	text = models.TextField(null=True)
+	text = models.TextField()
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
 	question = models.ForeignKey("Question", verbose_name=("Question"), on_delete=models.CASCADE)
 	correct = models.BooleanField(default = False)
-	likes = models.IntegerField(default = 0)
+	likes_count = models.IntegerField(default = 0)
 
 	def changeLikes(self, increase = 1):
 		if increase == 1:
-			likes += 1
+			self.likes_count += 1
 		else:
-			likes -= 1
+			self.likes_count -= 1
 
-		self.save(update_fields=['likes'])
+		self.save(update_fields=['likes_count'])
 
 
 	def __str__(self):
@@ -72,7 +74,7 @@ class Answer(DateInfo):
 
 class UserProfile(AbstractUser):
 	# user = models.OneToOneField(User, on_delete=models.SET_NULL)
-	avatar = models.ImageField(null = True)
+	avatar = models.ImageField(upload_to="avatars/", null=True)
 
 	likes = models.IntegerField(default = 0)
 	# username = models.CharField(max_length = 50)
@@ -98,16 +100,21 @@ class UserProfile(AbstractUser):
 		verbose_name = "User"
 		verbose_name_plural = "Users"
 
+
 class markChoices(models.IntegerChoices):
 	DOWN = -1, 'downvote'
 	NONE = 0, 'novote'
 	UP = 1, 'upvote'
 
+
 class QuestionLike(models.Model):
 
-	question = models.ForeignKey("Question", verbose_name="Question", on_delete=models.CASCADE)
+	question = models.ForeignKey("Question", verbose_name="Question", on_delete=models.CASCADE, related_name="likes")
 	author = models.ForeignKey("UserProfile", verbose_name="Author", on_delete=models.CASCADE)
 	mark = models.SmallIntegerField(choices=markChoices, default=markChoices.NONE)
+
+	def __str__(self):
+		return "Оценка на вопрос " + str(self.question.id) + " = " + str(self.mark) 
 
 	class Meta:
 		db_table = "QuestionLike"
@@ -132,13 +139,18 @@ class Tag(models.Model):
 	name = models.CharField(max_length=25, unique=True)
 	questionCount = models.PositiveIntegerField(default = 0)
 
-	def changeCount(self, increase = 1):
-		if increase == 1:
-			self.questionCount += 1
-		else:
-			self.questionCount -= 1
+	def increase(self, inc = 1):
+		self.questionCount += inc
 
 		self.save(update_fields=['questionCount'])
+
+	def decrease(self, dec = 1):
+		if self.questionCount < dec:
+			self.questionCount = 0
+		else:
+			self.questionCount -= dec
+
+		self.save(update_fields=["questionCount"])
 
 	class Meta:
 		db_table = "Tag"

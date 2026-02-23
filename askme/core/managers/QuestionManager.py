@@ -6,10 +6,10 @@ class QuestionManager(models.Manager):
 		return super().get_queryset()
 	
 	def get_new(self):
-		return super().get_queryset().order_by("-created_at", "title")
+		return super().get_queryset().order_by("-created_at", "-id", "-modified_at")
 	
 	def get_hot(self):
-		return super().get_queryset().order_by("-likes")
+		return super().get_queryset().order_by("-likes_count")
 	
 	def get_by_id(self, question_id):
 		return super().get_queryset().get(id = question_id)
